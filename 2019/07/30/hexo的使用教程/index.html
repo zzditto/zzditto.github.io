@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="实战教程,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="windows环境 安装node.jshttps://nodejs.org/en/ 安装githttps://git-scm.com/download/win 使用管理员权限操作命令行开始菜单点击鼠标右键，选择powershell(管理员)">
+<meta name="keywords" content="实战教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo使用教程">
+<meta property="og:url" content="www.zzditto.cn/2019/07/30/hexo的使用教程/index.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="windows环境 安装node.jshttps://nodejs.org/en/ 安装githttps://git-scm.com/download/win 使用管理员权限操作命令行开始菜单点击鼠标右键，选择powershell(管理员)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/hexo_cmd.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/gitbash.png">
+<meta property="og:updated_time" content="2019-08-29T08:47:32.499Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hexo使用教程">
+<meta name="twitter:description" content="windows环境 安装node.jshttps://nodejs.org/en/ 安装githttps://git-scm.com/download/win 使用管理员权限操作命令行开始菜单点击鼠标右键，选择powershell(管理员)">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/hexo_cmd.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/2019/07/30/hexo的使用教程/">
+
+
+
+
+
+  <title>hexo使用教程 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/07/30/hexo的使用教程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hexo使用教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T11:34:17+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/实战教程/" itemprop="url" rel="index">
+                    <span itemprop="name">实战教程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/30/hexo的使用教程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/30/hexo的使用教程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>windows环境</p>
+<h2 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h2><p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
+<h2 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h2><p><a href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a></p>
+<h2 id="使用管理员权限操作命令行"><a href="#使用管理员权限操作命令行" class="headerlink" title="使用管理员权限操作命令行"></a>使用管理员权限操作命令行</h2><p>开始菜单点击鼠标右键，选择powershell(管理员)</p>
+<a id="more"></a>
+
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/hexo_cmd.png" alt="pic"></p>
+<h2 id="执行命令安装hexo"><a href="#执行命令安装hexo" class="headerlink" title="执行命令安装hexo"></a>执行命令安装hexo</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Windows\system32&gt; npm install -g hexo-cli</span><br><span class="line">C:\Users\LWZ22\AppData\Roaming\npm\hexo -&gt; C:\Users\LWZ22\AppData\Roaming\npm\node_modules\hexo-cli\bin\hexo</span><br><span class="line">npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.9 (node_modules\hexo-cli\node_modules\fsevents):</span><br><span class="line">npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.9: wanted &#123;"os":"darwin","arch":"any"&#125; (current: &#123;"os":"win32","arch":"x64"&#125;)</span><br><span class="line"></span><br><span class="line">+ hexo-cli@2.0.0</span><br><span class="line">added 187 packages from 432 contributors in 108.919s</span><br></pre></td></tr></table></figure>
+
+<p>初始化hexo。路径为自定义路径【这里是在D盘下新建blog文件夹】</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Windows\system32&gt; hexo init D:\blog</span><br><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">Cloning into 'D:\blog'...</span><br><span class="line">remote: Enumerating objects: 9, done.</span><br><span class="line">remote: Counting objects: 100% (9/9), done.</span><br><span class="line">remote: Compressing objects: 100% (7/7), done.</span><br><span class="line">remote: Total 77 (delta 4), reused 5 (delta 2), pack-reused 68</span><br><span class="line">Unpacking objects: 100% (77/77), done.</span><br><span class="line">Submodule 'themes/landscape' (https://github.com/hexojs/hexo-theme-landscape.git) registered for path 'themes/landscape'</span><br><span class="line">Cloning into 'D:/blog/themes/landscape'...</span><br><span class="line">remote: Enumerating objects: 43, done.</span><br><span class="line">remote: Counting objects: 100% (43/43), done.</span><br><span class="line">remote: Compressing objects: 100% (34/34), done.</span><br><span class="line">remote: Total 956 (delta 19), reused 19 (delta 8), pack-reused 913</span><br><span class="line">Receiving objects: 100% (956/956), 3.16 MiB | 30.00 KiB/s, done.</span><br><span class="line">Resolving deltas: 100% (509/509), done.</span><br><span class="line">Submodule path 'themes/landscape': checked out '73a23c51f8487cfcd7c6deec96ccc7543960d350'</span><br><span class="line">[32mINFO [39m Install dependencies</span><br><span class="line">系统找不到指定的路径。</span><br><span class="line">Error: JAVA_HOME is incorrectly set.</span><br><span class="line">       Please update D:\install\hadoop-2.7.6.tar\hadoop-2.7.6\conf\hadoop-env.cmd</span><br><span class="line">'-Dhadoop.log.dir' 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure>
+
+<p>cd到博客目录，执行安装程序</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Windows\system32&gt; cd D:\blog</span><br><span class="line">PS D:\blog&gt; npm install</span><br><span class="line">npm WARN deprecated core-js@1.2.7: core-js@&lt;2.6.8 is no longer maintained. Please, upgrade to core-js@3 or at least to actual version of core-js@2.</span><br><span class="line">npm notice created a lockfile as package-lock.json. You should commit this file.</span><br><span class="line">npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.9 (node_modules\fsevents):</span><br><span class="line">npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.9: wanted &#123;"os":"darwin","arch":"any"&#125; (current: &#123;"os":"win32","arch":"x64"&#125;)</span><br><span class="line"></span><br><span class="line">added 340 packages from 500 contributors and audited 6879 packages in 68.479s</span><br><span class="line">found 0 vulnerabilities</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装完成，打开web页面"><a href="#安装完成，打开web页面" class="headerlink" title="安装完成，打开web页面"></a>安装完成，打开web页面</h2><p>hexo s 或 hexo server</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PS D:\blog&gt; hexo server</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000 . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+<p>浏览器访问 <a href="localhost:4000" target="_blank" rel="noopener">localhost:4000</a></p>
+<h2 id="将hexo部署到github"><a href="#将hexo部署到github" class="headerlink" title="将hexo部署到github"></a>将hexo部署到github</h2><p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/gitbash.png" alt="pic"></p>
+<p>点击 git Bash 【需要上传的命令都需要git bash，使用cmd.exe会报错】<br>点击github页面，新建仓库。仓库名为  用户名.github.io。然后复制仓库总网址</p>
+<h2 id="在blog目录下安装git插件"><a href="#在blog目录下安装git插件" class="headerlink" title="在blog目录下安装git插件"></a>在blog目录下安装git插件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LWZ@DESKTOP-AB2NRQ5 MINGW64 /d/blog</span><br><span class="line"><span class="meta">$</span> npm install --save hexo-deployer-git</span><br><span class="line">npm WARN babel-eslint@10.0.2 requires a peer of eslint@&gt;= 4.12.1 but none is installed. You must install peer dependencies yourself.</span><br><span class="line">npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.9 (node_modules\fsevents):</span><br><span class="line">npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.9: wanted &#123;"os":"darwin","arch":"any"&#125; (current: &#123;"os":"win32","arch":"x64"&#125;)</span><br><span class="line"></span><br><span class="line">+ hexo-deployer-git@1.0.0</span><br><span class="line">added 24 packages from 10 contributors and audited 9166 packages in 21.011s</span><br><span class="line">found 0 vulnerabilities</span><br></pre></td></tr></table></figure>
+
+<h2 id="编辑blog的-config-yml文件【设置type为git，添加repo和branch】"><a href="#编辑blog的-config-yml文件【设置type为git，添加repo和branch】" class="headerlink" title="编辑blog的_config.yml文件【设置type为git，添加repo和branch】"></a>编辑blog的_config.yml文件【设置type为git，添加repo和branch】</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Deployment</span><br><span class="line"><span class="meta">#</span># Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/zzditto/zzditto.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<h2 id="在git-bash中设置github的邮箱和用户名"><a href="#在git-bash中设置github的邮箱和用户名" class="headerlink" title="在git bash中设置github的邮箱和用户名"></a>在git bash中设置github的邮箱和用户名</h2><p>如果不输入，直接hexo d上传，报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*** Please tell me who you are.</span><br><span class="line"></span><br><span class="line">Run</span><br><span class="line">  git config --global user.email "you@example.com"</span><br><span class="line">  git config --global user.name "Your Name"</span><br></pre></td></tr></table></figure>
+
+<p>在命令行输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LWZ@DESKTOP-AB2NRQ5 MINGW64 /d/blog</span><br><span class="line"><span class="meta">$</span> git config --global user.email "18332779639@163.com"</span><br><span class="line"></span><br><span class="line">LWZ@DESKTOP-AB2NRQ5 MINGW64 /d/blog</span><br><span class="line"><span class="meta">$</span> git config --global user.name "zzditto"</span><br></pre></td></tr></table></figure>
+
+<p>上传命令：</p>
+<p><code>hexo d</code></p>
+<p>然后会提示输入github的用户名和密码，登录，稍等片刻，上传成功</p>
+<h2 id="使用github访问"><a href="#使用github访问" class="headerlink" title="使用github访问"></a>使用github访问</h2><p><a href="https://zzditto.github.io/" target="_blank" rel="noopener">https://zzditto.github.io/</a></p>
+<h2 id="创建第一篇博客"><a href="#创建第一篇博客" class="headerlink" title="创建第一篇博客"></a>创建第一篇博客</h2><p>在blog即博客安装的总目录下，鼠标右键，打开git bash窗口</p>
+<h3 id="创建md文件"><a href="#创建md文件" class="headerlink" title="创建md文件"></a>创建md文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LWZ@DESKTOP-AB2NRQ5 MINGW64 /d/blog</span><br><span class="line"><span class="meta">$</span> hexo new '第一篇博客'</span><br><span class="line">INFO  Created: D:\blog\source\_posts\第一篇博客.md</span><br></pre></td></tr></table></figure>
+
+<h3 id="在md文件中添加内容"><a href="#在md文件中添加内容" class="headerlink" title="在md文件中添加内容"></a>在md文件中添加内容</h3><p>打开win下的博客目录，使用makedown编辑器打开此文件，添加内容，ctrl+s保存</p>
+<h3 id="清除原来缓存"><a href="#清除原来缓存" class="headerlink" title="清除原来缓存"></a>清除原来缓存</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LWZ@DESKTOP-AB2NRQ5 MINGW64 /d/blog</span><br><span class="line"><span class="meta">$</span> hexo clean</span><br><span class="line">INFO  Deleted database.</span><br><span class="line">INFO  Deleted public folder.</span><br></pre></td></tr></table></figure>
+
+<h3 id="重新生成html页面文件"><a href="#重新生成html页面文件" class="headerlink" title="重新生成html页面文件"></a>重新生成html页面文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">LWZ@DESKTOP-AB2NRQ5 MINGW64 /d/blog</span><br><span class="line"><span class="meta">$</span> hexo g</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 659 ms</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: tags/index.html</span><br><span class="line">INFO  Generated: about/index.html</span><br><span class="line">INFO  Generated: schedule/index.html</span><br><span class="line">INFO  Generated: categories/index.html</span><br><span class="line">INFO  Generated: CNAME</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: images/cc-by-nc-nd.svg</span><br><span class="line">INFO  Generated: images/avatar.gif</span><br><span class="line">INFO  Generated: images/algolia_logo.svg</span><br><span class="line">INFO  Generated: images/cc-by-nd.svg</span><br><span class="line">INFO  Generated: images/cc-by-nc-sa.svg</span><br><span class="line">INFO  Generated: images/cc-by-nc.svg</span><br><span class="line">INFO  Generated: images/cc-by-sa.svg</span><br><span class="line">INFO  Generated: images/cc-by.svg</span><br><span class="line">INFO  Generated: images/apple-touch-icon-next.png</span><br><span class="line">INFO  Generated: images/cc-zero.svg</span><br><span class="line">INFO  Generated: images/logo.svg</span><br><span class="line">INFO  Generated: images/quote-l.svg</span><br><span class="line">INFO  Generated: images/favicon-16x16-next.png</span><br><span class="line">INFO  Generated: images/quote-r.svg</span><br><span class="line">INFO  Generated: images/favicon-32x32-next.png</span><br><span class="line">INFO  Generated: archives/2019/07/index.html</span><br><span class="line">INFO  Generated: categories/大数据/linux/index.html</span><br><span class="line">INFO  Generated: categories/实战教程/index.html</span><br><span class="line">INFO  Generated: tags/Linux/index.html</span><br><span class="line">INFO  Generated: tags/Ambari/index.html</span><br><span class="line">INFO  Generated: tags/实战教程/index.html</span><br><span class="line">INFO  Generated: tags/HDP/index.html</span><br><span class="line">INFO  Generated: archives/2019/index.html</span><br><span class="line">INFO  Generated: categories/大数据/index.html</span><br><span class="line">INFO  Generated: lib/font-awesome/HELP-US-OUT.txt</span><br><span class="line">INFO  Generated: js/algolia-search.js</span><br><span class="line">INFO  Generated: css/main.css</span><br><span class="line">INFO  Generated: js/affix.js</span><br><span class="line">INFO  Generated: js/exturl.js</span><br><span class="line">INFO  Generated: js/js.cookie.js</span><br><span class="line">INFO  Generated: js/post-details.js</span><br><span class="line">INFO  Generated: js/next-boot.js</span><br><span class="line">INFO  Generated: js/scroll-cookie.js</span><br><span class="line">INFO  Generated: js/scrollspy.js</span><br><span class="line">INFO  Generated: lib/font-awesome/bower.json</span><br><span class="line">INFO  Generated: js/motion.js</span><br><span class="line">INFO  Generated: live2dw/lib/L2Dwidget.min.js</span><br><span class="line">INFO  Generated: lib/velocity/velocity.ui.min.js</span><br><span class="line">INFO  Generated: lib/font-awesome/fonts/fontawesome-webfont.woff</span><br><span class="line">INFO  Generated: js/utils.js</span><br><span class="line">INFO  Generated: live2dw/lib/L2Dwidget.min.js.map</span><br><span class="line">INFO  Generated: lib/font-awesome/fonts/fontawesome-webfont.woff2</span><br><span class="line">INFO  Generated: lib/velocity/velocity.min.js</span><br><span class="line">INFO  Generated: lib/velocity/velocity.ui.js</span><br><span class="line">INFO  Generated: 2019/07/30/第一篇博客/index.html</span><br><span class="line">INFO  Generated: 2019/07/23/hello-world/index.html</span><br><span class="line">INFO  Generated: 2019/07/24/test-md/index.html</span><br><span class="line">INFO  Generated: live2dw/lib/L2Dwidget.0.min.js</span><br><span class="line">INFO  Generated: js/schemes/pisces.js</span><br><span class="line">INFO  Generated: lib/font-awesome/fonts/fontawesome-webfont.eot</span><br><span class="line">INFO  Generated: 2019/07/30/hexo使用教程/index.html</span><br><span class="line">INFO  Generated: lib/font-awesome/css/font-awesome.css.map</span><br><span class="line">INFO  Generated: js/schemes/muse.js</span><br><span class="line">INFO  Generated: lib/font-awesome/css/font-awesome.min.css</span><br><span class="line">INFO  Generated: lib/font-awesome/css/font-awesome.css</span><br><span class="line">INFO  Generated: 2019/07/24/Ambari离线安装/index.html</span><br><span class="line">INFO  Generated: live2dw/lib/L2Dwidget.0.min.js.map</span><br><span class="line">INFO  Generated: lib/jquery/index.js</span><br><span class="line">INFO  Generated: lib/velocity/velocity.js</span><br><span class="line">INFO  66 files generated in 1.46 s</span><br><span class="line">INFO  Congratulations! Your are using the latest version of theme NexT.</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LWZ@DESKTOP-AB2NRQ5 MINGW64 /d/blog</span><br><span class="line"><span class="meta">$</span> hexo s</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000 . Press Ctrl+C to stop.</span><br><span class="line">INFO  Congratulations! Your are using the latest version of theme NexT.</span><br></pre></td></tr></table></figure>
+
+<h3 id="同步至github"><a href="#同步至github" class="headerlink" title="同步至github"></a>同步至github</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">LWZ@DESKTOP-AB2NRQ5 MINGW64 /d/blog</span><br><span class="line"><span class="meta">$</span> hexo d</span><br><span class="line">INFO  Deploying: git</span><br><span class="line">INFO  Clearing .deploy_git folder...</span><br><span class="line">INFO  Copying files from public folder...</span><br><span class="line">INFO  Copying files from extend dirs...</span><br><span class="line">warning: LF will be replaced by CRLF in 2019/07/23/hello-world/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in 2019/07/24/Ambari离线安装/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in 2019/07/24/test-md/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in about/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in archives/2019/07/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in archives/2019/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in archives/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in categories/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in categories/大数据/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in css/main.css.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/affix.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/algolia-search.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/exturl.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/js.cookie.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/motion.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/next-boot.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/post-details.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/schemes/muse.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/schemes/pisces.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/scroll-cookie.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/scrollspy.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in js/utils.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in lib/font-awesome/css/font-awesome.css.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in lib/font-awesome/css/font-awesome.min.css.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in lib/jquery/index.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in lib/velocity/velocity.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in lib/velocity/velocity.min.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in lib/velocity/velocity.ui.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in lib/velocity/velocity.ui.min.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in live2dw/lib/L2Dwidget.0.min.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in live2dw/lib/L2Dwidget.min.js.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in schedule/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in tags/Ambari/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in tags/HDP/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in tags/Linux/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in tags/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in 2019/07/30/hexo使用教程/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in 2019/07/30/第一篇博客/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in categories/大数据/linux/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in categories/实战教程/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">warning: LF will be replaced by CRLF in tags/实战教程/index.html.</span><br><span class="line">The file will have its original line endings in your working directory</span><br><span class="line">[master 4c2c499] Site updated: 2019-07-30 13:19:35</span><br><span class="line"> 21 files changed, 6538 insertions(+), 88 deletions(-)</span><br><span class="line"> create mode 100644 "2019/07/30/hexo\344\275\277\347\224\250\346\225\231\347\250\213/index.html"</span><br><span class="line"> create mode 100644 "2019/07/30/\347\254\254\344\270\200\347\257\207\345\215\232\345\256\242/index.html"</span><br><span class="line"> create mode 100644 "categories/\345\244\247\346\225\260\346\215\256/linux/index.html"</span><br><span class="line"> create mode 100644 "categories/\345\256\236\346\210\230\346\225\231\347\250\213/index.html"</span><br><span class="line"> create mode 100644 "tags/\345\256\236\346\210\230\346\225\231\347\250\213/index.html"</span><br><span class="line">Enumerating objects: 84, done.</span><br><span class="line">Counting objects: 100% (84/84), done.</span><br><span class="line">Delta compression using up to 12 threads</span><br><span class="line">Compressing objects: 100% (31/31), done.</span><br><span class="line">Writing objects: 100% (48/48), 10.89 KiB | 857.00 KiB/s, done.</span><br><span class="line">Total 48 (delta 21), reused 0 (delta 0)</span><br><span class="line">remote: Resolving deltas: 100% (21/21), completed with 15 local objects.</span><br><span class="line">To https://github.com/zzditto/zzditto.github.io.git</span><br><span class="line">   d462eae..4c2c499  HEAD -&gt; master</span><br><span class="line">Branch 'master' set up to track remote branch 'master' from 'https://github.com/zzditto/zzditto.github.io.git'.</span><br><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>本机：<br><a href="localhost:4000" target="_blank" rel="noopener">localhost:4000</a></p>
+<p>网络:<br><a href="http://zzditto.github.io" target="_blank" rel="noopener">http://zzditto.github.io</a></p>
+<p>绑定域名后:<br><a href="http://www.zzditto.cn/">http://www.zzditto.cn/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/实战教程/" rel="tag"># 实战教程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/24/HDP离线安装/" rel="next" title="HDP离线安装">
+                <i class="fa fa-chevron-left"></i> HDP离线安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/30/solo使用教程/" rel="prev" title="solo使用教程">
+                solo使用教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">一杯茶，一包烟，一行代码写一天。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装node-js"><span class="nav-number">1.</span> <span class="nav-text">安装node.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装git"><span class="nav-number">2.</span> <span class="nav-text">安装git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用管理员权限操作命令行"><span class="nav-number">3.</span> <span class="nav-text">使用管理员权限操作命令行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行命令安装hexo"><span class="nav-number">4.</span> <span class="nav-text">执行命令安装hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装完成，打开web页面"><span class="nav-number">5.</span> <span class="nav-text">安装完成，打开web页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将hexo部署到github"><span class="nav-number">6.</span> <span class="nav-text">将hexo部署到github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在blog目录下安装git插件"><span class="nav-number">7.</span> <span class="nav-text">在blog目录下安装git插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑blog的-config-yml文件【设置type为git，添加repo和branch】"><span class="nav-number">8.</span> <span class="nav-text">编辑blog的_config.yml文件【设置type为git，添加repo和branch】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在git-bash中设置github的邮箱和用户名"><span class="nav-number">9.</span> <span class="nav-text">在git bash中设置github的邮箱和用户名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用github访问"><span class="nav-number">10.</span> <span class="nav-text">使用github访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建第一篇博客"><span class="nav-number">11.</span> <span class="nav-text">创建第一篇博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建md文件"><span class="nav-number">11.1.</span> <span class="nav-text">创建md文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在md文件中添加内容"><span class="nav-number">11.2.</span> <span class="nav-text">在md文件中添加内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除原来缓存"><span class="nav-number">11.3.</span> <span class="nav-text">清除原来缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新生成html页面文件"><span class="nav-number">11.4.</span> <span class="nav-text">重新生成html页面文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">11.5.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同步至github"><span class="nav-number">11.6.</span> <span class="nav-text">同步至github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问"><span class="nav-number">11.7.</span> <span class="nav-text">访问</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '72k0g9eKNEsH0oKrE0mHxMNG-gzGzoHsz',
+        appKey: 'Ot78M5apR3PGpfpKlRB2PvGk',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

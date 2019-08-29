@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="work,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="服务器情况简介目前5台服务器处于172段，使用政务云的服务器。无法连接外网，内网是互通的。使用59段的ip对172段的进行映射，然后外部使用工具连接59段，进而控制172段的某台节点。再使用此节点免密登录其他机器进行控制。">
+<meta name="keywords" content="work">
+<meta property="og:type" content="article">
+<meta property="og:title" content="政府外网大数据平台安装记录">
+<meta property="og:url" content="www.zzditto.cn/2019/08/22/政府外网大数据平台安装记录/index.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="服务器情况简介目前5台服务器处于172段，使用政务云的服务器。无法连接外网，内网是互通的。使用59段的ip对172段的进行映射，然后外部使用工具连接59段，进而控制172段的某台节点。再使用此节点免密登录其他机器进行控制。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0%2B%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A13.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-msyql.png">
+<meta property="og:updated_time" content="2019-08-23T11:06:58.517Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="政府外网大数据平台安装记录">
+<meta name="twitter:description" content="服务器情况简介目前5台服务器处于172段，使用政务云的服务器。无法连接外网，内网是互通的。使用59段的ip对172段的进行映射，然后外部使用工具连接59段，进而控制172段的某台节点。再使用此节点免密登录其他机器进行控制。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0%2B%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A13.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/2019/08/22/政府外网大数据平台安装记录/">
+
+
+
+
+
+  <title>政府外网大数据平台安装记录 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/08/22/政府外网大数据平台安装记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">政府外网大数据平台安装记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T16:47:14+08:00">
+                2019-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/22/政府外网大数据平台安装记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/政府外网大数据平台安装记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="服务器情况简介"><a href="#服务器情况简介" class="headerlink" title="服务器情况简介"></a>服务器情况简介</h3><p>目前5台服务器处于172段，使用政务云的服务器。无法连接外网，内网是互通的。<br>使用59段的ip对172段的进行映射，然后外部使用工具连接59段，进而控制172段的某台节点。再使用此节点免密登录其他机器进行控制。</p>
+<a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0%2B%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A13.jpg" alt="pic"></p>
+<h3 id="特别之处"><a href="#特别之处" class="headerlink" title="特别之处"></a>特别之处</h3><h4 id="自定义yum源"><a href="#自定义yum源" class="headerlink" title="自定义yum源"></a>自定义yum源</h4><p>使用4.11作为主服务器，并且自定义为yum源，使集群内网环境yum安装直接连接4.11的自定义yum，这些安装包提前都已下载好了，方法详见：<a href="http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C%B0yum%E6%BA%90/">http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C%B0yum%E6%BA%90/</a></p>
+<p>主服务器的local_yum.repo设置为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 yum.repos.d]# cat local_yum.repo</span><br><span class="line">[local_yum]</span><br><span class="line">name=CentOS-Local</span><br><span class="line">baseurl=file:///var/www/html/local_yum</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
+
+<p>其他服务器的local_yum.repo设置为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 yum.repos.d]# cat local_yum.repo</span><br><span class="line">[local_yum]</span><br><span class="line">name=CentOS-Local</span><br><span class="line">baseurl=http://172.18.4.11/local_yum/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
+
+<p>注：web浏览器无法访问172段，但是可以通过59段映射访问。但在集群内部设置地址时，应设置为集群内部可以访问的地址，即172段地址。</p>
+<h4 id="自定义HDP源"><a href="#自定义HDP源" class="headerlink" title="自定义HDP源"></a>自定义HDP源</h4><p>设置同上，对于其他节点。设置地址时，设置为内部访问的地址，即172地址。</p>
+<h4 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h4><p>原本安装的mysql服务。只安装了client和server，缺少lib和common。<br>卸载重装，结果在删除的时候，删除了mysql.sock。安装之后无法打开。<br>正确步骤：<br>安装mysql服务<br>安装mariadb服务</p>
+<p>安装mysql出现，公匙检查不通过</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Total                                                                                                                      94 MB/s |  31 MB  00:00:00</span><br><span class="line">Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">The GPG keys listed for the "CentOS-Local" repository are already installed but they are not correct for this package.</span><br><span class="line">Check that the correct key URLs are configured for this repository.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Failing package is: mysql-community-libs-compat-5.7.27-1.el7.x86_64</span><br><span class="line"> GPG Keys are configured as: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
+
+<p>解决：使用 yum install xxx.rpm –nogpgcheck跳过公钥检查</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 mysql]# yum -y install mysql --nogpgcheck</span><br></pre></td></tr></table></figure>
+
+<p>安装成功后，启动mysql服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 mysql]# systemctl start mysqld</span><br><span class="line">Failed to start mysqld.service: Unit not found.</span><br></pre></td></tr></table></figure>
+
+<p>启动失败，需要安装mariadb-server服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 mysql]# yum -y install mariadb-server --nogpgcheck</span><br><span class="line"></span><br><span class="line">[root@vm02 mysql]# systemctl start mysqld</span><br></pre></td></tr></table></figure>
+
+<p>启动成功</p>
+<h4 id="mysql执行命令"><a href="#mysql执行命令" class="headerlink" title="mysql执行命令"></a>mysql执行命令</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> ambari;  </span><br><span class="line"><span class="keyword">use</span> ambari;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'ambari'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'ambari'</span>@<span class="string">'%'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'ambari'</span>@<span class="string">'localhost'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'ambari'</span>@<span class="string">'localhost'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'ambari'</span>@<span class="string">'master'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'ambari'</span>@<span class="string">'master'</span>;  </span><br><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;  </span><br><span class="line"></span><br><span class="line">source /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql  </span><br><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">use</span> mysql;  </span><br><span class="line"><span class="keyword">select</span> Host,<span class="keyword">User</span> <span class="keyword">Password</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">user</span>=<span class="string">'ambari'</span>;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> hive;  </span><br><span class="line"><span class="keyword">use</span> hive;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'hive'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'hive'</span>@<span class="string">'%'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'hive'</span>@<span class="string">'localhost'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'hive'</span>@<span class="string">'localhost'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'hive'</span>@<span class="string">'master'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'hive'</span>@<span class="string">'master'</span>;  </span><br><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> oozie;  </span><br><span class="line"><span class="keyword">use</span> oozie;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'oozie'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'oozie'</span>@<span class="string">'%'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'oozie'</span>@<span class="string">'localhost'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'oozie'</span>@<span class="string">'localhost'</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'oozie'</span>@<span class="string">'master'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'Mysql_123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'oozie'</span>@<span class="string">'master'</span>;</span><br><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="ambari-server-setup"><a href="#ambari-server-setup" class="headerlink" title="ambari-server setup"></a>ambari-server setup</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 mysql-connector-java-5.1.47]# ambari-server  setup</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Setup ambari-server</span><br><span class="line">Checking SELinux...</span><br><span class="line">SELinux status is 'disabled'</span><br><span class="line">Customize user account for ambari-server daemon [y/n] (n)? y</span><br><span class="line">Enter user account for ambari-server daemon (root):</span><br><span class="line">Adjusting ambari-server permissions and ownership...</span><br><span class="line">Checking firewall status...</span><br><span class="line">Checking JDK...</span><br><span class="line">[1] Oracle JDK 1.8 + Java Cryptography Extension (JCE) Policy Files 8</span><br><span class="line">[2] Oracle JDK 1.7 + Java Cryptography Extension (JCE) Policy Files 7</span><br><span class="line">[3] Custom JDK</span><br><span class="line">==============================================================================</span><br><span class="line">Enter choice (1): 3</span><br><span class="line">WARNING: JDK must be installed on all hosts and JAVA_HOME must be valid on all hosts.</span><br><span class="line">WARNING: JCE Policy files are required for configuring Kerberos security. If you plan to use Kerberos,please make sure JCE Unlimited Strength Jurisdiction Policy Files are valid on all hosts.</span><br><span class="line">Path to JAVA_HOME: /home/jdk1.8.0_181</span><br><span class="line">Validating JDK on Ambari Server...done.</span><br><span class="line">Checking GPL software agreement...</span><br><span class="line">GPL License for LZO: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span><br><span class="line">Enable Ambari Server to download and install GPL Licensed LZO packages [y/n] (n)? y</span><br><span class="line">Completing setup...</span><br><span class="line">Configuring database...</span><br><span class="line">Enter advanced database configuration [y/n] (n)? y</span><br><span class="line">Configuring database...</span><br><span class="line">==============================================================================</span><br><span class="line">Choose one of the following options:</span><br><span class="line">[1] - PostgreSQL (Embedded)</span><br><span class="line">[2] - Oracle</span><br><span class="line">[3] - MySQL / MariaDB</span><br><span class="line">[4] - PostgreSQL</span><br><span class="line">[5] - Microsoft SQL Server (Tech Preview)</span><br><span class="line">[6] - SQL Anywhere</span><br><span class="line">[7] - BDB</span><br><span class="line">==============================================================================</span><br><span class="line">Enter choice (1): 3</span><br><span class="line">Hostname (localhost): vm01</span><br><span class="line">Port (3306):</span><br><span class="line">Database name (ambari):</span><br><span class="line">Username (ambari):</span><br><span class="line">Enter Database Password (bigdata):bigdata</span><br><span class="line">Configuring ambari database...</span><br><span class="line">Configuring remote database connection properties...</span><br><span class="line">WARNING: Before starting Ambari Server, you must run the following DDL against the database to create the schema: /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql</span><br><span class="line">Proceed with configuring remote database connection properties [y/n] (y)? y</span><br><span class="line">Extracting system views...</span><br><span class="line">ambari-admin-2.6.2.2.1.jar</span><br><span class="line">...........</span><br><span class="line">Adjusting ambari-server permissions and ownership...</span><br><span class="line">Ambari Server 'setup' completed successfully.</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动ambari-server出错"><a href="#启动ambari-server出错" class="headerlink" title="启动ambari-server出错"></a>启动ambari-server出错</h4><p>查看日志：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">23 Aug 2019 11:19:23,451 ERROR [main] DBAccessorImpl:119 - Error while creating database accessor</span><br><span class="line">java.sql.SQLException: Access denied for user 'ambari'@'vm01' (using password: YES)</span><br><span class="line">        at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:965)</span><br><span class="line">        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3978)</span><br><span class="line">        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3914)</span><br><span class="line">        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)</span><br><span class="line">        at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1714)</span><br><span class="line">        at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1224)</span><br><span class="line">        at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2199)</span><br><span class="line">        at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2230)</span><br><span class="line">        at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2025)</span><br><span class="line">        at com.mysql.jdbc.ConnectionImpl.&lt;init&gt;(ConnectionImpl.java:778)</span><br></pre></td></tr></table></figure>
+
+<p>尝试：<br>增加 ‘ambari’@’vm01’ 的远程登录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; grant all privileges on *.* to 'ambari'@'vm01' identified by 'Mysql_123456';</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>不能解决。猜测上面远程登录的密码应该为bigdata【即ambari设置时设置的密码，但是使用此密码报不符合此密码策略】<br>所以，修改mysql的登录密码为Mysql_123456。然后设置ambari时密码也为Mysql_123456</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use mysql;</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup <span class="keyword">with</span> -A</span><br><span class="line"></span><br><span class="line"><span class="keyword">Database</span> <span class="keyword">changed</span></span><br><span class="line">mysql&gt; <span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> authentication_string=<span class="keyword">passworD</span>(<span class="string">"Mysql_123456"</span>) <span class="keyword">where</span> <span class="keyword">user</span>=<span class="string">'root'</span>;</span><br><span class="line">Query OK, 2 rows affected, 1 warning (0.00 sec)</span><br><span class="line">Rows matched: 2  Changed: 2  Warnings: 1</span><br></pre></td></tr></table></figure>
+
+<p>重启mysql<br>使用Navicat删除ambari安装时创建的数据库和mysql数据库的user数据</p>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-msyql.png" alt="pic"></p>
+<p>再重新设置ambari-server setup，ambari库设置密码为Mysql_123456</p>
+<h4 id="EOF-occurred-in-violation-of-protocol"><a href="#EOF-occurred-in-violation-of-protocol" class="headerlink" title="EOF occurred in violation of protocol"></a>EOF occurred in violation of protocol</h4><p>安装过程中报错信息如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">INFO 2019-08-23 13:24:08,381 PingPortListener.py:50 - Ping port listener started on port: 8670</span><br><span class="line">INFO 2019-08-23 13:24:08,385 main.py:439 - Connecting to Ambari server at https://vm01:8440 (172.18.4.11)</span><br><span class="line">INFO 2019-08-23 13:24:08,385 NetUtil.py:70 - Connecting to https://vm01:8440/ca</span><br><span class="line">ERROR 2019-08-23 13:24:08,549 NetUtil.py:96 - EOF occurred in violation of protocol (_ssl.c:618)</span><br><span class="line">ERROR 2019-08-23 13:24:08,549 NetUtil.py:97 - SSLError: Failed to connect. Please check openssl library versions.</span><br><span class="line">Refer to: https://bugzilla.redhat.com/show_bug.cgi?id=1022468 for more details.</span><br><span class="line">WARNING 2019-08-23 13:24:08,550 NetUtil.py:124 - Server at https://vm01:8440 is not reachable, sleeping for 10 seconds...</span><br></pre></td></tr></table></figure>
+
+<p>解决：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">By adding below config in [security] section of</span><br><span class="line"></span><br><span class="line">vi /etc/ambari-agent/conf/ambari-agent.ini</span><br><span class="line">[security]</span><br><span class="line">force_https_protocol=PROTOCOL_TLSv1_2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vi /etc/python/cert-verification.cfg</span><br><span class="line">[https]</span><br><span class="line">verify=disable</span><br></pre></td></tr></table></figure>
+
+<p><strong>参考</strong>：<br><a href="https://community.hortonworks.com/questions/218070/ambari-automatic-registration-failed-step-3-confir-1.html" target="_blank" rel="noopener">https://community.hortonworks.com/questions/218070/ambari-automatic-registration-failed-step-3-confir-1.html</a><br><a href="https://my.oschina.net/aubao/blog/1920933" target="_blank" rel="noopener">https://my.oschina.net/aubao/blog/1920933</a></p>
+<h4 id="hdfs"><a href="#hdfs" class="headerlink" title="hdfs"></a>hdfs</h4><p>写spark本地读取hdfs文件时，修改主机名为59段的地址</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> session=<span class="type">SparkSession</span>.builder().master(<span class="string">"local[*]"</span>).appName(<span class="keyword">this</span>.getClass.getSimpleName).getOrCreate()</span><br><span class="line">    <span class="keyword">val</span> src = session.read.textFile(<span class="string">"hdfs://59.218.251.29:8020/test/wd.txt"</span>)</span><br><span class="line">    src.show(<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>但是报错，因为hdfs的3个副本，在不同的服务器，无法直接相连</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">19/08/23 16:34:54 WARN DFSClient: Failed to connect to /172.18.4.15:50010 for block, add to deadNodes and continue. java.net.ConnectException: Connection timed out: no further information</span><br><span class="line">java.net.ConnectException: Connection timed out: no further information</span><br></pre></td></tr></table></figure>
+
+<p>所以要想在本地测试读取hdfs文件，需要将其下载，或者在saprk-shell命令行操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">scala&gt;</span> sc.textFile("hdfs://172.18.4.11:8020/test/wd.txt")</span><br><span class="line">res2: org.apache.spark.rdd.RDD[String] = hdfs://172.18.4.11:8020/test/wd.txt MapPartitionsRDD[1] at textFile at &lt;console&gt;:25</span><br><span class="line"></span><br><span class="line"><span class="meta">scala&gt;</span> res2.take(10).toList</span><br><span class="line">res8: List[String] = List(html,css,hello,css,spark,html,spark,hahah,hello,nihao,, css,hi,hahah,css,hi,hahah,hello,html,spark,spark,, nihao,html,word,html,word,word,hahah,hi,spark,html,, word,spark,word,hello,nihao,hi,nihao,hahah,css,nihao,, spark,html,nihao,spark,nihao,hi,hi,hahah,html,hahah,, word,hi,spark,hello,hi,spark,hello,hello,html,hi,, word,hi,hello,nihao,css,css,spark,hello,hi,spark,, hi,hi,nihao,hahah,css,hahah,hello,spark,hahah,spark,, hello,hi,css,html,css,word,word,hi,hahah,hello,, hahah,spark,html,spark,hi,hahah,hi,css,nihao,nihao,)</span><br></pre></td></tr></table></figure>
+
+<p>但在集群中可以正常运行，读取测试</p>
+<h4 id="namendoe启动"><a href="#namendoe启动" class="headerlink" title="namendoe启动"></a>namendoe启动</h4><p>报错：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2019-08-23 17:29:08,923 - Retrying after 10 seconds. Reason: Execution of '/usr/hdp/current/hadoop-hdfs-namenode/bin/hdfs dfsadmin -fs hdfs://vm01:8020 -safemode get | grep 'Safe mode is OFF'' returned 1. /etc/profile: line 87: [=]: command not found</span><br><span class="line">/etc/profile: line 87: [=]: command not found</span><br></pre></td></tr></table></figure>
+
+<p>解决：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[hdfs@vm01 liu]$ hdfs dfsadmin -safemode leave</span><br><span class="line">Safe mode is OFF</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/work/" rel="tag"># work</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/19/yum下载rpm以及依赖包/" rel="next" title="yum下载rpm以及依赖包">
+                <i class="fa fa-chevron-left"></i> yum下载rpm以及依赖包
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/23/Azkaban的安装使用/" rel="prev" title="Azkaban的安装使用">
+                Azkaban的安装使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">一杯茶，一包烟，一行代码写一天。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器情况简介"><span class="nav-number">1.</span> <span class="nav-text">服务器情况简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特别之处"><span class="nav-number">2.</span> <span class="nav-text">特别之处</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义yum源"><span class="nav-number">2.1.</span> <span class="nav-text">自定义yum源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义HDP源"><span class="nav-number">2.2.</span> <span class="nav-text">自定义HDP源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql"><span class="nav-number">2.3.</span> <span class="nav-text">mysql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql执行命令"><span class="nav-number">2.4.</span> <span class="nav-text">mysql执行命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ambari-server-setup"><span class="nav-number">2.5.</span> <span class="nav-text">ambari-server setup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动ambari-server出错"><span class="nav-number">2.6.</span> <span class="nav-text">启动ambari-server出错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EOF-occurred-in-violation-of-protocol"><span class="nav-number">2.7.</span> <span class="nav-text">EOF occurred in violation of protocol</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hdfs"><span class="nav-number">2.8.</span> <span class="nav-text">hdfs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#namendoe启动"><span class="nav-number">2.9.</span> <span class="nav-text">namendoe启动</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '72k0g9eKNEsH0oKrE0mHxMNG-gzGzoHsz',
+        appKey: 'Ot78M5apR3PGpfpKlRB2PvGk',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

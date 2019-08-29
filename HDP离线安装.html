@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=",,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="注意：在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9">
+<meta name="keywords" content="Linux,HDP">
+<meta property="og:type" content="website">
+<meta property="og:title" content="HDP离线安装">
+<meta property="og:url" content="www.zzditto.cn/HDP离线安装.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="注意：在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/httpd%E6%9C%8D%E5%8A%A1%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A21.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A22.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A23.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A24.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A25.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A26.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A27.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A28.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A29.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A210.png">
+<meta property="og:updated_time" content="2019-08-29T07:05:29.540Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDP离线安装">
+<meta name="twitter:description" content="注意：在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/httpd%E6%9C%8D%E5%8A%A1%E6%88%AA%E5%9B%BE.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/HDP离线安装.html">
+
+
+
+
+
+  <title>HDP离线安装 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">HDP离线安装</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <p><strong><em>注意</em></strong>：在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看<a href="http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C%B0yum%E6%BA%90/">http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C%B0yum%E6%BA%90/</a>,下文对软件的安装在yum源制作完成之后，都可使用yum -y install packagename 安装。</p>
+<h3 id="1-检查系统版本"><a href="#1-检查系统版本" class="headerlink" title="1.检查系统版本"></a>1.检查系统版本</h3><p>HDP2.6需要centos7版本<br>注：系统需要linux的虚拟化主机版或者桌面版。最小化安装缺乏mysql安装的部分依赖包</p>
+<h4 id="cat-etc-redhat-release-适用于Redhat系linux"><a href="#cat-etc-redhat-release-适用于Redhat系linux" class="headerlink" title="cat /etc/redhat-release 适用于Redhat系linux"></a>cat /etc/redhat-release 适用于Redhat系linux</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-检查分区硬盘大小"><a href="#2-检查分区硬盘大小" class="headerlink" title="2.检查分区硬盘大小"></a>2.检查分区硬盘大小</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# df -TH</span><br><span class="line">Filesystem              Type      Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/mapper/centos-root xfs        19G   11G  7.8G  58% /</span><br><span class="line">devtmpfs                devtmpfs  3.1G     0  3.1G   0% /dev</span><br><span class="line">tmpfs                   tmpfs     3.1G     0  3.1G   0% /dev/shm</span><br><span class="line">tmpfs                   tmpfs     3.1G   13M  3.1G   1% /run</span><br><span class="line">tmpfs                   tmpfs     3.1G     0  3.1G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1               xfs       1.1G  153M  911M  15% /boot</span><br><span class="line">tmpfs                   tmpfs     607M     0  607M   0% /run/user/0</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+<p>系统要求：【需在装载系统时分好】<br>root：100G<br>swap：同内存大小<br>home：40G<br>数据盘：剩余容量</p>
+<h3 id="3-准备离线资源包-master"><a href="#3-准备离线资源包-master" class="headerlink" title="3.准备离线资源包 [master]"></a>3.准备离线资源包 [master]</h3><h4 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h4><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<h4 id="ntp"><a href="#ntp" class="headerlink" title="ntp"></a>ntp</h4><h4 id="httpd"><a href="#httpd" class="headerlink" title="httpd"></a>httpd</h4><h4 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h4><h4 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h4><h4 id="mysql-connect"><a href="#mysql-connect" class="headerlink" title="mysql-connect"></a>mysql-connect</h4><h4 id="mariadb"><a href="#mariadb" class="headerlink" title="mariadb"></a>mariadb</h4><h4 id="postgresql"><a href="#postgresql" class="headerlink" title="postgresql"></a>postgresql</h4><h4 id="Ambari"><a href="#Ambari" class="headerlink" title="Ambari"></a>Ambari</h4><p><a href="https://docs.hortonworks.com/HDPDocuments/Ambari-2.6.2.2/bk_ambari-installation/content/ambari_repositories.html" target="_blank" rel="noopener">https://docs.hortonworks.com/HDPDocuments/Ambari-2.6.2.2/bk_ambari-installation/content/ambari_repositories.html</a></p>
+<h4 id="HDP"><a href="#HDP" class="headerlink" title="HDP"></a>HDP</h4><p><a href="https://docs.hortonworks.com/HDPDocuments/Ambari-2.6.2.2/bk_ambari-installation/content/hdp_26_repositories.html" target="_blank" rel="noopener">https://docs.hortonworks.com/HDPDocuments/Ambari-2.6.2.2/bk_ambari-installation/content/hdp_26_repositories.html</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 apps]# ll</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x. 2 root root 100 Aug 15 10:08 httpd</span><br><span class="line">drwxr-xr-x. 2 root root  40 Aug 15 10:07 jdk</span><br><span class="line">drwxr-xr-x. 2 root root  54 Aug 15 10:08 mysql</span><br><span class="line">drwxr-xr-x. 2 root root  48 Aug 15 10:09 mysql-connect</span><br><span class="line">drwxr-xr-x. 2 root root 143 Aug 15 10:09 ntp</span><br><span class="line">drwxr-xr-x. 2 root root 150 Aug 15 10:12 postgresql</span><br><span class="line">drwxr-xr-x. 2 root root 183 Aug 15 10:13 yum</span><br><span class="line">[root@vm01 apps]# pwd</span><br><span class="line">/opt/apps</span><br></pre></td></tr></table></figure>
+
+<p>HDP和Ambari体积较大，可提前上传</p>
+<h3 id="4-新机器要干的事情"><a href="#4-新机器要干的事情" class="headerlink" title="4.新机器要干的事情"></a>4.新机器要干的事情</h3><h4 id="设置ip-all"><a href="#设置ip-all" class="headerlink" title="设置ip [all]"></a>设置ip [all]</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /etc/sysconfig/network-scripts/</span><br><span class="line">[root@localhost network-scripts]# vi ifcfg-ens33</span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">IPV6_ADDR_GEN_MODE=stable-privacy</span><br><span class="line">NAME=ens33</span><br><span class="line">DEVICE=ens33</span><br><span class="line">ONBOOT=yes</span><br><span class="line">IPADDR=192.168.133.3</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.133.2</span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=114.114.114.114</span><br></pre></td></tr></table></figure>
+
+<p>集群中每个节点需不同设置，不同之处在于IPADDR。<br>设置完之后重启网络服务<br><code>[root@localhost network-scripts]# systemctl restart network</code></p>
+<h4 id="查看本机ip是否更改成功，并尝试ping其他节点和外网"><a href="#查看本机ip是否更改成功，并尝试ping其他节点和外网" class="headerlink" title="查看本机ip是否更改成功，并尝试ping其他节点和外网"></a>查看本机ip是否更改成功，并尝试ping其他节点和外网</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost network-scripts]# ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether 00:0c:29:6f:d4:70 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.133.3/24 brd 192.168.133.255 scope global noprefixroute ens33</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::1a15:8411:8d59:624e/64 scope link noprefixroute</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">[root@localhost network-scripts]# ping 192.168.133.4</span><br><span class="line">PING 192.168.133.4 (192.168.133.4) 56(84) bytes of data.</span><br><span class="line">64 bytes from 192.168.133.4: icmp_seq=1 ttl=64 time=0.349 ms</span><br><span class="line">64 bytes from 192.168.133.4: icmp_seq=2 ttl=64 time=0.232 ms</span><br><span class="line">^C</span><br><span class="line">--- 192.168.133.4 ping statistics ---</span><br><span class="line">2 packets transmitted, 2 received, 0% packet loss, time 1000ms</span><br><span class="line">rtt min/avg/max/mdev = 0.232/0.290/0.349/0.060 ms</span><br><span class="line">[root@localhost network-scripts]# ping www.baidu.com</span><br><span class="line">ping: www.baidu.com: Name or service not known</span><br><span class="line">离线安装，无法ping通外网</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改主机名-all"><a href="#修改主机名-all" class="headerlink" title="修改主机名 [all]"></a>修改主机名 [all]</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost network-scripts]# vi /etc/hostname</span><br><span class="line">vm01</span><br></pre></td></tr></table></figure>
+
+<p>每个节点分别修改，修改需要重启生效！！！</p>
+<h4 id="修改-etc-sysconfig-network-all"><a href="#修改-etc-sysconfig-network-all" class="headerlink" title="修改/etc/sysconfig/network [all]"></a>修改/etc/sysconfig/network [all]</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# vi /etc/sysconfig/network</span><br><span class="line"><span class="meta">#</span> Created by anaconda</span><br><span class="line">NETWORKING=yes</span><br></pre></td></tr></table></figure>
+
+<p>每个节点分别修改</p>
+<h4 id="关闭防火墙-all"><a href="#关闭防火墙-all" class="headerlink" title="关闭防火墙 [all]"></a>关闭防火墙 [all]</h4><p>关闭防火墙，设置开机不自启。每个节点分别设置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 jdk]# systemctl stop firewalld</span><br><span class="line">[root@vm01 jdk]# systemctl disable firewalld</span><br><span class="line">[root@vm01 jdk]# systemctl status firewalld</span><br><span class="line">● firewalld.service - firewalld - dynamic firewall daemon</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:firewalld(1)</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改主机映射-all"><a href="#修改主机映射-all" class="headerlink" title="修改主机映射 [all]"></a>修改主机映射 [all]</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# vi /etc/hosts</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line">192.168.133.3   vm01</span><br><span class="line">192.168.133.4   vm02</span><br><span class="line">192.168.133.5   vm03</span><br></pre></td></tr></table></figure>
+
+<p>发送到每个节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 apps]# for i in &#123;2,3&#125;;</span><br><span class="line"><span class="meta">&gt;</span> do</span><br><span class="line"><span class="meta">&gt;</span> scp /etc/hosts  vm0$i:/etc/</span><br><span class="line"><span class="meta">&gt;</span> done;</span><br><span class="line">hosts                                                                                                                              100%  221   183.4KB/s   00:00</span><br><span class="line">hosts                                                                                                                              100%  221   122.0KB/s   00:00</span><br></pre></td></tr></table></figure>
+
+<h4 id="ssh免密登录-master"><a href="#ssh免密登录-master" class="headerlink" title="ssh免密登录 [master]"></a>ssh免密登录 [master]</h4><p>注意：发送公匙时，主节点也需要发送</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# ssh-keygen -t rsa</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (/root/.ssh/id_rsa):</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved in /root/.ssh/id_rsa.</span><br><span class="line">Your public key has been saved in /root/.ssh/id_rsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:N/7YjYkiwm7xGSUtkb/qRagW1X7GWoc8O7STCBz3eKU root@vm01</span><br><span class="line">The key's randomart image is:</span><br><span class="line">+---[RSA 2048]----+</span><br><span class="line">|       .         |</span><br><span class="line">|      o.         |</span><br><span class="line">|      o+o   .    |</span><br><span class="line">|     oo=+= +     |</span><br><span class="line">|    . ++S.E .    |</span><br><span class="line">|    .o.o.@ B     |</span><br><span class="line">|   .oo ++ B      |</span><br><span class="line">|   .+ =..  B +   |</span><br><span class="line">|   o.o.. .o = .  |</span><br><span class="line">+----[SHA256]-----+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# ssh-copy-id vm01</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys</span><br><span class="line">root@vm01's password:</span><br><span class="line"></span><br><span class="line">Number of key(s) added: 1</span><br><span class="line"></span><br><span class="line">Now try logging into the machine, with:   "ssh 'vm01'"</span><br><span class="line">and check to make sure that only the key(s) you wanted were added.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# ssh-copy-id vm02</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys</span><br><span class="line">root@vm02's password:</span><br><span class="line"></span><br><span class="line">Number of key(s) added: 1</span><br><span class="line"></span><br><span class="line">Now try logging into the machine, with:   "ssh 'vm02'"</span><br><span class="line">and check to make sure that only the key(s) you wanted were added.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# ssh-copy-id vm03</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys</span><br><span class="line">root@vm03's password:</span><br><span class="line"></span><br><span class="line">Number of key(s) added: 1</span><br><span class="line"></span><br><span class="line">Now try logging into the machine, with:   "ssh 'vm03'"</span><br><span class="line">and check to make sure that only the key(s) you wanted were added.</span><br></pre></td></tr></table></figure>
+
+<p>测试免密登录是否成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# ssh vm01 date;ssh vm02 date;ssh vm03 date;</span><br><span class="line">Wed Jul 24 14:07:28 CST 2019</span><br><span class="line">Wed Jul 24 14:07:28 CST 2019</span><br><span class="line">Wed Jul 24 13:26:38 CST 2019</span><br></pre></td></tr></table></figure>
+
+<p>如果发现ssh连接其他机器较慢<br>解决：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 apps]# vi /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>PermitUserEnvironment no</span><br><span class="line"><span class="meta">#</span>Compression delayed</span><br><span class="line"><span class="meta">#</span>ClientAliveInterval 0</span><br><span class="line"><span class="meta">#</span>ClientAliveCountMax 3</span><br><span class="line"><span class="meta">#</span>ShowPatchLevel no</span><br><span class="line">UseDNS no</span><br><span class="line"><span class="meta">#</span>PidFile /var/run/sshd.pid</span><br><span class="line"><span class="meta">#</span>MaxStartups 10:30:100</span><br><span class="line"><span class="meta">#</span>PermitTunnel no</span><br><span class="line"><span class="meta">#</span>ChrootDirectory none</span><br><span class="line"></span><br><span class="line">[root@vm01 apps]# systemctl restart sshd</span><br></pre></td></tr></table></figure>
+
+<p>修改ssh设置里的usedns为no，此值被注释，默认是yes<br>参考：<a href="https://blog.csdn.net/kanghaha/article/details/51986771" target="_blank" rel="noopener">https://blog.csdn.net/kanghaha/article/details/51986771</a></p>
+<p>重启网络服务 [all]<br><code>[root@localhost network-scripts]# systemctl restart network</code></p>
+<h4 id="安装jdk-all"><a href="#安装jdk-all" class="headerlink" title="安装jdk [all]"></a>安装jdk [all]</h4><p>上传，解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 jdk]# pwd</span><br><span class="line">/opt/apps/jdk</span><br><span class="line">[root@vm01 jdk]# ll</span><br><span class="line">total 181168</span><br><span class="line">drwxr-xr-x. 8   10  143       255 Jul 22  2017 jdk1.8.0_144</span><br><span class="line">-rw-r--r--. 1 root root 185515842 Jul 24 11:33 jdk-8u144-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>分发jdk包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> &#123;2,5&#125;代表循环到2和5，不是2~5</span><br><span class="line">[root@vm01 apps]# for i in &#123;2,3&#125;</span><br><span class="line"><span class="meta">&gt;</span> do</span><br><span class="line"><span class="meta">&gt;</span> scp -r ./jdk/jdk1.8.0_144/   vm0$i:/opt/apps/jdk/</span><br><span class="line"><span class="meta">&gt;</span> done;</span><br></pre></td></tr></table></figure>
+
+<p>配置环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 jdk1.8.0_144]# vi /etc/profile</span><br><span class="line">export JAVA_HOME=/opt/apps/jdk/jdk1.8.0_144</span><br><span class="line">export PATH=$PATH:$JAVA_HOME/bin</span><br></pre></td></tr></table></figure>
+
+<p>更新，并分发</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 apps]# source /etc/profile</span><br><span class="line">[root@vm01 apps]# jps</span><br><span class="line">3543 Jps</span><br><span class="line">[root@vm01 apps]# for i in &#123;2,3&#125;</span><br><span class="line"><span class="meta">&gt;</span> do</span><br><span class="line"><span class="meta">&gt;</span> scp /etc/profile  vm0$i:/etc/</span><br><span class="line"><span class="meta">&gt;</span> done;</span><br><span class="line">profile                                                                                                                            100% 1898     1.5MB/s   00:00</span><br><span class="line">profile                                                                                                                            100% 1898     1.0MB/s   00:00</span><br></pre></td></tr></table></figure>
+
+<p>其余节点，同更新<br>检查是否配置成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 jdk1.8.0_144]# jps</span><br><span class="line">20110 Jps</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改文件限制-all"><a href="#修改文件限制-all" class="headerlink" title="修改文件限制 [all]"></a>修改文件限制 [all]</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 jdk]# vi /etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span>在conf文件末尾添加</span><br><span class="line"><span class="meta">#</span>End of file</span><br><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 65536</span><br><span class="line">* soft nproc 131072</span><br><span class="line">* hard nproc 131072</span><br><span class="line"></span><br><span class="line">[root@vm01 apps]# for i in &#123;2,3&#125;</span><br><span class="line"><span class="meta">&gt;</span> do</span><br><span class="line"><span class="meta">&gt;</span> scp /etc/security/limits.conf  vm0$i:/etc/security/</span><br><span class="line"><span class="meta">&gt;</span> done;</span><br><span class="line">limits.conf                                                                                                                        100% 2502     2.0MB/s   00:00</span><br><span class="line">limits.conf                                                                                                                        100% 2502     1.8MB/s   00:00</span><br></pre></td></tr></table></figure>
+
+<h4 id="关闭selinux-all"><a href="#关闭selinux-all" class="headerlink" title="关闭selinux [all]"></a>关闭selinux [all]</h4><p>设置并分发</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 jdk1.8.0_144]# vi /etc/selinux/config</span><br><span class="line"><span class="meta">#</span> This file controls the state of SELinux on the system.</span><br><span class="line"><span class="meta">#</span> SELINUX= can take one of these three values:</span><br><span class="line"><span class="meta">#</span>     enforcing - SELinux security policy is enforced.</span><br><span class="line"><span class="meta">#</span>     permissive - SELinux prints warnings instead of enforcing.</span><br><span class="line"><span class="meta">#</span>     disabled - No SELinux policy is loaded.</span><br><span class="line">SELINUX=disabled</span><br><span class="line"><span class="meta">#</span> SELINUXTYPE= can take one of three values:</span><br><span class="line"><span class="meta">#</span>     targeted - Targeted processes are protected,</span><br><span class="line"><span class="meta">#</span>     minimum - Modification of targeted policy. Only selected processes are protected.</span><br><span class="line"><span class="meta">#</span>     mls - Multi Level Security protection.</span><br><span class="line">SELINUXTYPE=targeted</span><br><span class="line"></span><br><span class="line">[root@vm01 apps]# for i in &#123;2,3&#125;</span><br><span class="line"><span class="meta">&gt;</span> do</span><br><span class="line"><span class="meta">&gt;</span> scp /etc/selinux/config vm0$i:/etc/selinux/</span><br><span class="line"><span class="meta">&gt;</span> done;</span><br><span class="line">config                                                                                                                             100%  546   907.1KB/s   00:00</span><br><span class="line">config                                                                                                                             100%  546   732.2KB/s   00:00</span><br></pre></td></tr></table></figure>
+
+<h4 id="同步时钟-all"><a href="#同步时钟-all" class="headerlink" title="同步时钟 [all]"></a>同步时钟 [all]</h4><p>上传ntp的rpm包，安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">[root@vm03 ntp]# ll</span><br><span class="line">total 2428</span><br><span class="line">-rw-r--r--. 1 root root   67624 Aug 16 18:15 autogen-libopts-5.18-5.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root  562052 Aug 16 18:15 ntp-4.2.6p5-28.el7.centos.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root   88004 Aug 16 18:15 ntpdate-4.2.6p5-28.el7.centos.x86_64.rpm</span><br><span class="line">-rw-r--r--  1 root root  504632 Aug 16 18:14 openssl-1.0.2k-16.el7_6.1.x86_64.rpm</span><br><span class="line">-rw-r--r--  1 root root 1251908 Aug 16 18:14 openssl-libs-1.0.2k-16.el7_6.1.x86_64.rpm</span><br><span class="line"></span><br><span class="line">[root@vm01 apps]# for i in &#123;2,3&#125;</span><br><span class="line"><span class="meta">&gt;</span> do</span><br><span class="line"><span class="meta">&gt;</span> scp -r /opt/apps/ntp/   vm0$i:/opt/apps/</span><br><span class="line"><span class="meta">&gt;</span> done;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>报错，这是需要升级。卸载旧的，安装新的即可</span><br><span class="line">[root@vm03 ntp]# rpm -ivh openssl-libs-1.0.2k-16.el7_6.1.x86_64.rpm</span><br><span class="line">warning: openssl-libs-1.0.2k-16.el7_6.1.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        file /usr/lib64/.libcrypto.so.10.hmac from install of openssl-libs-1:1.0.2k-16.el7_6.1.x86_64 conflicts with file from package openssl-libs-1:1.0.1e-60.el7.x86_64</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@vm03 ntp]# rpm -e --nodeps openssl-libs-1:1.0.1e-60.el7.x86_64</span><br><span class="line">[root@vm03 ntp]# rpm -ivh openssl-libs-1.0.2k-16.el7_6.1.x86_64.rpm</span><br><span class="line">warning: openssl-libs-1.0.2k-16.el7_6.1.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:openssl-libs-1:1.0.2k-16.el7_6.1 ################################# [100%]</span><br><span class="line"></span><br><span class="line">[root@vm03 ntp]# rpm -e --nodeps openssl-1:1.0.1e-60.el7.x86_64</span><br><span class="line">[root@vm03 ntp]# rpm -ivh openssl-1.0.2k-16.el7_6.1.x86_64.rpm</span><br><span class="line">warning: openssl-1.0.2k-16.el7_6.1.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:openssl-1:1.0.2k-16.el7_6.1      ################################# [100%]</span><br><span class="line"></span><br><span class="line">[root@vm03 ntp]# rpm -e --nodeps ntpdate-4.2.6p5-25.el7.centos.x86_64</span><br><span class="line">[root@vm03 ntp]# rpm -ivh ntpdate-4.2.6p5-28.el7.centos.x86_64.rpm</span><br><span class="line">warning: ntpdate-4.2.6p5-28.el7.centos.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:ntpdate-4.2.6p5-28.el7.centos    ################################# [100%]</span><br><span class="line"></span><br><span class="line">[root@vm03 ntp]# rpm -ivh autogen-libopts-5.18-5.el7.x86_64.rpm</span><br><span class="line">warning: autogen-libopts-5.18-5.el7.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package autogen-libopts-5.18-5.el7.x86_64 is already installed</span><br><span class="line"></span><br><span class="line">[root@vm03 ntp]# rpm -ivh ntp-4.2.6p5-28.el7.centos.x86_64.rpm</span><br><span class="line">warning: ntp-4.2.6p5-28.el7.centos.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:ntp-4.2.6p5-28.el7.centos        ################################# [100%]成都</span><br></pre></td></tr></table></figure>
+
+<p>安装时，需按照依赖性顺序安装，否则会报错<br>安装好后，启动，设置开机自启。分节点安装设置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ntp]# systemctl start ntpd</span><br><span class="line">[root@vm01 ntp]# systemctl enable ntpd</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/ntpd.service to /usr/lib/systemd/system/ntpd.service.</span><br><span class="line">[root@vm01 ntp]# systemctl status ntpd</span><br><span class="line">● ntpd.service - Network Time Service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Wed 2019-07-24 11:58:03 CST; 12s ago</span><br><span class="line"> Main PID: 20257 (ntpd)</span><br><span class="line">   CGroup: /system.slice/ntpd.service</span><br><span class="line">           └─20257 /usr/sbin/ntpd -u ntp:ntp -g</span><br><span class="line"></span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: proto: precision = 0.028 usec</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: 0.0.0.0 c01d 0d kern kernel time sync enabled</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: ntp_io: estimated max descriptors: 1024, initial socket boundary: 16</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: Listen and drop on 0 v4wildcard 0.0.0.0 UDP 123</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: Listen and drop on 1 v6wildcard :: UDP 123</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: Listen normally on 2 lo 127.0.0.1 UDP 123</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: Listen normally on 3 ens33 192.168.133.3 UDP 123</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: Listen normally on 4 lo ::1 UDP 123</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: Listen normally on 5 ens33 fe80::1a15:8411:8d59:624e UDP 123</span><br><span class="line">Jul 24 11:58:03 vm01 ntpd[20257]: Listening on routing socket on fd #22 for interface updates</span><br></pre></td></tr></table></figure>
+
+<p>配置ntp参数</p>
+<p>内网环境，无法连通外网。<br>主节点这里使用date -s调整时间【安装系统时设置时间】，ntp设为与本地同步<br>从节点设置与主节点同步<br>目的：保障集群各节点时间相同即可</p>
+<p>[如果集群中某台机器可以连接外网，则设置此集群为ntp服务器，其他机器与此机器进行ntp时间同步]</p>
+<p>主节点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# vi /etc/ntp.conf</span><br><span class="line"><span class="meta">#</span> Permit all access over the loopback interface.  This could</span><br><span class="line"><span class="meta">#</span> be tightened as well, but to do so would effect some of</span><br><span class="line"><span class="meta">#</span> the administrative functions.</span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict ::1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Hosts on local network are less restricted.</span><br><span class="line"><span class="meta">#</span>允许内网其他机器同步时间</span><br><span class="line">restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Use public servers from the pool.ntp.org project.</span><br><span class="line"><span class="meta">#</span> Please consider joining the pool (http://www.pool.ntp.org/join.html).</span><br><span class="line"><span class="meta">#</span>server 0.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 1.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 2.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 3.centos.pool.ntp.org iburst</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置与本地时间同步</span><br><span class="line">server 127.127.1.0 prefer</span><br><span class="line">fudge   127.127.1.0 stratum 10</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>broadcast 192.168.1.255 autokey        # broadcast server</span><br><span class="line"><span class="meta">#</span>broadcastclient                        # broadcast client</span><br><span class="line"><span class="meta">#</span>broadcast 224.0.1.1 autokey            # multicast server</span><br><span class="line"><span class="meta">#</span>multicastclient 224.0.1.1              # multicast client</span><br><span class="line"><span class="meta">#</span>manycastserver 239.255.254.254         # manycast server</span><br><span class="line"><span class="meta">#</span>manycastclient 239.255.254.254 autokey # manycast client</span><br></pre></td></tr></table></figure>
+
+<p>查看：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# ntpq -p</span><br><span class="line">     remote           refid      st t when poll reach   delay   offset  jitter</span><br><span class="line">==============================================================================</span><br><span class="line">*LOCAL(0)        .LOCL.           5 l   19   64   77    0.000    0.000   0.000</span><br></pre></td></tr></table></figure>
+
+<p>从节点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 ~]# vi /etc/ntp.conf</span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict ::1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Hosts on local network are less restricted.</span><br><span class="line"><span class="meta">#</span>restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Use public servers from the pool.ntp.org project.</span><br><span class="line"><span class="meta">#</span> Please consider joining the pool (http://www.pool.ntp.org/join.html).</span><br><span class="line"><span class="meta">#</span>server 0.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 1.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 2.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 3.centos.pool.ntp.org iburst</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置与主节点ip同步</span><br><span class="line">server 192.168.133.3 prefer</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置副设置与本地同步</span><br><span class="line">server 127.127.1.0</span><br><span class="line">fudge   127.127.1.0 stratum 10</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>broadcast 192.168.1.255 autokey        # broadcast server</span><br><span class="line"><span class="meta">#</span>broadcastclient                        # broadcast client</span><br><span class="line"><span class="meta">#</span>broadcast 224.0.1.1 autokey            # multicast server</span><br><span class="line"><span class="meta">#</span>multicastclient 224.0.1.1              # multicast client</span><br><span class="line"><span class="meta">#</span>manycastserver 239.255.254.254         # manycast server</span><br><span class="line"><span class="meta">#</span>manycastclient 239.255.254.254 autokey # manycast client</span><br></pre></td></tr></table></figure>
+
+<p>查看：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@vm03 ntp]# ntpq -p</span><br><span class="line">     remote           refid      st t when poll reach   delay   offset  jitter</span><br><span class="line">==============================================================================</span><br><span class="line"> vm01            LOCAL(0)        11 u   26   64    1    0.297    9.103   0.000</span><br><span class="line">*LOCAL(0)        .LOCL.          10 l   25   64    1    0.000    0.000   0.000</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-修改yum源，增加HDP的yum源"><a href="#5-修改yum源，增加HDP的yum源" class="headerlink" title="5.修改yum源，增加HDP的yum源"></a>5.修改yum源，增加HDP的yum源</h3><h4 id="安装httpd服务器"><a href="#安装httpd服务器" class="headerlink" title="安装httpd服务器"></a>安装httpd服务器</h4><p>上传，安装，启动，设置开机自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 httpd]# ll</span><br><span class="line">total 3100</span><br><span class="line">-rw-r--r--. 1 root root  105728 Aug 15 11:59 apr-1.4.8-3.el7_4.1.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root   94132 Aug 15 11:59 apr-util-1.5.2-6.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 2844220 Aug 15 10:08 httpd-2.4.6-89.el7.centos.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root   92616 Aug 15 10:08 httpd-tools-2.4.6-89.el7.centos.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root   31264 Aug 15 11:59 mailcap-2.1.41-2.el7.noarch.rpm</span><br><span class="line">[root@vm01 httpd]# pwd</span><br><span class="line">/opt/apps/httpd</span><br><span class="line"></span><br><span class="line">[root@vm01 httpd]# rpm -ivh apr-1.4.8-3.el7_4.1.x86_64.rpm</span><br><span class="line">warning: apr-1.4.8-3.el7_4.1.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:apr-1.4.8-3.el7_4.1              ################################# [100%]</span><br><span class="line">[root@vm01 httpd]# rpm -ivh apr-util-1.5.2-6.el7.x86_64.rpm</span><br><span class="line">warning: apr-util-1.5.2-6.el7.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:apr-util-1.5.2-6.el7             ################################# [100%]</span><br><span class="line">[root@vm01 httpd]# rpm -ivh mailcap-2.1.41-2.el7.noarch.rpm</span><br><span class="line">warning: mailcap-2.1.41-2.el7.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mailcap-2.1.41-2.el7             ################################# [100%]</span><br><span class="line">[root@vm01 httpd]# rpm -ivh httpd-tools-2.4.6-89.el7.centos.x86_64.rpm</span><br><span class="line">warning: httpd-tools-2.4.6-89.el7.centos.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:httpd-tools-2.4.6-89.el7.centos  ################################# [100%]</span><br><span class="line">[root@vm01 httpd]# rpm -ivh httpd-2.4.6-89.el7.centos.x86_64.rpm</span><br><span class="line">warning: httpd-2.4.6-89.el7.centos.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:httpd-2.4.6-89.el7.centos        ################################# [100%]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@vm01 httpd]# systemctl start httpd</span><br><span class="line">[root@vm01 httpd]# systemctl enable httpd</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
+
+<h4 id="HDP安装包上传至-var-www-html文件夹"><a href="#HDP安装包上传至-var-www-html文件夹" class="headerlink" title="HDP安装包上传至/var/www/html文件夹"></a>HDP安装包上传至/var/www/html文件夹</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ambari]# ll</span><br><span class="line">total 8949860</span><br><span class="line">-rw-r--r--. 1 root root 1823779835 Jul 23 18:26 ambari-2.6.2.2-centos7.tar.gz</span><br><span class="line">-rw-r--r--. 1 root root 7249933344 Jul 23 18:24 HDP-2.6.5.0-centos7-rpm.tar.gz</span><br><span class="line">-rw-r--r--. 1 root root     328623 Jul 23 18:24 HDP-GPL-2.6.5.0-centos7-gpl.tar.gz</span><br><span class="line">-rw-r--r--. 1 root root   90606616 Jul 23 18:24 HDP-UTILS-1.1.0.22-centos7.tar.gz</span><br><span class="line">[root@vm01 ambari]# pwd</span><br><span class="line">/var/www/html/ambari</span><br></pre></td></tr></table></figure>
+
+<p>解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ambari]# tar -zxvf ambari-2.6.2.2-centos7.tar.gz</span><br><span class="line">[root@vm01 ambari]# tar -zxvf HDP-2.6.5.0-centos7-rpm.tar.gz</span><br><span class="line">[root@vm01 ambari]# tar -zxvf HDP-GPL-2.6.5.0-centos7-gpl.tar.gz</span><br><span class="line">[root@vm01 ambari]# tar -zxvf HDP-UTILS-1.1.0.22-centos7.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>删除：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ambari]# rm -rf ambari-2.6.2.2-centos7.tar.gz</span><br><span class="line">[root@vm01 ambari]# rm -rf HDP-2.6.5.0-centos7-rpm.tar.gz</span><br><span class="line">[root@vm01 ambari]# rm -rf HDP-GPL-2.6.5.0-centos7-gpl.tar.gz</span><br><span class="line">[root@vm01 ambari]# rm -rf HDP-UTILS-1.1.0.22-centos7.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>访问：<a href="http://192.168.133.3/ambari/" target="_blank" rel="noopener">http://192.168.133.3/ambari/</a> 查看是否成功<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/httpd%E6%9C%8D%E5%8A%A1%E6%88%AA%E5%9B%BE.png" alt="pic"></p>
+<h4 id="制作hdp本地源"><a href="#制作hdp本地源" class="headerlink" title="制作hdp本地源"></a>制作hdp本地源</h4><p>上传，安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 yum]# pwd</span><br><span class="line">/opt/apps/yum</span><br><span class="line">[root@vm01 yum]# ll</span><br><span class="line">total 244</span><br><span class="line">-rw-r--r-- 1 root root 95840 Aug 10  2017 createrepo-0.9.9-28.el7.noarch.rpm</span><br><span class="line">-rw-r--r-- 1 root root 83984 Jul  4  2014 deltarpm-3.6-3.el7.x86_64.rpm</span><br><span class="line">-rw-r--r-- 1 root root 32084 Jul  4  2014 python-deltarpm-3.6-3.el7.x86_64.rpm</span><br><span class="line">-rw-r--r-- 1 root root 29388 Nov 12  2018 yum-plugin-priorities-1.1.31-50.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line">[root@vm01 yum]# rpm -ivh deltarpm-3.6-3.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:deltarpm-3.6-3.el7               ################################# [100%]</span><br><span class="line">[root@vm01 yum]# rpm -ivh python-deltarpm-3.6-3.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:python-deltarpm-3.6-3.el7        ################################# [100%]</span><br><span class="line">[root@vm01 yum]# rpm -ivh createrepo-0.9.9-28.el7.noarch.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:createrepo-0.9.9-28.el7          ################################# [100%]</span><br><span class="line">[root@vm01 yum]# rpm -ivh yum-plugin-priorities-1.1.31-50.el7.noarch.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:yum-plugin-priorities-1.1.31-50.e################################# [100%]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 yum]# createrepo  ./</span><br><span class="line">Spawning worker 0 with 4 pkgs</span><br><span class="line">Workers Finished</span><br><span class="line">Saving Primary metadata</span><br><span class="line">Saving file lists metadata</span><br><span class="line">Saving other metadata</span><br><span class="line">Generating sqlite DBs</span><br><span class="line">Sqlite DBs complete</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改源的地址"><a href="#修改源的地址" class="headerlink" title="修改源的地址"></a>修改源的地址</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 yum]# vi /var/www/html/ambari/ambari/centos7/2.6.2.2-1/ambari.repo</span><br><span class="line"><span class="meta">#</span>VERSION_NUMBER=2.6.2.2-1</span><br><span class="line">[ambari-2.6.2.2]</span><br><span class="line">name=ambari Version - ambari-2.6.2.2</span><br><span class="line">baseurl=http://192.168.133.3/ambari/ambari/centos7/2.6.2.2-1/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.133.3/ambari/ambari/centos7/2.6.2.2-1/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br><span class="line">[root@vm01 yum]# cp /var/www/html/ambari/ambari/centos7/2.6.2.2-1/ambari.repo  /etc/yum.repos.d/</span><br><span class="line"></span><br><span class="line">[root@vm01 yum]# vi /var/www/html/ambari/HDP/centos7/2.6.5.0-292/hdp.repo</span><br><span class="line"><span class="meta">#</span>VERSION_NUMBER=2.6.5.0-292</span><br><span class="line">[HDP-2.6.5.0]</span><br><span class="line">name=HDP Version - HDP-2.6.5.0</span><br><span class="line">baseurl=http://192.168.133.3/ambari/HDP/centos7/2.6.5.0-292/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.133.3/ambari/HDP/centos7/2.6.5.0-292/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[HDP-UTILS-1.1.0.22]</span><br><span class="line">name=HDP-UTILS Version - HDP-UTILS-1.1.0.22</span><br><span class="line">baseurl=http://192.168.133.3/ambari/HDP/centos7/2.6.5.0-292/</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.133.3/ambari/HDP/centos7/2.6.5.0-292/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br><span class="line">[root@vm01 yum]# cp /var/www/html/ambari/HDP/centos7/2.6.5.0-292/hdp.repo  /etc/yum.repos.d/</span><br></pre></td></tr></table></figure>
+
+<p>将ambari.repo；hdp.repo源拷贝到其他节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 yum]# scp /etc/yum.repos.d/ambari.repo   vm02:/etc/yum.repos.d/</span><br><span class="line">ambari.repo                                                                                                                  100%  267   248.2KB/s   00:00</span><br><span class="line">[root@vm01 yum]# scp /etc/yum.repos.d/ambari.repo   vm03:/etc/yum.repos.d/</span><br><span class="line">ambari.repo                                                                                                                  100%  267   117.9KB/s   00:00</span><br><span class="line">[root@vm01 yum]# scp /etc/yum.repos.d/hdp.repo   vm03:/etc/yum.repos.d/</span><br><span class="line">hdp.repo                                                                                                                     100%  508   422.7KB/s   00:00</span><br><span class="line">[root@vm01 yum]# scp /etc/yum.repos.d/hdp.repo   vm02:/etc/yum.repos.d/</span><br><span class="line">hdp.repo                                                                                                                     100%  508   451.1KB/s   00:00</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-安装ambari-sever【以mysql为数据库安装】"><a href="#6-安装ambari-sever【以mysql为数据库安装】" class="headerlink" title="6.安装ambari-sever【以mysql为数据库安装】"></a>6.安装ambari-sever【以mysql为数据库安装】</h3><h4 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h4><p>【系统如果为迷你版，则部分组件没有被安装，再次安装时需要联网进行】<br>注意：linux系统为最小化安装，通过下载官网压缩包离线安装时，还需要系统方面的某些小依赖包。导致mysql离线安装失败<br>linux系统为虚拟化主机或者桌面版就可以直接安装</p>
+<p>系统为虚拟化主机版本：<br>上传官网的压缩包，解压，按照顺序安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mysql_5.7.27]# ll</span><br><span class="line">总用量 1037224</span><br><span class="line">-rw-r--r--. 1 root root  531056640 7月  24 16:09 mysql-5.7.27-1.el7.x86_64.rpm-bundle.tar</span><br><span class="line">-rw-r--r--. 1 7155 31415  25365436 6月  12 14:42 mysql-community-client-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415    281248 6月  12 14:42 mysql-community-common-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415   3833396 6月  12 14:42 mysql-community-devel-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415  47074656 6月  12 14:42 mysql-community-embedded-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415  24079736 6月  12 14:42 mysql-community-embedded-compat-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415 129991352 6月  12 14:42 mysql-community-embedded-devel-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415   2272032 6月  12 14:42 mysql-community-libs-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415   2116432 6月  12 14:42 mysql-community-libs-compat-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415 173500088 6月  12 14:43 mysql-community-server-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 7155 31415 122530756 6月  12 14:43 mysql-community-test-5.7.27-1.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>删除mariadb，否则会有冲突</span><br><span class="line">[root@vm01 mysql]# rpm -qa | grep mariadb</span><br><span class="line">mariadb-libs-5.5.56-2.el7.x86_64</span><br><span class="line">[root@vm01 mysql]# rpm -e --nodeps mariadb-libs-5.5.56-2.el7.x86_64</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>安装mysql，按照顺序</span><br><span class="line">[root@localhost mysql_5.7.27]# rpm -ivh mysql-community-common-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">警告：mysql-community-common-5.7.27-1.el7.x86_64.rpm: 头V3 DSA/SHA1 Signature, 密钥 ID 5072e1f5: NOKEY</span><br><span class="line">准备中...                          ################################# [100%]</span><br><span class="line">正在升级/安装...</span><br><span class="line">   1:mysql-community-common-5.7.27-1.e################################# [100%]</span><br><span class="line">[root@localhost mysql_5.7.27]# rpm -ivh mysql-community-libs-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">警告：mysql-community-libs-5.7.27-1.el7.x86_64.rpm: 头V3 DSA/SHA1 Signature, 密钥 ID 5072e1f5: NOKEY</span><br><span class="line">准备中...                          ################################# [100%]</span><br><span class="line">正在升级/安装...</span><br><span class="line">   1:mysql-community-libs-5.7.27-1.el7################################# [100%]</span><br><span class="line">[root@localhost mysql_5.7.27]# rpm -ivh mysql-community-client-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">警告：mysql-community-client-5.7.27-1.el7.x86_64.rpm: 头V3 DSA/SHA1 Signature, 密钥 ID 5072e1f5: NOKEY</span><br><span class="line">准备中...                          ################################# [100%]</span><br><span class="line">正在升级/安装...</span><br><span class="line">   1:mysql-community-client-5.7.27-1.e################################# [100%]</span><br><span class="line">[root@localhost mysql_5.7.27]# rpm -ivh mysql-community-server-5.7.27-1.el7.x86_64.rpm</span><br><span class="line">警告：mysql-community-server-5.7.27-1.el7.x86_64.rpm: 头V3 DSA/SHA1 Signature, 密钥 ID 5072e1f5: NOKEY</span><br><span class="line">准备中...                          ################################# [100%]</span><br><span class="line">正在升级/安装...</span><br><span class="line">   1:mysql-community-server-5.7.27-1.e################################# [100%]</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动，设置开机自启"><a href="#启动，设置开机自启" class="headerlink" title="启动，设置开机自启"></a>启动，设置开机自启</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 mysql_5.7.27]# systemctl start mysqld</span><br><span class="line">[root@vm01 mysql_5.7.27]# systemctl enable mysqld</span><br><span class="line">[root@vm01 mysql_5.7.27]# systemctl status mysqld</span><br><span class="line">● mysqld.service - MySQL Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Wed 2019-07-24 16:22:28 CST; 15s ago</span><br><span class="line">     Docs: man:mysqld(8)</span><br><span class="line">           http://dev.mysql.com/doc/refman/en/using-systemd.html</span><br><span class="line"> Main PID: 11260 (mysqld)</span><br><span class="line">   CGroup: /system.slice/mysqld.service</span><br><span class="line">           └─11260 /usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line"></span><br><span class="line">Jul 24 16:22:25 vm01 systemd[1]: Starting MySQL Server...</span><br><span class="line">Jul 24 16:22:28 vm01 systemd[1]: Started MySQL Server.</span><br><span class="line"></span><br><span class="line">[root@vm01 mysql_5.7.27]# vi /etc/rc.local</span><br><span class="line"><span class="meta">#</span>增加</span><br><span class="line">systemctl start mysqld</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取临时密码登录mysql，设置密码，设置远程登录"><a href="#获取临时密码登录mysql，设置密码，设置远程登录" class="headerlink" title="获取临时密码登录mysql，设置密码，设置远程登录"></a>获取临时密码登录mysql，设置密码，设置远程登录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 mysql_5.7.27]# grep 'temporary password' /var/log/mysqld.log</span><br><span class="line">2019-07-24T08:22:25.615573Z 1 [Note] A temporary password is generated for root@localhost: 8BdMN2JWj*q&gt;</span><br><span class="line">[root@vm01 mysql_5.7.27]# mysql -uroot -p</span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>设置mysql登录密码为123456</span><br><span class="line"><span class="meta">mysql&gt;</span> alter user  'root'@'localhost' identified by '123456';</span><br><span class="line">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>出错，密码不符合mysql的安全策略，降低mysql的全局密码验证策略</span><br><span class="line"><span class="meta">mysql&gt;</span> set global validate_password_policy=0;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置密码长度</span><br><span class="line"><span class="meta">mysql&gt;</span> set global validate_password_length=6;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置密码为123456</span><br><span class="line"><span class="meta">mysql&gt;</span> alter user  'root'@'localhost' identified by '123456';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>设置远程登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> grant all privileges on *.* to 'root'@'%' identified by '123456';</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> FLUSH PRIVILEGES;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装postgresql"><a href="#安装postgresql" class="headerlink" title="安装postgresql"></a>安装postgresql</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 postgresql]# ll</span><br><span class="line">total 7256</span><br><span class="line">-rw-r--r-- 1 root root 3175716 Aug 24  2018 postgresql-9.2.24-1.el7_5.x86_64.rpm</span><br><span class="line">-rw-r--r-- 1 root root  239640 Aug 24  2018 postgresql-libs-9.2.24-1.el7_5.x86_64.rpm</span><br><span class="line">-rw-r--r-- 1 root root 4006220 Aug 24  2018 postgresql-server-9.2.24-1.el7_5.x86_64.rpm</span><br><span class="line"></span><br><span class="line">[root@vm01 postgresql]# rpm -ivh postgresql-libs-9.2.24-1.el7_5.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:postgresql-libs-9.2.24-1.el7_5   ################################# [100%]</span><br><span class="line">[root@vm01 postgresql]# rpm -ivh postgresql-9.2.24-1.el7_5.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:postgresql-9.2.24-1.el7_5        ################################# [100%]</span><br><span class="line">[root@vm01 postgresql]# rpm -ivh postgresql-server-9.2.24-1.el7_5.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:postgresql-server-9.2.24-1.el7_5 ################################# [100%]</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装ambari-server"><a href="#安装ambari-server" class="headerlink" title="安装ambari-server"></a>安装ambari-server</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 yum.repos.d]# ll</span><br><span class="line">total 40</span><br><span class="line">-rw-r--r--. 1 root root  267 Aug 15 13:40 ambari.repo</span><br><span class="line">-rw-r--r--. 1 root root 1664 Apr 29  2018 CentOS-Base.repo</span><br><span class="line">-rw-r--r--. 1 root root 1309 Apr 29  2018 CentOS-CR.repo</span><br><span class="line">-rw-r--r--. 1 root root  649 Apr 29  2018 CentOS-Debuginfo.repo</span><br><span class="line">-rw-r--r--. 1 root root  314 Apr 29  2018 CentOS-fasttrack.repo</span><br><span class="line">-rw-r--r--. 1 root root  630 Apr 29  2018 CentOS-Media.repo</span><br><span class="line">-rw-r--r--. 1 root root 1331 Apr 29  2018 CentOS-Sources.repo</span><br><span class="line">-rw-r--r--. 1 root root 4768 Apr 29  2018 CentOS-Vault.repo</span><br><span class="line">-rw-r--r--. 1 root root  514 Aug 15 13:42 hdp.repo</span><br><span class="line"><span class="meta">#</span>yum默认使用的是base网络源，将其改名。离线状态下将其mv掉，使用我们自己的yum源</span><br><span class="line">[root@vm01 yum.repos.d]# mv CentOS-Base.repo CentOS-Base.repo_bak</span><br><span class="line"></span><br><span class="line">[root@vm01 yum.repos.d]# yum -y install ambari-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="登录mysql，执行以下语句"><a href="#登录mysql，执行以下语句" class="headerlink" title="登录mysql，执行以下语句"></a>登录mysql，执行以下语句</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> ambari;  </span><br><span class="line"><span class="keyword">use</span> ambari;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'ambari'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'ambari'</span>@<span class="string">'%'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'ambari'</span>@<span class="string">'localhost'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'ambari'</span>@<span class="string">'localhost'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'ambari'</span>@<span class="string">'master'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'ambari'</span>@<span class="string">'master'</span>;  </span><br><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;  </span><br><span class="line"></span><br><span class="line">source /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql  </span><br><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">use</span> mysql;  </span><br><span class="line"><span class="keyword">select</span> Host,<span class="keyword">User</span> <span class="keyword">Password</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">user</span>=<span class="string">'ambari'</span>;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> hive;  </span><br><span class="line"><span class="keyword">use</span> hive;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'hive'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'hive'</span>@<span class="string">'%'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'hive'</span>@<span class="string">'localhost'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'hive'</span>@<span class="string">'localhost'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'hive'</span>@<span class="string">'master'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'hive'</span>@<span class="string">'master'</span>;  </span><br><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> oozie;  </span><br><span class="line"><span class="keyword">use</span> oozie;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'oozie'</span>@<span class="string">'%'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'oozie'</span>@<span class="string">'%'</span>;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'oozie'</span>@<span class="string">'localhost'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'oozie'</span>@<span class="string">'localhost'</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">'oozie'</span>@<span class="string">'master'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'123456'</span>;  </span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'oozie'</span>@<span class="string">'master'</span>;</span><br><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立mysql和ambari-server的连接"><a href="#建立mysql和ambari-server的连接" class="headerlink" title="建立mysql和ambari-server的连接"></a>建立mysql和ambari-server的连接</h4><p>上传mysql-connection-java-5.1.40.tar.gz包，解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 mysql_connect]# ll</span><br><span class="line">total 4348</span><br><span class="line">drwxr-xr-x 3 root root     178 Aug  7  2018 mysql-connector-java-5.1.47</span><br><span class="line">-rw-r--r-- 1 root root 4452049 Jul 24 17:03 mysql-connector-java-5.1.47.tar.gz</span><br><span class="line">[root@vm01 mysql_connect]# cd mysql-connector-java-5.1.47</span><br><span class="line">[root@vm01 mysql-connector-java-5.1.47]# ll</span><br><span class="line">total 2448</span><br><span class="line">-rw-r--r-- 1 root root   91845 Aug  7  2018 build.xml</span><br><span class="line">-rw-r--r-- 1 root root  248527 Aug  7  2018 CHANGES</span><br><span class="line">-rw-r--r-- 1 root root   18122 Aug  7  2018 COPYING</span><br><span class="line">-rw-r--r-- 1 root root 1007505 Aug  7  2018 mysql-connector-java-5.1.47-bin.jar</span><br><span class="line">-rw-r--r-- 1 root root 1007502 Aug  7  2018 mysql-connector-java-5.1.47.jar</span><br><span class="line">-rw-r--r-- 1 root root   61407 Aug  7  2018 README</span><br><span class="line">-rw-r--r-- 1 root root   63658 Aug  7  2018 README.txt</span><br><span class="line">drwxr-xr-x 8 root root      79 Aug  7  2018 src</span><br><span class="line">[root@vm01 mysql-connector-java-5.1.47]# mkdir /usr/share/java</span><br><span class="line">[root@vm01 mysql-connector-java-5.1.47]# cp mysql-connector-java-5.1.47.jar   /usr/share/java/mysql-connector-java.jar</span><br><span class="line">[root@vm01 mysql-connector-java-5.1.47]# cp /usr/share/java/mysql-connector-java.jar /var/lib/ambari-server/resources/mysql-jdbc-driver.jar</span><br><span class="line">[root@vm01 mysql-connector-java-5.1.47]# vi /etc/ambari-server/conf/ambari.properties</span><br><span class="line"><span class="meta">#</span>增加</span><br><span class="line">server.jdbc.driver.path=/usr/share/java/mysql-connector-java.jar</span><br></pre></td></tr></table></figure>
+
+<h4 id="初始化设置ambari-server"><a href="#初始化设置ambari-server" class="headerlink" title="初始化设置ambari-server"></a>初始化设置ambari-server</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 mysql_5.7.27]# ambari-server setup</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Setup ambari-server</span><br><span class="line">Checking SELinux...</span><br><span class="line">SELinux status is 'disabled'</span><br><span class="line">Customize user account for ambari-server daemon [y/n] (n)? y</span><br><span class="line">Enter user account for ambari-server daemon (root):</span><br><span class="line">Adjusting ambari-server permissions and ownership...</span><br><span class="line">Checking firewall status...</span><br><span class="line">Checking JDK...</span><br><span class="line">[1] Oracle JDK 1.8 + Java Cryptography Extension (JCE) Policy Files 8</span><br><span class="line">[2] Oracle JDK 1.7 + Java Cryptography Extension (JCE) Policy Files 7</span><br><span class="line">[3] Custom JDK</span><br><span class="line">==============================================================================</span><br><span class="line"><span class="meta">#</span>自定义jdk位置</span><br><span class="line">Enter choice (1): 3</span><br><span class="line">WARNING: JDK must be installed on all hosts and JAVA_HOME must be valid on all hosts.</span><br><span class="line">WARNING: JCE Policy files are required for configuring Kerberos security. If you plan to use Kerberos,please make sure JCE Unlimited Strength Jurisdiction Policy Files are valid on all hosts.</span><br><span class="line">Path to JAVA_HOME: /opt/apps/jdk/jdk1.8.0_144</span><br><span class="line">Validating JDK on Ambari Server...done.</span><br><span class="line">Checking GPL software agreement...</span><br><span class="line">GPL License for LZO: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span><br><span class="line">Enable Ambari Server to download and install GPL Licensed LZO packages [y/n] (n)? y</span><br><span class="line">Completing setup...</span><br><span class="line">Configuring database...</span><br><span class="line">Enter advanced database configuration [y/n] (n)? y</span><br><span class="line">Configuring database...</span><br><span class="line">==============================================================================</span><br><span class="line">Choose one of the following options:</span><br><span class="line">[1] - PostgreSQL (Embedded)</span><br><span class="line">[2] - Oracle</span><br><span class="line">[3] - MySQL / MariaDB</span><br><span class="line">[4] - PostgreSQL</span><br><span class="line">[5] - Microsoft SQL Server (Tech Preview)</span><br><span class="line">[6] - SQL Anywhere</span><br><span class="line">[7] - BDB</span><br><span class="line">==============================================================================</span><br><span class="line"><span class="meta">#</span>选择ambari储存的数据库为mysql</span><br><span class="line">Enter choice (1): 3</span><br><span class="line"><span class="meta">#</span>设置数据库的配置信息，括号内为默认，可以更改</span><br><span class="line">Hostname (localhost): vm01</span><br><span class="line">Port (3306):</span><br><span class="line">Database name (ambari):</span><br><span class="line">Username (ambari):</span><br><span class="line">Enter Database Password (bigdata):</span><br><span class="line">Re-enter password:</span><br><span class="line">Configuring ambari database...</span><br><span class="line">Configuring remote database connection properties...</span><br><span class="line">WARNING: Before starting Ambari Server, you must run the following DDL against the database to create the schema: /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql</span><br><span class="line">Proceed with configuring remote database connection properties [y/n] (y)? y</span><br><span class="line">Extracting system views...</span><br><span class="line">ambari-admin-2.6.2.2.1.jar</span><br><span class="line">...........</span><br><span class="line">Adjusting ambari-server permissions and ownership...</span><br><span class="line">Ambari Server 'setup' completed successfully.</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动ambari"><a href="#启动ambari" class="headerlink" title="启动ambari"></a>启动ambari</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 mysql_5.7.27]# ambari-server start</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Starting ambari-server</span><br><span class="line">Ambari Server running with administrator privileges.</span><br><span class="line">Organizing resource files at /var/lib/ambari-server/resources...</span><br><span class="line">Ambari database consistency check started...</span><br><span class="line">Server PID at: /var/run/ambari-server/ambari-server.pid</span><br><span class="line">Server out at: /var/log/ambari-server/ambari-server.out</span><br><span class="line">Server log at: /var/log/ambari-server/ambari-server.log</span><br><span class="line">Waiting for server start............................................................ERROR: Exiting with exit code 1.</span><br><span class="line">REASON: Server not yet listening on http port 8080 after 50 seconds. Exiting.</span><br></pre></td></tr></table></figure>
+
+<p>如果没有启动成功，修改等待时间：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 mysql_5.7.27]# vi /etc/ambari-server/conf/ambari.properties</span><br><span class="line"><span class="meta">#</span>增加</span><br><span class="line">server.startup.web.timeout=120</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@vm01 mysql_5.7.27]# ambari-server restart</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Restarting ambari-server</span><br><span class="line">Waiting for server stop...</span><br><span class="line">Ambari Server stopped</span><br><span class="line">Ambari Server running with administrator privileges.</span><br><span class="line">Organizing resource files at /var/lib/ambari-server/resources...</span><br><span class="line">Ambari database consistency check started...</span><br><span class="line">Server PID at: /var/run/ambari-server/ambari-server.pid</span><br><span class="line">Server out at: /var/log/ambari-server/ambari-server.out</span><br><span class="line">Server log at: /var/log/ambari-server/ambari-server.log</span><br><span class="line">Waiting for server start.......................</span><br><span class="line">Server started listening on 8080</span><br><span class="line"></span><br><span class="line">DB configs consistency check: no errors and warnings were found.</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-错误处理"><a href="#7-错误处理" class="headerlink" title="7.错误处理"></a>7.错误处理</h3><p>如果在安装过程中出现一些问题，则将一切都回滚清除，重新设置<br>注意：最好删除mysql中创建的数据库，然后mysql中user表创建的用户【重新设置时需要从上面的步骤重新导入】</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 mysql_5.7.27]# ambari-server stop</span><br><span class="line">[root@vm01 mysql_5.7.27]# ambari-server reset</span><br><span class="line">[root@vm01 mysql_5.7.27]# ambari-server setup</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-安装HDP集群组件"><a href="#8-安装HDP集群组件" class="headerlink" title="8.安装HDP集群组件"></a>8.安装HDP集群组件</h3><p>登录：<a href="http://192.168.133.3:8080/#/login" target="_blank" rel="noopener">http://192.168.133.3:8080/#/login</a><br>用户名，密码：admin<br>依照安装向导进行设置</p>
+<p>安装向导：<br><strong>点击launch install wizard</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A21.png" alt="pic"></p>
+<p><strong>输入集群名称</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A22.png" alt="pic"></p>
+<p><strong>设置版本，设置本地仓库地址</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A23.png" alt="pic"></p>
+<p><strong>设置主机名，配置id_rsa</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A24.png" alt="pic"></p>
+<p>完成免密登录配置后，将id_rsa文件下载到本地</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ssh]# cd ~/.ssh/</span><br><span class="line">[root@vm01 .ssh]# ll</span><br><span class="line">total 16</span><br><span class="line">-rw-------. 1 root root  391 Aug 15 10:20 authorized_keys</span><br><span class="line">-rw-------. 1 root root 1679 Aug 15 10:19 id_rsa</span><br><span class="line">-rw-r--r--. 1 root root  391 Aug 15 10:19 id_rsa.pub</span><br><span class="line">-rw-r--r--. 1 root root  540 Aug 15 10:21 known_hosts</span><br></pre></td></tr></table></figure>
+
+<p><strong>完成配置</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A25.png" alt="pic"></p>
+<p><strong>选择组件</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A26.png" alt="pic"></p>
+<p><strong>选择组件安装位置</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A27.png" alt="pic"></p>
+<p><strong>选择slaves和clients</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A28.png" alt="pic"></p>
+<p><strong>配置参数</strong><br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A29.png" alt="pic"></p>
+<p>配置hive时注意：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 .ssh]# ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Setup ambari-server</span><br><span class="line">Copying /usr/share/java/mysql-connector-java.jar to /var/lib/ambari-server/resources</span><br><span class="line">If you are updating existing jdbc driver jar for mysql with mysql-connector-java.jar. Please remove the old driver jar, from all hosts. Restarting services that need the driver, will automatically copy the new jar to the hosts.</span><br><span class="line">JDBC driver was successfully initialized.</span><br><span class="line">Ambari Server 'setup' completed successfully.</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A210.png" alt="pic"></p>
+<p>一路点击完成下一步即可</p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">一杯茶，一包烟，一行代码写一天。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-检查系统版本"><span class="nav-number">1.</span> <span class="nav-text">1.检查系统版本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cat-etc-redhat-release-适用于Redhat系linux"><span class="nav-number">1.1.</span> <span class="nav-text">cat /etc/redhat-release 适用于Redhat系linux</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-检查分区硬盘大小"><span class="nav-number">2.</span> <span class="nav-text">2.检查分区硬盘大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-准备离线资源包-master"><span class="nav-number">3.</span> <span class="nav-text">3.准备离线资源包 [master]</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JDK"><span class="nav-number">3.1.</span> <span class="nav-text">JDK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ntp"><span class="nav-number">3.2.</span> <span class="nav-text">ntp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#httpd"><span class="nav-number">3.3.</span> <span class="nav-text">httpd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yum"><span class="nav-number">3.4.</span> <span class="nav-text">yum</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql"><span class="nav-number">3.5.</span> <span class="nav-text">mysql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql-connect"><span class="nav-number">3.6.</span> <span class="nav-text">mysql-connect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mariadb"><span class="nav-number">3.7.</span> <span class="nav-text">mariadb</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#postgresql"><span class="nav-number">3.8.</span> <span class="nav-text">postgresql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Ambari"><span class="nav-number">3.9.</span> <span class="nav-text">Ambari</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HDP"><span class="nav-number">3.10.</span> <span class="nav-text">HDP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-新机器要干的事情"><span class="nav-number">4.</span> <span class="nav-text">4.新机器要干的事情</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设置ip-all"><span class="nav-number">4.1.</span> <span class="nav-text">设置ip [all]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看本机ip是否更改成功，并尝试ping其他节点和外网"><span class="nav-number">4.2.</span> <span class="nav-text">查看本机ip是否更改成功，并尝试ping其他节点和外网</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改主机名-all"><span class="nav-number">4.3.</span> <span class="nav-text">修改主机名 [all]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改-etc-sysconfig-network-all"><span class="nav-number">4.4.</span> <span class="nav-text">修改/etc/sysconfig/network [all]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭防火墙-all"><span class="nav-number">4.5.</span> <span class="nav-text">关闭防火墙 [all]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改主机映射-all"><span class="nav-number">4.6.</span> <span class="nav-text">修改主机映射 [all]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ssh免密登录-master"><span class="nav-number">4.7.</span> <span class="nav-text">ssh免密登录 [master]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装jdk-all"><span class="nav-number">4.8.</span> <span class="nav-text">安装jdk [all]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改文件限制-all"><span class="nav-number">4.9.</span> <span class="nav-text">修改文件限制 [all]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭selinux-all"><span class="nav-number">4.10.</span> <span class="nav-text">关闭selinux [all]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步时钟-all"><span class="nav-number">4.11.</span> <span class="nav-text">同步时钟 [all]</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-修改yum源，增加HDP的yum源"><span class="nav-number">5.</span> <span class="nav-text">5.修改yum源，增加HDP的yum源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装httpd服务器"><span class="nav-number">5.1.</span> <span class="nav-text">安装httpd服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HDP安装包上传至-var-www-html文件夹"><span class="nav-number">5.2.</span> <span class="nav-text">HDP安装包上传至/var/www/html文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#制作hdp本地源"><span class="nav-number">5.3.</span> <span class="nav-text">制作hdp本地源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改源的地址"><span class="nav-number">5.4.</span> <span class="nav-text">修改源的地址</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-安装ambari-sever【以mysql为数据库安装】"><span class="nav-number">6.</span> <span class="nav-text">6.安装ambari-sever【以mysql为数据库安装】</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装mysql"><span class="nav-number">6.1.</span> <span class="nav-text">安装mysql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动，设置开机自启"><span class="nav-number">6.2.</span> <span class="nav-text">启动，设置开机自启</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取临时密码登录mysql，设置密码，设置远程登录"><span class="nav-number">6.3.</span> <span class="nav-text">获取临时密码登录mysql，设置密码，设置远程登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装postgresql"><span class="nav-number">6.4.</span> <span class="nav-text">安装postgresql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装ambari-server"><span class="nav-number">6.5.</span> <span class="nav-text">安装ambari-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登录mysql，执行以下语句"><span class="nav-number">6.6.</span> <span class="nav-text">登录mysql，执行以下语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立mysql和ambari-server的连接"><span class="nav-number">6.7.</span> <span class="nav-text">建立mysql和ambari-server的连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化设置ambari-server"><span class="nav-number">6.8.</span> <span class="nav-text">初始化设置ambari-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动ambari"><span class="nav-number">6.9.</span> <span class="nav-text">启动ambari</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-错误处理"><span class="nav-number">7.</span> <span class="nav-text">7.错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-安装HDP集群组件"><span class="nav-number">8.</span> <span class="nav-text">8.安装HDP集群组件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '72k0g9eKNEsH0oKrE0mHxMNG-gzGzoHsz',
+        appKey: 'Ot78M5apR3PGpfpKlRB2PvGk',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
