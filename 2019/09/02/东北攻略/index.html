@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Linux,">
+  <meta name="keywords" content="生活,">
 
 
 
@@ -79,18 +79,27 @@
 
 
 
-<meta name="description" content="起因在搭建好大数据平台之后，集群的两个节点的Hbase regionserver总是莫名其妙的挂掉，检查时间，发现时间和其他机器相差甚远，于是查看ntp服务，发现这两节点的ntp服务已经挂掉，但是找不到相应的日志信息，所以决定给ntpd服务指定相应的日志文件">
-<meta name="keywords" content="Linux">
+<meta name="description" content="起因国庆东北游">
+<meta name="keywords" content="生活">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ntp自定义日志文件">
-<meta property="og:url" content="www.zzditto.cn/2019/09/02/ntp自定义日志文件/index.html">
+<meta property="og:title" content="东北攻略">
+<meta property="og:url" content="www.zzditto.cn/2019/09/02/东北攻略/index.html">
 <meta property="og:site_name" content="小柚麯">
-<meta property="og:description" content="起因在搭建好大数据平台之后，集群的两个节点的Hbase regionserver总是莫名其妙的挂掉，检查时间，发现时间和其他机器相差甚远，于是查看ntp服务，发现这两节点的ntp服务已经挂掉，但是找不到相应的日志信息，所以决定给ntpd服务指定相应的日志文件">
+<meta property="og:description" content="起因国庆东北游">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-02T02:41:11.131Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E8%BF%9E%E6%B5%B7%E6%BB%A8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%8C%97%E4%BA%AC-%E5%A4%A7%E8%BF%9E.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E8%BF%9E%E6%99%AF%E5%8C%BA.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E9%B9%BF%E5%B2%9B.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E6%B2%88%E9%98%B3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E9%95%BF%E7%99%BD%E5%B1%B1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E5%85%B4%E5%AE%89%E5%B2%AD.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E4%BC%8A%E6%98%A5.png">
+<meta property="og:updated_time" content="2019-09-02T08:39:17.895Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ntp自定义日志文件">
-<meta name="twitter:description" content="起因在搭建好大数据平台之后，集群的两个节点的Hbase regionserver总是莫名其妙的挂掉，检查时间，发现时间和其他机器相差甚远，于是查看ntp服务，发现这两节点的ntp服务已经挂掉，但是找不到相应的日志信息，所以决定给ntpd服务指定相应的日志文件">
+<meta name="twitter:title" content="东北攻略">
+<meta name="twitter:description" content="起因国庆东北游">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E8%BF%9E%E6%B5%B7%E6%BB%A8.png">
 
 
 
@@ -120,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="www.zzditto.cn/2019/09/02/ntp自定义日志文件/">
+  <link rel="canonical" href="www.zzditto.cn/2019/09/02/东北攻略/">
 
 
 
 
 
-  <title>ntp自定义日志文件 | 小柚麯</title>
+  <title>东北攻略 | 小柚麯</title>
   
 
 
@@ -295,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/02/ntp自定义日志文件/">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/02/东北攻略/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小柚麯">
@@ -312,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ntp自定义日志文件</h1>
+          <h1 class="post-title" itemprop="name headline">东北攻略</h1>
         
 
         <div class="post-meta">
@@ -324,7 +333,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T09:49:57+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T16:37:59+08:00">
                 2019-09-02
               </time>
             
@@ -340,7 +349,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-02T10:41:11+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-02T16:39:17+08:00">
                 2019-09-02
               </time>
             
@@ -359,19 +368,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/ntp/" itemprop="url" rel="index">
-                    <span itemprop="name">ntp</span>
+                  <a href="/categories/生活/" itemprop="url" rel="index">
+                    <span itemprop="name">生活</span>
                   </a>
                 </span>
 
@@ -388,8 +386,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/09/02/ntp自定义日志文件/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/02/ntp自定义日志文件/" itemprop="commentCount"></span>
+                <a href="/2019/09/02/东北攻略/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/02/东北攻略/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -417,30 +415,67 @@
       
 
       
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>在搭建好大数据平台之后，集群的两个节点的Hbase regionserver总是莫名其妙的挂掉，检查时间，发现时间和其他机器相差甚远，于是查看ntp服务，发现这两节点的ntp服务已经挂掉，但是找不到相应的日志信息，所以决定给ntpd服务指定相应的日志文件</p>
+        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>国庆东北游</p>
 <a id="more"></a>
-<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="查看ntp-conf"><a href="#查看ntp-conf" class="headerlink" title="查看ntp.conf"></a>查看ntp.conf</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">[root@vm05 ~]# cat /etc/ntp.conf</span><br><span class="line"><span class="meta">#</span> For more information about this file, see the man pages</span><br><span class="line"><span class="meta">#</span> ntp.conf(5), ntp_acc(5), ntp_auth(5), ntp_clock(5), ntp_misc(5), ntp_mon(5).</span><br><span class="line"></span><br><span class="line">driftfile /var/lib/ntp/drift</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Permit time synchronization with our time source, but do not</span><br><span class="line"><span class="meta">#</span> permit the source to query or modify the service on this system.</span><br><span class="line">restrict default nomodify notrap nopeer noquery</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Permit all access over the loopback interface.  This could</span><br><span class="line"><span class="meta">#</span> be tightened as well, but to do so would effect some of</span><br><span class="line"><span class="meta">#</span> the administrative functions.</span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict ::1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Hosts on local network are less restricted.</span><br><span class="line"><span class="meta">#</span>restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Use public servers from the pool.ntp.org project.</span><br><span class="line"><span class="meta">#</span> Please consider joining the pool (http://www.pool.ntp.org/join.html).</span><br><span class="line"><span class="meta">#</span>server 0.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 1.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 2.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 3.centos.pool.ntp.org iburst</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置与主节点ip同步</span><br><span class="line">server 172.18.4.11 prefer</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置副设置与本地同步</span><br><span class="line"><span class="meta">#</span>server 127.127.1.0</span><br><span class="line"><span class="meta">#</span>fudge   127.127.1.0 stratum 10</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>broadcast 192.168.1.255 autokey        # broadcast server</span><br><span class="line"><span class="meta">#</span>broadcastclient                        # broadcast client</span><br><span class="line"><span class="meta">#</span>broadcast 224.0.1.1 autokey            # multicast server</span><br><span class="line"><span class="meta">#</span>multicastclient 224.0.1.1              # multicast client</span><br><span class="line"><span class="meta">#</span>manycastserver 239.255.254.254         # manycast server</span><br><span class="line"><span class="meta">#</span>manycastclient 239.255.254.254 autokey # manycast client</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Enable public key cryptography.</span><br><span class="line"><span class="meta">#</span>crypto</span><br><span class="line"></span><br><span class="line">includefile /etc/ntp/crypto/pw</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Key file containing the keys and key identifiers used when operating</span><br><span class="line"><span class="meta">#</span> with symmetric key cryptography.</span><br><span class="line">keys /etc/ntp/keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Specify the key identifiers which are trusted.</span><br><span class="line"><span class="meta">#</span>trustedkey 4 8 42</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Specify the key identifier to use with the ntpdc utility.</span><br><span class="line"><span class="meta">#</span>requestkey 8</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Specify the key identifier to use with the ntpq utility.</span><br><span class="line"><span class="meta">#</span>controlkey 8</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Enable writing of statistics records.</span><br><span class="line"><span class="meta">#</span>statistics clockstats cryptostats loopstats peerstats</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Disable the monitoring facility to prevent amplification attacks using ntpdc</span><br><span class="line"><span class="meta">#</span> monlist command when default restrict does not include the noquery flag. See</span><br><span class="line"><span class="meta">#</span> CVE-2013-5211 for more details.</span><br><span class="line"><span class="meta">#</span> Note: Monitoring will not be disabled with the limited restriction flag.</span><br><span class="line">disable monitor</span><br></pre></td></tr></table></figure>
 
-<p>发现并没有任何有关logs的参数配置</p>
-<h3 id="列出所有ntpd的配置文件"><a href="#列出所有ntpd的配置文件" class="headerlink" title="列出所有ntpd的配置文件"></a>列出所有ntpd的配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm05 ~]# rpm -ql ntp|grep conf</span><br><span class="line">/etc/ntp.conf</span><br><span class="line">/etc/sysconfig/ntpd</span><br><span class="line">/usr/share/man/man5/ntp.conf.5.gz</span><br></pre></td></tr></table></figure>
+<h2 id="经过"><a href="#经过" class="headerlink" title="经过"></a>经过</h2><h3 id="路线规划"><a href="#路线规划" class="headerlink" title="路线规划"></a>路线规划</h3><h4 id="大连线"><a href="#大连线" class="headerlink" title="大连线"></a>大连线</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: 北京</span><br><span class="line">e=&gt;end: 北京</span><br><span class="line">op1=&gt;operation: 大连</span><br><span class="line"></span><br><span class="line">st-&gt;op1-&gt;e</span><br></pre></td></tr></table></figure>
 
-<p>发现除了<code>/etc/ntp.conf</code>,还有<code>/etc/sysconfig/ntpd</code>配置文件<br>同时，查看运行状态下的ntpd服务，可以发现ntpd的启动是使用的<code>/etc/sysconfig/ntpd</code></p>
-<h3 id="查看-etc-sysconfig-ntpd"><a href="#查看-etc-sysconfig-ntpd" class="headerlink" title="查看/etc/sysconfig/ntpd"></a>查看<code>/etc/sysconfig/ntpd</code></h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@vm05 ~]# cat /etc/sysconfig/ntpd</span><br><span class="line"><span class="meta">#</span> Command line options for ntpd</span><br><span class="line">OPTIONS="-g"</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E8%BF%9E%E6%B5%B7%E6%BB%A8.png" alt="大连"></p>
+<h5 id="路线和车费"><a href="#路线和车费" class="headerlink" title="路线和车费"></a>路线和车费</h5><p>北京—-&gt;大连(261~400)<br>推荐：<br>D45车次 &emsp; 北京-大连北 &emsp;时间：6:55-13:08 &emsp;耗时：6h13分 &emsp;车费：261<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%8C%97%E4%BA%AC-%E5%A4%A7%E8%BF%9E.png" alt="pic"></p>
+<h5 id="大连线景点推荐"><a href="#大连线景点推荐" class="headerlink" title="大连线景点推荐"></a>大连线景点推荐</h5><ol>
+<li><a href="http://www.mafengwo.cn/poi/23372.html" target="_blank" rel="noopener">大连滨海路</a><br>延绵数公里的海景公路，徒步骑行胜地</li>
+<li><a href="http://www.mafengwo.cn/poi/9277.html" target="_blank" rel="noopener">金石滩国家旅游度假区</a><br>汇集娱乐休闲于一体，是个海滨度假好去处</li>
+<li><a href="http://www.mafengwo.cn/poi/9419.html" target="_blank" rel="noopener">星海公园</a><br>历史悠久的开放式海滨公园，沙滩浴场，是大连市民休憩消暑的好去处</li>
+<li><a href="http://www.mafengwo.cn/poi/9281.html" target="_blank" rel="noopener">俄罗斯风情街</a><br>中国第一条俄式建筑风格街道，可以淘到一些东欧特色小商品</li>
+<li><a href="https://travel.qunar.com/p-oi5345697-dongfangweinisishuicheng" target="_blank" rel="noopener">东方威尼斯水城</a><br>漫步于欧式建筑与水城风光中，感受威尼斯水城般的异域风情。</li>
+<li><a href="https://travel.qunar.com/p-oi707812-laohutanhaiyanggongyuan" target="_blank" rel="noopener">老虎滩海洋公园</a><br>欣赏各种极地动物的逗趣表演，乘坐跨海索道俯瞰海滨风光。</li>
+<li><a href="https://travel.qunar.com/p-oi715444-bangchuidao" target="_blank" rel="noopener">棒棰岛</a><br>大连市区环境最好的海滩，孤立于海上的棒棰岛是著名景观。</li>
+<li><a href="https://travel.qunar.com/p-oi712006-dalianshengyahaiyangshi" target="_blank" rel="noopener">大连圣亚海洋世界</a><br>在全景海底通道中感受海底世界，欣赏精彩的海豚、海象等表演。</li>
+<li><a href="https://travel.qunar.com/p-oi713621-laotieshan" target="_blank" rel="noopener">老铁山</a><br> 日落下的山顶灯塔，和泾渭分明的黄渤海交界线，是老铁山的经典去处。</li>
+<li><a href="http://travel.qunar.com/p-oi722451-daludao" target="_blank" rel="noopener">大鹿岛</a><br>大鹿岛到庄河的王家岛、石城岛，长海的大小长山岛、獐子岛等周边海岛。</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E8%BF%9E%E6%99%AF%E5%8C%BA.png" alt="大连景区"></p>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E9%B9%BF%E5%B2%9B.png" alt="大鹿岛"></p>
+<p>如果都去，预计花费时间3-4天，此处按照4天计算</p>
+<p><strong>沈阳</strong>：</p>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E6%B2%88%E9%98%B3.png" alt="沈阳"></p>
+<p>沈阳热门景点如图，想去的欲望并不大。所以从路线上看，推荐从北京直达大连，在大连逛4-5天左右，做慢火车慢慢回北京。</p>
+<h4 id="吉林线"><a href="#吉林线" class="headerlink" title="吉林线"></a>吉林线</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: 北京</span><br><span class="line">e=&gt;end: 北京</span><br><span class="line">op1=&gt;operation: 吉林长白山</span><br><span class="line"></span><br><span class="line">st-&gt;op1-&gt;e</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ~]# systemctl status ntpd</span><br><span class="line">● ntpd.service - Network Time Service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Wed 2019-08-28 16:36:55 CST; 4 days ago</span><br><span class="line"> Main PID: 34251 (ntpd)</span><br><span class="line">   CGroup: /system.slice/ntpd.service</span><br><span class="line">           └─34251 /usr/sbin/ntpd -u ntp:ntp -g</span><br><span class="line"></span><br><span class="line">Aug 28 16:36:56 vm01 ntpd[34251]: Listen normally on 2 lo 127.0.0.1 UDP 123</span><br><span class="line">Aug 28 16:36:56 vm01 ntpd[34251]: Listen normally on 3 ens192 172.18.4.11 UDP 123</span><br><span class="line">Aug 28 16:36:56 vm01 ntpd[34251]: Listen normally on 4 lo ::1 UDP 123</span><br><span class="line">Aug 28 16:36:56 vm01 ntpd[34251]: Listening on routing socket on fd #21 for interface updates</span><br><span class="line">Aug 28 16:36:56 vm01 ntpd[34251]: 0.0.0.0 c016 06 restar</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E9%95%BF%E7%99%BD%E5%B1%B1.png" alt="长白山"></p>
+<h5 id="吉林线景点推荐"><a href="#吉林线景点推荐" class="headerlink" title="吉林线景点推荐"></a>吉林线景点推荐</h5><ol>
+<li><a href="http://travel.qunar.com/p-oi722803-changbaishantianchi" target="_blank" rel="noopener">长白山天池</a><br>位于长白山主峰山巅的圣洁之湖，是长白山的必赏之处。</li>
+<li><a href="http://travel.qunar.com/p-oi710670-changbaishanbeipojing" target="_blank" rel="noopener">长白山北坡</a><br>观长白瀑布、漫步谷底林海，坐倒站车上主峰赏天池美景。</li>
+<li><a href="http://travel.qunar.com/p-oi7587220-changbaishanxipojingqu" target="_blank" rel="noopener">长白山西坡景区</a><br>赏锦江大峡谷奇景和草甸山花遍野，观视野开阔的天池全貌。</li>
+<li><a href="http://travel.qunar.com/p-oi5942028-zhangbaipubu" target="_blank" rel="noopener">长白瀑布</a><br>长白山瀑布夏季轰鸣如雷，冬季一挂银川，相当壮观。</li>
+<li><a href="http://travel.qunar.com/p-oi712927-yalu:jiang" target="_blank" rel="noopener">鸭绿江</a></li>
+<li><a href="http://travel.qunar.com/p-oi7587397-wangtianefengjingqu" target="_blank" rel="noopener">望天鹅风景区</a></li>
+</ol>
+<h4 id="大兴安岭"><a href="#大兴安岭" class="headerlink" title="大兴安岭"></a>大兴安岭</h4><p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E5%A4%A7%E5%85%B4%E5%AE%89%E5%B2%AD.png" alt="大兴安岭"></p>
+<p>推荐冬季游玩</p>
+<h4 id="伊春"><a href="#伊春" class="headerlink" title="伊春"></a>伊春</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: 北京</span><br><span class="line">e=&gt;end: 北京</span><br><span class="line">op1=&gt;operation: 哈尔滨</span><br><span class="line">op2=&gt;operation: 伊春</span><br><span class="line"></span><br><span class="line">st-&gt;op1-&gt;op2-&gt;e</span><br></pre></td></tr></table></figure>
 
-<p>同时，查看ntpd的参数设置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">[root@vm05 ~]# ntpd --help</span><br><span class="line">ntpd - NTP daemon program - Ver. 4.2.6p5</span><br><span class="line">Usage:  ntpd [ -&lt;flag&gt; [&lt;val&gt;] | --&lt;name&gt;[&#123;=| &#125;&lt;val&gt;] ]...</span><br><span class="line">  Flg Arg Option-Name    Description</span><br><span class="line">   -4 no  ipv4           Force IPv4 DNS name resolution</span><br><span class="line">                                - prohibits the option 'ipv6'</span><br><span class="line">   -6 no  ipv6           Force IPv6 DNS name resolution</span><br><span class="line">                                - prohibits the option 'ipv4'</span><br><span class="line">   -a no  authreq        Require crypto authentication</span><br><span class="line">                                - prohibits the option 'authnoreq'</span><br><span class="line">   -A no  authnoreq      Do not require crypto authentication</span><br><span class="line">                                - prohibits the option 'authreq'</span><br><span class="line">   -b no  bcastsync      Allow us to sync to broadcast servers</span><br><span class="line">   -c Str configfile     configuration file name</span><br><span class="line">   -d no  debug-level    Increase output debug message level</span><br><span class="line">                                - may appear multiple times</span><br><span class="line">   -D Str set-debug-level Set the output debug message level</span><br><span class="line">                                - may appear multiple times</span><br><span class="line">   -f Str driftfile      frequency drift file name</span><br><span class="line">   -g no  panicgate      Allow the first adjustment to be Big</span><br><span class="line">                                - may appear multiple times</span><br><span class="line">   -i Str jaildir        Jail directory</span><br><span class="line">   -I Str interface      Listen on an interface name or address</span><br><span class="line">                                - may appear multiple times</span><br><span class="line">   -k Str keyfile        path to symmetric keys</span><br><span class="line">   -l Str logfile        path to the log file</span><br><span class="line">   -L no  novirtualips   Do not listen to virtual interfaces</span><br><span class="line">   -m no  mlock          Lock memory</span><br><span class="line">   -n no  nofork         Do not fork</span><br><span class="line">   -N no  nice           Run at high priority</span><br><span class="line">   -p Str pidfile        path to the PID file</span><br><span class="line">                                - may appear up to 2 times</span><br><span class="line">   -P Num priority       Process priority</span><br><span class="line">   -q no  quit           Set the time and quit</span><br><span class="line">   -r Str propagationdelay Broadcast/propagation delay</span><br><span class="line">      Str saveconfigquit Save parsed configuration and quit</span><br><span class="line">   -s Str statsdir       Statistics file location</span><br><span class="line">   -t Str trustedkey     Trusted key number</span><br><span class="line">                                - may appear multiple times</span><br><span class="line">   -u Str user           Run as userid (or userid:groupid)</span><br><span class="line">                                - may appear up to 2 times</span><br><span class="line">   -U Num updateinterval interval in seconds between scans for new or dropped interfaces</span><br><span class="line">      Str var            make ARG an ntp variable (RW)</span><br><span class="line">                                - may appear multiple times</span><br><span class="line">      Str dvar           make ARG an ntp variable (RW|DEF)</span><br><span class="line">                                - may appear multiple times</span><br><span class="line">   -x no  slew           Slew up to 600 seconds</span><br><span class="line">   -! opt version        output version information and exit</span><br><span class="line">   -? no  help           display extended usage information and exit</span><br><span class="line">   -! no  more-help      extended usage information passed thru pager</span><br><span class="line"></span><br><span class="line">Options are specified by doubled hyphens and their name or by a single</span><br><span class="line">hyphen and the flag character.</span><br><span class="line"></span><br><span class="line">The following option preset mechanisms are supported:</span><br><span class="line"> - examining environment variables named NTPD_*</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Please send bug reports to:  &lt;http://bugs.ntp.org, bugs@ntp.org&gt;</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
-
-<p>发现其中使用了-g的配置参数，并同时发现了<code>-l  logfile</code>的参数<br>所以，推出，可以通过添加logfile参数在<code>/etc/sysconfig/ntpd</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@vm05 ~]# cat /etc/sysconfig/ntpd</span><br><span class="line"><span class="meta">#</span> Command line options for ntpd</span><br><span class="line">OPTIONS="-g -l /var/log/ntpstats/ntpd.log"</span><br></pre></td></tr></table></figure>
-
-<h3 id="重启服务"><a href="#重启服务" class="headerlink" title="重启服务"></a>重启服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@vm05 ~]# systemctl restart ntpd</span><br><span class="line">[root@vm05 log]# systemctl status ntpd</span><br><span class="line">● ntpd.service - Network Time Service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Mon 2019-09-02 18:12:56 CST; 4s ago</span><br><span class="line">  Process: 86272 ExecStart=/usr/sbin/ntpd -u ntp:ntp $OPTIONS (code=exited, status=0/SUCCESS)</span><br><span class="line"> Main PID: 86273 (ntpd)</span><br><span class="line">   CGroup: /system.slice/ntpd.service</span><br><span class="line">           └─86273 /usr/sbin/ntpd -u ntp:ntp -g -l /var/log/ntpstats/ntpd.log</span><br><span class="line"></span><br><span class="line">Sep 02 18:12:56 vm05 systemd[1]: Starting Network Time Service...</span><br><span class="line">Sep 02 18:12:56 vm05 ntpd[86272]: ntpd 4.2.6p5@1.2349-o Fri Apr 13 12:52:27 UTC 2018 (1)</span><br><span class="line">Sep 02 18:12:56 vm05 systemd[1]: Started Network Time Service.</span><br><span class="line">[root@vm05 log]#</span><br></pre></td></tr></table></figure>
-
-<p>可以看到ntpd的logfile参数生效<br>查看logfile日志</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@vm05 log]# cat /var/log/ntpstats/ntpd.log</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: proto: precision = 0.897 usec</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: 0.0.0.0 c01d 0d kern kernel time sync enabled</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: ntp_io: estimated max descriptors: 1024, initial socket boundary: 16</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: Listen and drop on 0 v4wildcard 0.0.0.0 UDP 123</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: Listen and drop on 1 v6wildcard :: UDP 123</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: Listen normally on 2 lo 127.0.0.1 UDP 123</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: Listen normally on 3 ens192 172.18.4.15 UDP 123</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: Listen normally on 4 lo ::1 UDP 123</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: Listening on routing socket on fd #21 for interface updates</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: 0.0.0.0 c016 06 restart</span><br><span class="line"> 2 Sep 18:12:56 ntpd[86273]: 0.0.0.0 c012 02 freq_set kernel 8.687 PPM</span><br><span class="line"> 2 Sep 18:12:58 ntpd[86273]: 0.0.0.0 c515 05 clock_sync</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>如果节点时间不正确，且ntp更新缓慢，很久都没办法和主服务器同步时，设置ntp.conf参数，调整只与主服务器同步，不与本地时间同步</p>
+<blockquote>
+<blockquote>
+<p>小兴安岭—黑龙江伊春<br>尝试过坐着火车穿越森林吗？去伊春感受一下吧，伊春每个区都有林场，很多是半原始的森林，天然氧吧。其实大兴安岭景点没有小兴安岭集中，去牙克石、博克图附近转转吧。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>秋天，白桦和栎树的叶子变黄了，枫树的叶子火一样红，松柏显得更苍翠了。秋风吹来，落叶在林间飞舞。这时候，森林向人们献出了酸甜可口的山葡萄，又香又脆的榛子，鲜嫩的蘑菇和木耳，还有人参等名贵药材。 ——《美丽的小兴安岭》</p>
+</blockquote>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/%E4%BC%8A%E6%98%A5.png" alt="伊春"></p>
+<h4 id="伊春景点推荐"><a href="#伊春景点推荐" class="headerlink" title="伊春景点推荐"></a>伊春景点推荐</h4><ol>
+<li><a href="http://travel.qunar.com/p-oi708451-maolangouguojiasenlin" target="_blank" rel="noopener">毛衫沟国家森林公园</a><br>原生态的自然风光，大峡谷的风景让人惊艳。</li>
+<li><a href="http://travel.qunar.com/p-oi709541-tangwangheguojiagongyuan" target="_blank" rel="noopener">汤旺河国家公园</a><br> 黑龙江汤旺河国家公园地处小兴安岭南麓，植被覆盖率99.8%以上，以红松为主的针阔叶混交林是亚洲最完整、最具代表性的原始红松林生长地，素有“红松故乡”之美誉。</li>
+<li><a href="http://travel.qunar.com/p-oi722430-xingansenlingongyuan" target="_blank" rel="noopener">兴安森林公园</a></li>
+<li><a href="http://travel.qunar.com/p-oi7469242-jinshanluyuan" target="_blank" rel="noopener">金山鹿苑</a></li>
+<li><a href="http://travel.qunar.com/p-oi9634783-wuyingguojiasenlingong" target="_blank" rel="noopener">五营国家森林公园</a><br> 与刘少奇主席坐过的小火车合影，登上观光塔环望浩瀚的原始林海。</li>
+<li><a href="http://travel.qunar.com/p-oi10032630-maolanpubu" target="_blank" rel="noopener">茅山瀑布</a></li>
+<li><a href="http://travel.qunar.com/p-oi9203493-xiaodonggouyuanshisen" target="_blank" rel="noopener">小东沟原始森林</a></li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>去哪儿网<a href="https://travel.qunar.com/p-cs300134-dalian-jingdian" target="_blank" rel="noopener">https://travel.qunar.com/p-cs300134-dalian-jingdian</a><br>马蜂窝<a href="http://www.mafengwo.cn/jd/10301/gonglve.html" target="_blank" rel="noopener">http://www.mafengwo.cn/jd/10301/gonglve.html</a><br>知乎问题：<a href="https://www.zhihu.com/question/318457058/answer/643577908" target="_blank" rel="noopener">作为一个南方人，我想去东北旅行，但是东北这么大，哪些地方比较好玩呀？</a><br>知乎问题：<a href="https://www.zhihu.com/question/19855515/answer/107507368" target="_blank" rel="noopener">国内有哪些冷门但有特色的旅游地点？</a></p>
 
       
     </div>
@@ -458,7 +493,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i>Linux</a>
+            <a href="/tags/生活/" rel="tag"><i class="fa fa-tag"></i>生活</a>
           
         </div>
       
@@ -471,8 +506,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/30/BigData/ntp使用教程/" rel="next" title="ntp使用教程">
-                <i class="fa fa-chevron-left"></i> ntp使用教程
+              <a href="/2019/09/02/Learn/ELK学习-1/" rel="next" title="ELK学习-1">
+                <i class="fa fa-chevron-left"></i> ELK学习-1
               </a>
             
           </div>
@@ -561,7 +596,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -572,7 +607,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -583,7 +618,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -632,7 +667,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作"><span class="nav-number">2.</span> <span class="nav-text">操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看ntp-conf"><span class="nav-number">2.1.</span> <span class="nav-text">查看ntp.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出所有ntpd的配置文件"><span class="nav-number">2.2.</span> <span class="nav-text">列出所有ntpd的配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看-etc-sysconfig-ntpd"><span class="nav-number">2.3.</span> <span class="nav-text">查看/etc/sysconfig/ntpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重启服务"><span class="nav-number">2.4.</span> <span class="nav-text">重启服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">2.5.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#经过"><span class="nav-number">2.</span> <span class="nav-text">经过</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#路线规划"><span class="nav-number">2.1.</span> <span class="nav-text">路线规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#大连线"><span class="nav-number">2.1.1.</span> <span class="nav-text">大连线</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#路线和车费"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">路线和车费</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#大连线景点推荐"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">大连线景点推荐</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#吉林线"><span class="nav-number">2.1.2.</span> <span class="nav-text">吉林线</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#吉林线景点推荐"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">吉林线景点推荐</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大兴安岭"><span class="nav-number">2.1.3.</span> <span class="nav-text">大兴安岭</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伊春"><span class="nav-number">2.1.4.</span> <span class="nav-text">伊春</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伊春景点推荐"><span class="nav-number">2.1.5.</span> <span class="nav-text">伊春景点推荐</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>

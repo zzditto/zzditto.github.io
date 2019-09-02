@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[东北攻略]]></title>
+    <url>%2F2019%2F09%2F02%2F%E4%B8%9C%E5%8C%97%E6%94%BB%E7%95%A5%2F</url>
+    <content type="text"><![CDATA[起因国庆东北游 经过路线规划大连线12345st=&gt;start: 北京e=&gt;end: 北京op1=&gt;operation: 大连st-&gt;op1-&gt;e 路线和车费北京—-&gt;大连(261~400)推荐：D45车次 &emsp; 北京-大连北 &emsp;时间：6:55-13:08 &emsp;耗时：6h13分 &emsp;车费：261 大连线景点推荐 大连滨海路延绵数公里的海景公路，徒步骑行胜地 金石滩国家旅游度假区汇集娱乐休闲于一体，是个海滨度假好去处 星海公园历史悠久的开放式海滨公园，沙滩浴场，是大连市民休憩消暑的好去处 俄罗斯风情街中国第一条俄式建筑风格街道，可以淘到一些东欧特色小商品 东方威尼斯水城漫步于欧式建筑与水城风光中，感受威尼斯水城般的异域风情。 老虎滩海洋公园欣赏各种极地动物的逗趣表演，乘坐跨海索道俯瞰海滨风光。 棒棰岛大连市区环境最好的海滩，孤立于海上的棒棰岛是著名景观。 大连圣亚海洋世界在全景海底通道中感受海底世界，欣赏精彩的海豚、海象等表演。 老铁山 日落下的山顶灯塔，和泾渭分明的黄渤海交界线，是老铁山的经典去处。 大鹿岛大鹿岛到庄河的王家岛、石城岛，长海的大小长山岛、獐子岛等周边海岛。 如果都去，预计花费时间3-4天，此处按照4天计算 沈阳： 沈阳热门景点如图，想去的欲望并不大。所以从路线上看，推荐从北京直达大连，在大连逛4-5天左右，做慢火车慢慢回北京。 吉林线12345st=&gt;start: 北京e=&gt;end: 北京op1=&gt;operation: 吉林长白山st-&gt;op1-&gt;e 吉林线景点推荐 长白山天池位于长白山主峰山巅的圣洁之湖，是长白山的必赏之处。 长白山北坡观长白瀑布、漫步谷底林海，坐倒站车上主峰赏天池美景。 长白山西坡景区赏锦江大峡谷奇景和草甸山花遍野，观视野开阔的天池全貌。 长白瀑布长白山瀑布夏季轰鸣如雷，冬季一挂银川，相当壮观。 鸭绿江 望天鹅风景区 大兴安岭 推荐冬季游玩 伊春123456st=&gt;start: 北京e=&gt;end: 北京op1=&gt;operation: 哈尔滨op2=&gt;operation: 伊春st-&gt;op1-&gt;op2-&gt;e 小兴安岭—黑龙江伊春尝试过坐着火车穿越森林吗？去伊春感受一下吧，伊春每个区都有林场，很多是半原始的森林，天然氧吧。其实大兴安岭景点没有小兴安岭集中，去牙克石、博克图附近转转吧。 秋天，白桦和栎树的叶子变黄了，枫树的叶子火一样红，松柏显得更苍翠了。秋风吹来，落叶在林间飞舞。这时候，森林向人们献出了酸甜可口的山葡萄，又香又脆的榛子，鲜嫩的蘑菇和木耳，还有人参等名贵药材。 ——《美丽的小兴安岭》 伊春景点推荐 毛衫沟国家森林公园原生态的自然风光，大峡谷的风景让人惊艳。 汤旺河国家公园 黑龙江汤旺河国家公园地处小兴安岭南麓，植被覆盖率99.8%以上，以红松为主的针阔叶混交林是亚洲最完整、最具代表性的原始红松林生长地，素有“红松故乡”之美誉。 兴安森林公园 金山鹿苑 五营国家森林公园 与刘少奇主席坐过的小火车合影，登上观光塔环望浩瀚的原始林海。 茅山瀑布 小东沟原始森林 参考去哪儿网https://travel.qunar.com/p-cs300134-dalian-jingdian马蜂窝http://www.mafengwo.cn/jd/10301/gonglve.html知乎问题：作为一个南方人，我想去东北旅行，但是东北这么大，哪些地方比较好玩呀？知乎问题：国内有哪些冷门但有特色的旅游地点？]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ELK学习-1]]></title>
+    <url>%2F2019%2F09%2F02%2FLearn%2FELK%E5%AD%A6%E4%B9%A0-1%2F</url>
+    <content type="text"><![CDATA[ELK是什么ELK是三个工具的集合：elasticsearch + logstach + kibana，三套工具形成了一套实用，易用的监控架构，很多公司利用他来搭建可视化的海量日志分析平台 ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。 Logstash是一个用于管理日志和事件的工具，你可以用它去收集日志、转换日志、解析日志并将他们作为数据提供给其它模块调用，例如搜索、存储等。 Kibana是一个优秀的前端日志展示框架，它可以非常详细的将日志转化为各种图表，为用户提供强大的数据可视化支持。]]></content>
+      <categories>
+        <category>大数据，ELK</category>
+      </categories>
+      <tags>
+        <tag>ELK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[ntp自定义日志文件]]></title>
-    <url>%2F2019%2F09%2F02%2Fntp%E8%87%AA%E5%AE%9A%E4%B9%89%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%2F</url>
+    <url>%2F2019%2F09%2F02%2FBigData%2Fntp%E8%87%AA%E5%AE%9A%E4%B9%89%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%2F</url>
     <content type="text"><![CDATA[起因在搭建好大数据平台之后，集群的两个节点的Hbase regionserver总是莫名其妙的挂掉，检查时间，发现时间和其他机器相差甚远，于是查看ntp服务，发现这两节点的ntp服务已经挂掉，但是找不到相应的日志信息，所以决定给ntpd服务指定相应的日志文件 操作查看ntp.conf123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566[root@vm05 ~]# cat /etc/ntp.conf# For more information about this file, see the man pages# ntp.conf(5), ntp_acc(5), ntp_auth(5), ntp_clock(5), ntp_misc(5), ntp_mon(5).driftfile /var/lib/ntp/drift# Permit time synchronization with our time source, but do not# permit the source to query or modify the service on this system.restrict default nomodify notrap nopeer noquery# Permit all access over the loopback interface. This could# be tightened as well, but to do so would effect some of# the administrative functions.restrict 127.0.0.1restrict ::1# Hosts on local network are less restricted.#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap# Use public servers from the pool.ntp.org project.# Please consider joining the pool (http://www.pool.ntp.org/join.html).#server 0.centos.pool.ntp.org iburst#server 1.centos.pool.ntp.org iburst#server 2.centos.pool.ntp.org iburst#server 3.centos.pool.ntp.org iburst#设置与主节点ip同步server 172.18.4.11 prefer#设置副设置与本地同步#server 127.127.1.0#fudge 127.127.1.0 stratum 10#broadcast 192.168.1.255 autokey # broadcast server#broadcastclient # broadcast client#broadcast 224.0.1.1 autokey # multicast server#multicastclient 224.0.1.1 # multicast client#manycastserver 239.255.254.254 # manycast server#manycastclient 239.255.254.254 autokey # manycast client# Enable public key cryptography.#cryptoincludefile /etc/ntp/crypto/pw# Key file containing the keys and key identifiers used when operating# with symmetric key cryptography.keys /etc/ntp/keys# Specify the key identifiers which are trusted.#trustedkey 4 8 42# Specify the key identifier to use with the ntpdc utility.#requestkey 8# Specify the key identifier to use with the ntpq utility.#controlkey 8# Enable writing of statistics records.#statistics clockstats cryptostats loopstats peerstats# Disable the monitoring facility to prevent amplification attacks using ntpdc# monlist command when default restrict does not include the noquery flag. See# CVE-2013-5211 for more details.# Note: Monitoring will not be disabled with the limited restriction flag.disable monitor 发现并没有任何有关logs的参数配置 列出所有ntpd的配置文件1234[root@vm05 ~]# rpm -ql ntp|grep conf/etc/ntp.conf/etc/sysconfig/ntpd/usr/share/man/man5/ntp.conf.5.gz 发现除了/etc/ntp.conf,还有/etc/sysconfig/ntpd配置文件同时，查看运行状态下的ntpd服务，可以发现ntpd的启动是使用的/etc/sysconfig/ntpd 查看/etc/sysconfig/ntpd123[root@vm05 ~]# cat /etc/sysconfig/ntpd# Command line options for ntpdOPTIONS="-g" 12345678910111213[root@vm01 ~]# systemctl status ntpd● ntpd.service - Network Time Service Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled; vendor preset: disabled) Active: active (running) since Wed 2019-08-28 16:36:55 CST; 4 days ago Main PID: 34251 (ntpd) CGroup: /system.slice/ntpd.service └─34251 /usr/sbin/ntpd -u ntp:ntp -gAug 28 16:36:56 vm01 ntpd[34251]: Listen normally on 2 lo 127.0.0.1 UDP 123Aug 28 16:36:56 vm01 ntpd[34251]: Listen normally on 3 ens192 172.18.4.11 UDP 123Aug 28 16:36:56 vm01 ntpd[34251]: Listen normally on 4 lo ::1 UDP 123Aug 28 16:36:56 vm01 ntpd[34251]: Listening on routing socket on fd #21 for interface updatesAug 28 16:36:56 vm01 ntpd[34251]: 0.0.0.0 c016 06 restar 同时，查看ntpd的参数设置 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061[root@vm05 ~]# ntpd --helpntpd - NTP daemon program - Ver. 4.2.6p5Usage: ntpd [ -&lt;flag&gt; [&lt;val&gt;] | --&lt;name&gt;[&#123;=| &#125;&lt;val&gt;] ]... Flg Arg Option-Name Description -4 no ipv4 Force IPv4 DNS name resolution - prohibits the option 'ipv6' -6 no ipv6 Force IPv6 DNS name resolution - prohibits the option 'ipv4' -a no authreq Require crypto authentication - prohibits the option 'authnoreq' -A no authnoreq Do not require crypto authentication - prohibits the option 'authreq' -b no bcastsync Allow us to sync to broadcast servers -c Str configfile configuration file name -d no debug-level Increase output debug message level - may appear multiple times -D Str set-debug-level Set the output debug message level - may appear multiple times -f Str driftfile frequency drift file name -g no panicgate Allow the first adjustment to be Big - may appear multiple times -i Str jaildir Jail directory -I Str interface Listen on an interface name or address - may appear multiple times -k Str keyfile path to symmetric keys -l Str logfile path to the log file -L no novirtualips Do not listen to virtual interfaces -m no mlock Lock memory -n no nofork Do not fork -N no nice Run at high priority -p Str pidfile path to the PID file - may appear up to 2 times -P Num priority Process priority -q no quit Set the time and quit -r Str propagationdelay Broadcast/propagation delay Str saveconfigquit Save parsed configuration and quit -s Str statsdir Statistics file location -t Str trustedkey Trusted key number - may appear multiple times -u Str user Run as userid (or userid:groupid) - may appear up to 2 times -U Num updateinterval interval in seconds between scans for new or dropped interfaces Str var make ARG an ntp variable (RW) - may appear multiple times Str dvar make ARG an ntp variable (RW|DEF) - may appear multiple times -x no slew Slew up to 600 seconds -! opt version output version information and exit -? no help display extended usage information and exit -! no more-help extended usage information passed thru pagerOptions are specified by doubled hyphens and their name or by a singlehyphen and the flag character.The following option preset mechanisms are supported: - examining environment variables named NTPD_*Please send bug reports to: &lt;http://bugs.ntp.org, bugs@ntp.org&gt;exit 0 发现其中使用了-g的配置参数，并同时发现了-l logfile的参数所以，推出，可以通过添加logfile参数在/etc/sysconfig/ntpd 123[root@vm05 ~]# cat /etc/sysconfig/ntpd# Command line options for ntpdOPTIONS="-g -l /var/log/ntpstats/ntpd.log" 重启服务1234567891011121314[root@vm05 ~]# systemctl restart ntpd[root@vm05 log]# systemctl status ntpd● ntpd.service - Network Time Service Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled; vendor preset: disabled) Active: active (running) since Mon 2019-09-02 18:12:56 CST; 4s ago Process: 86272 ExecStart=/usr/sbin/ntpd -u ntp:ntp $OPTIONS (code=exited, status=0/SUCCESS) Main PID: 86273 (ntpd) CGroup: /system.slice/ntpd.service └─86273 /usr/sbin/ntpd -u ntp:ntp -g -l /var/log/ntpstats/ntpd.logSep 02 18:12:56 vm05 systemd[1]: Starting Network Time Service...Sep 02 18:12:56 vm05 ntpd[86272]: ntpd 4.2.6p5@1.2349-o Fri Apr 13 12:52:27 UTC 2018 (1)Sep 02 18:12:56 vm05 systemd[1]: Started Network Time Service.[root@vm05 log]# 可以看到ntpd的logfile参数生效查看logfile日志 12345678910111213[root@vm05 log]# cat /var/log/ntpstats/ntpd.log 2 Sep 18:12:56 ntpd[86273]: proto: precision = 0.897 usec 2 Sep 18:12:56 ntpd[86273]: 0.0.0.0 c01d 0d kern kernel time sync enabled 2 Sep 18:12:56 ntpd[86273]: ntp_io: estimated max descriptors: 1024, initial socket boundary: 16 2 Sep 18:12:56 ntpd[86273]: Listen and drop on 0 v4wildcard 0.0.0.0 UDP 123 2 Sep 18:12:56 ntpd[86273]: Listen and drop on 1 v6wildcard :: UDP 123 2 Sep 18:12:56 ntpd[86273]: Listen normally on 2 lo 127.0.0.1 UDP 123 2 Sep 18:12:56 ntpd[86273]: Listen normally on 3 ens192 172.18.4.15 UDP 123 2 Sep 18:12:56 ntpd[86273]: Listen normally on 4 lo ::1 UDP 123 2 Sep 18:12:56 ntpd[86273]: Listening on routing socket on fd #21 for interface updates 2 Sep 18:12:56 ntpd[86273]: 0.0.0.0 c016 06 restart 2 Sep 18:12:56 ntpd[86273]: 0.0.0.0 c012 02 freq_set kernel 8.687 PPM 2 Sep 18:12:58 ntpd[86273]: 0.0.0.0 c515 05 clock_sync 其他如果节点时间不正确，且ntp更新缓慢，很久都没办法和主服务器同步时，设置ntp.conf参数，调整只与主服务器同步，不与本地时间同步]]></content>
       <categories>
         <category>大数据</category>
@@ -80,8 +102,8 @@
         <category>HDP</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>HDP</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -93,8 +115,8 @@
         <category>HDP</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>HDP</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -129,8 +151,8 @@
         <category>HDP</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>HDP</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -142,8 +164,8 @@
         <category>HDP</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>HDP</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -270,8 +292,8 @@
         <category>HDP</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>HDP</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>
