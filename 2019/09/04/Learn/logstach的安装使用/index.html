@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="小柚麯">
 <meta property="og:description" content="logstach是什么">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-04T09:36:27.423Z">
+<meta property="og:updated_time" content="2019-09-04T09:41:55.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="logstach的安装使用">
 <meta name="twitter:description" content="logstach是什么">
@@ -340,7 +340,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-04T17:36:27+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-04T17:41:55+08:00">
                 2019-09-04
               </time>
             
@@ -439,6 +439,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@test logstash-7.3.1]# bin/logstash  -f Myconf/logstachTest.conf</span><br><span class="line">Thread.exclusive is deprecated, use Thread::Mutex</span><br><span class="line">Sending Logstash logs to /opt/apps/ELK/logstash-7.3.1/logs which is now configured via log4j2.properties</span><br><span class="line">[2019-09-04T00:13:15,542][INFO ][logstash.setting.writabledirectory] Creating directory &#123;:setting=&gt;"path.queue", :path=&gt;"/opt/apps/ELK/logstash-7.3.1/data/queue"&#125;</span><br><span class="line">[2019-09-04T00:13:15,562][INFO ][logstash.setting.writabledirectory] Creating directory &#123;:setting=&gt;"path.dead_letter_queue", :path=&gt;"/opt/apps/ELK/logstash-7.3.1/data/dead_letter_queue"&#125;</span><br><span class="line">[2019-09-04T00:13:16,025][WARN ][logstash.config.source.multilocal] Ignoring the 'pipelines.yml' file because modules or command line options are specified</span><br><span class="line">[2019-09-04T00:13:16,032][INFO ][logstash.runner          ] Starting Logstash &#123;"logstash.version"=&gt;"7.3.1"&#125;</span><br><span class="line">[2019-09-04T00:13:16,054][INFO ][logstash.agent           ] No persistent UUID file found. Generating new UUID &#123;:uuid=&gt;"610b90dd-f455-49dc-80ad-ba886b0c45f6", :path=&gt;"/opt/apps/ELK/logstash-7.3.1/data/uuid"&#125;</span><br><span class="line">[2019-09-04T00:13:18,007][INFO ][org.reflections.Reflections] Reflections took 43 ms to scan 1 urls, producing 19 keys and 39 values</span><br><span class="line">[2019-09-04T00:13:19,735][INFO ][logstash.outputs.elasticsearch] Elasticsearch pool URLs updated &#123;:changes=&gt;&#123;:removed=&gt;[], :added=&gt;[http://192.168.133.11:9200/]&#125;&#125;</span><br><span class="line">[2019-09-04T00:13:20,010][WARN ][logstash.outputs.elasticsearch] Attempted to resurrect connection to dead ES instance, but got an error. &#123;:url=&gt;"http://192.168.133.11:9200/", :error_type=&gt;LogStash::Outputs::ElasticSearch::HttpClient::Pool::HostUnreachableError, :error=&gt;"Elasticsearch Unreachable: [http://192.168.133.11:9200/][Manticore::SocketException] 拒绝连接 (Connection refused)"&#125;</span><br></pre></td></tr></table></figure>
 
 <p>启动需要指定conf文件。类似于flume<br>此处表示es还未启动</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://www.elastic.co/guide/en/logstash/current/config-examples.html" target="_blank" rel="noopener">logstach配置conf文件官方示例</a></p>
 
       
     </div>
@@ -563,7 +564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -574,7 +575,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -634,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#logstach是什么"><span class="nav-number">1.</span> <span class="nav-text">logstach是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logstach安装"><span class="nav-number">2.</span> <span class="nav-text">logstach安装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#logstach是什么"><span class="nav-number">1.</span> <span class="nav-text">logstach是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logstach安装"><span class="nav-number">2.</span> <span class="nav-text">logstach安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">3.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
             
 
           </div>

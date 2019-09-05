@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="主从复制以及主从复制的作用在实际的生产环境中，对数据库的读和写都在一个数据库服务器中，是不能满足生产需要的。一般通过主从复制的方式来同步数据，再设置读写分离以提高数据库服务器的并发负载能力">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql的主从复制和读写分离">
+<meta property="og:url" content="www.zzditto.cn/2019/09/05/Learn/mysql的主从复制和读写分离/index.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="主从复制以及主从复制的作用在实际的生产环境中，对数据库的读和写都在一个数据库服务器中，是不能满足生产需要的。一般通过主从复制的方式来同步数据，再设置读写分离以提高数据库服务器的并发负载能力">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png">
+<meta property="og:updated_time" content="2019-09-05T09:34:34.667Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql的主从复制和读写分离">
+<meta name="twitter:description" content="主从复制以及主从复制的作用在实际的生产环境中，对数据库的读和写都在一个数据库服务器中，是不能满足生产需要的。一般通过主从复制的方式来同步数据，再设置读写分离以提高数据库服务器的并发负载能力">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/2019/09/05/Learn/mysql的主从复制和读写分离/">
+
+
+
+
+
+  <title>mysql的主从复制和读写分离 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/05/Learn/mysql的主从复制和读写分离/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql的主从复制和读写分离</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-05T14:25:41+08:00">
+                2019-09-05
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-05T17:34:34+08:00">
+                2019-09-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据，mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据，mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/05/Learn/mysql的主从复制和读写分离/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/05/Learn/mysql的主从复制和读写分离/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="主从复制以及主从复制的作用"><a href="#主从复制以及主从复制的作用" class="headerlink" title="主从复制以及主从复制的作用"></a>主从复制以及主从复制的作用</h2><p>在实际的生产环境中，对数据库的读和写都在一个数据库服务器中，是不能满足生产需要的。一般通过主从复制的方式来同步数据，再设置读写分离以提高数据库服务器的并发负载能力</p>
+<a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png" alt="mysql主从复制"></p>
+<h2 id="具体设置"><a href="#具体设置" class="headerlink" title="具体设置"></a>具体设置</h2><h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vm02</span><br><span class="line">vm03</span><br><span class="line">vm04</span><br></pre></td></tr></table></figure>
+
+<h4 id="vm02"><a href="#vm02" class="headerlink" title="vm02"></a>vm02</h4><p>vm02已经安装mysql，密码为Mysql@123456<br>修改mysql密码为 <code>!QAZ2wsx3edc</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">password</span> <span class="keyword">for</span> root@localhost = <span class="keyword">password</span>(<span class="string">'!QAZ2wsx3edc'</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="vm03-vm04"><a href="#vm03-vm04" class="headerlink" title="vm03,vm04"></a>vm03,vm04</h4><p>安装mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@vm03 ~]# yum -y install mysql-community-server-5.7.27-1.el7.x86_64 --nogpgcheck</span><br><span class="line">[root@vm03 ~]# systemctl start mysqld</span><br><span class="line">[root@vm03 ~]# systemctl enable mysqld</span><br><span class="line">[root@vm03 ~]# systemctl status mysqld</span><br><span class="line">● mysqld.service - MySQL Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Thu 2019-09-05 14:46:14 CST; 11s ago</span><br><span class="line">     Docs: man:mysqld(8)</span><br><span class="line">           http://dev.mysql.com/doc/refman/en/using-systemd.html</span><br><span class="line"> Main PID: 80936 (mysqld)</span><br><span class="line">   CGroup: /system.slice/mysqld.service</span><br><span class="line">           └─80936 /usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line"></span><br><span class="line">Sep 05 14:46:10 vm03 systemd[1]: Starting MySQL Server...</span><br><span class="line">Sep 05 14:46:14 vm03 systemd[1]: Started MySQL Server.</span><br></pre></td></tr></table></figure>
+
+<p>修改密码，设置远程登录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取临时密码</span></span><br><span class="line">[root@vm03 ~]<span class="comment"># grep 'temporary password' /var/log/mysqld.log</span></span><br><span class="line">2019-09-05T06:46:11.198794Z 1 [Note] A temporary password is generated for root@localhost: k=euwnEoC7,u</span><br><span class="line"></span><br><span class="line"><span class="comment">#登录之后修改密码</span></span><br><span class="line">mysql&gt; alter user  'root'@'localhost' identified by '!QAZ2wsx3edc';</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置远程登录</span></span><br><span class="line">mysql&gt; grant all privileges on *.* to 'root'@'%' identified by '!QAZ2wsx3edc';</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置主从复制"><a href="#设置主从复制" class="headerlink" title="设置主从复制"></a>设置主从复制</h3><h4 id="主节点"><a href="#主节点" class="headerlink" title="主节点"></a>主节点</h4><p>修改<code>/etc/my.cnf</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 ~]# cat /etc/my.cnf</span><br><span class="line"><span class="meta">#</span> For advice on how to change settings please see</span><br><span class="line"><span class="meta">#</span> http://dev.mysql.com/doc/refman/5.7/en/server-configuration-defaults.html</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Remove leading # and set to the amount of RAM for the most important data</span><br><span class="line"><span class="meta">#</span> cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.</span><br><span class="line"><span class="meta">#</span> innodb_buffer_pool_size = 128M</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Remove leading # to turn on a very important data integrity option: logging</span><br><span class="line"><span class="meta">#</span> changes to the binary log between backups.</span><br><span class="line"><span class="meta">#</span> log_bin</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Remove leading # to set options mainly useful for reporting servers.</span><br><span class="line"><span class="meta">#</span> The server defaults are faster for transactions and fast SELECTs.</span><br><span class="line"><span class="meta">#</span> Adjust sizes as needed, experiment to find the optimal values.</span><br><span class="line"><span class="meta">#</span> join_buffer_size = 128M</span><br><span class="line"><span class="meta">#</span> sort_buffer_size = 2M</span><br><span class="line"><span class="meta">#</span> read_rnd_buffer_size = 2M</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Disabling symbolic-links is recommended to prevent assorted security risks</span><br><span class="line">symbolic-links=0</span><br><span class="line"></span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line"></span><br><span class="line">server-id= 11</span><br><span class="line"><span class="meta">#</span> mysql数据的唯一标示（不能重复）</span><br><span class="line"></span><br><span class="line">log-slave-updates=true</span><br><span class="line"><span class="meta">#</span> 允许连级复制(增加)</span><br><span class="line"></span><br><span class="line">log-bin=master-bin</span><br><span class="line"><span class="meta">#</span>二进制文件名（修改）</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>需要备份的数据库</span><br><span class="line">binlog_do_db=test</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>备注：</span><br><span class="line"><span class="meta">#</span>server-id 服务器唯一标识。</span><br><span class="line"><span class="meta">#</span>log_bin 启动MySQL二进制日志，即数据同步语句，从数据库会一条一条的执行这些语句。</span><br><span class="line"><span class="meta">#</span>binlog_do_db 指定记录二进制日志的数据库，即需要复制的数据库名，如果复制多个数据库，重复设置这个选项即可。</span><br><span class="line"><span class="meta">#</span>binlog_ignore_db 指定不记录二进制日志的数据库，即不需要复制的数据库名，如果有多个数据库，重复设置这个选项即可。</span><br><span class="line"><span class="meta">#</span>其中需要注意的是，binlog_do_db和binlog_ignore_db为互斥选项，一般只需要一个即可。</span><br></pre></td></tr></table></figure>
+
+<p>设置从服务器的权限</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; grant replication slave on *.* to masterbackup@'172.18.4.13' identified by '!QAZ2wsx3edc';</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; grant replication slave on *.* to masterbackup@'172.18.4.14' identified by '!QAZ2wsx3edc';</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>重启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 ~]# systemctl restart mysqld</span><br><span class="line">[root@vm02 ~]# systemctl status mysqld</span><br></pre></td></tr></table></figure>
+
+<p>登录mysql</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建test数据库</span></span><br><span class="line">mysql&gt; create database test;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show master status;</span><br><span class="line">+<span class="comment">-------------------+----------+--------------+------------------+-------------------+</span></span><br><span class="line">| File              | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |</span><br><span class="line">+<span class="comment">-------------------+----------+--------------+------------------+-------------------+</span></span><br><span class="line">| master-bin.000004 |      154 | test         |                  |                   |</span><br><span class="line">+<span class="comment">-------------------+----------+--------------+------------------+-------------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="从节点"><a href="#从节点" class="headerlink" title="从节点"></a>从节点</h4><p>修改<code>/etc/my.cnf</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">[root@vm03 ~]# cat /etc/my.cnf</span><br><span class="line"><span class="meta">#</span> For advice on how to change settings please see</span><br><span class="line"><span class="meta">#</span> http://dev.mysql.com/doc/refman/5.7/en/server-configuration-defaults.html</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Remove leading # and set to the amount of RAM for the most important data</span><br><span class="line"><span class="meta">#</span> cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.</span><br><span class="line"><span class="meta">#</span> innodb_buffer_pool_size = 128M</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Remove leading # to turn on a very important data integrity option: logging</span><br><span class="line"><span class="meta">#</span> changes to the binary log between backups.</span><br><span class="line"><span class="meta">#</span> log_bin</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Remove leading # to set options mainly useful for reporting servers.</span><br><span class="line"><span class="meta">#</span> The server defaults are faster for transactions and fast SELECTs.</span><br><span class="line"><span class="meta">#</span> Adjust sizes as needed, experiment to find the optimal values.</span><br><span class="line"><span class="meta">#</span> join_buffer_size = 128M</span><br><span class="line"><span class="meta">#</span> sort_buffer_size = 2M</span><br><span class="line"><span class="meta">#</span> read_rnd_buffer_size = 2M</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Disabling symbolic-links is recommended to prevent assorted security risks</span><br><span class="line">symbolic-links=0</span><br><span class="line"></span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line"></span><br><span class="line">server-id=2</span><br><span class="line">log-bin=mysql-bin</span><br><span class="line">relay-log=slave-relay-bin</span><br><span class="line">relay-log-index=slave-relay-bin.index</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>replicate-do-db=test</span><br><span class="line"><span class="meta">#</span>备注：</span><br><span class="line"><span class="meta">#</span>server-id 服务器唯一标识，如果有多个从服务器，每个服务器的server-id不能重复，跟IP一样是唯一标识，如果你没设置server-id或者设置为0，则从服务器不会连接到主服务器。</span><br><span class="line"><span class="meta">#</span>relay-log 启动MySQL二进制日志，可以用来做数据备份和崩溃恢复，或主服务器挂掉了，将此从服务器作为其他从服务器的主服务器。</span><br><span class="line"><span class="meta">#</span>replicate-do-db 指定同步的数据库，如果复制多个数据库，重复设置这个选项即可。若在master端不指定binlog-do-db，则在slave端可用replication-do-db来过滤。</span><br><span class="line"><span class="meta">#</span>replicate-ignore-db 不需要同步的数据库，如果有多个数据库，重复设置这个选项即可。</span><br><span class="line"><span class="meta">#</span>其中需要注意的是，replicate-do-db和replicate-ignore-db为互斥选项，一般只需要一个即可。</span><br></pre></td></tr></table></figure>
+
+<p>重启mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vm03 ~]# systemctl restart mysqld</span><br></pre></td></tr></table></figure>
+
+<p>连接master主服务器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>登录进mysql之后</span><br><span class="line"><span class="meta">#</span>连接master主服务器</span><br><span class="line"><span class="meta">mysql&gt;</span> change master to master_host='172.18.4.12',master_port=3306,master_user='masterbackup',master_password='!QAZ2wsx3edc',master_log_file='master-bin.000004',master_log_pos=154;</span><br><span class="line">Query OK, 0 rows affected, 2 warnings (0.01 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>备注：</span><br><span class="line"><span class="meta">#</span>master_host对应主服务器的IP地址。</span><br><span class="line"><span class="meta">#</span>master_port对应主服务器的端口。</span><br><span class="line"><span class="meta">#</span>master_log_file对应show master status显示的File列：master-bin.000001。</span><br><span class="line"><span class="meta">#</span>master_log_pos对应show master status显示的Position列：154。</span><br></pre></td></tr></table></figure>
+
+<p>启动slave数据同步</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">mysql&gt; start slave;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">#停止</span></span><br><span class="line">mysql&gt; stop slave;</span><br></pre></td></tr></table></figure>
+
+<p>查看slave状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show slave status\G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Waiting for master to send event</span><br><span class="line">                  Master_Host: 172.18.4.12</span><br><span class="line">                  Master_User: masterbackup</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: master-bin.000004</span><br><span class="line">          Read_Master_Log_Pos: 154</span><br><span class="line">               Relay_Log_File: slave-relay-bin.000002</span><br><span class="line">                Relay_Log_Pos: 321</span><br><span class="line">        Relay_Master_Log_File: master-bin.000004</span><br><span class="line">             Slave_IO_Running: Yes</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">              Replicate_Do_DB:</span><br><span class="line">          Replicate_Ignore_DB:</span><br><span class="line">           Replicate_Do_Table:</span><br><span class="line">       Replicate_Ignore_Table:</span><br><span class="line">      Replicate_Wild_Do_Table:</span><br><span class="line">  Replicate_Wild_Ignore_Table:</span><br><span class="line">                   Last_Errno: 0</span><br><span class="line">                   Last_Error:</span><br><span class="line">                 Skip_Counter: 0</span><br><span class="line">          Exec_Master_Log_Pos: 154</span><br><span class="line">              Relay_Log_Space: 528</span><br><span class="line">              Until_Condition: None</span><br><span class="line">               Until_Log_File:</span><br><span class="line">                Until_Log_Pos: 0</span><br><span class="line">           Master_SSL_Allowed: No</span><br><span class="line">           Master_SSL_CA_File:</span><br><span class="line">           Master_SSL_CA_Path:</span><br><span class="line">              Master_SSL_Cert:</span><br><span class="line">            Master_SSL_Cipher:</span><br><span class="line">               Master_SSL_Key:</span><br><span class="line">        Seconds_Behind_Master: 0</span><br><span class="line">Master_SSL_Verify_Server_Cert: No</span><br><span class="line">                Last_IO_Errno: 0</span><br><span class="line">                Last_IO_Error:</span><br><span class="line">               Last_SQL_Errno: 0</span><br><span class="line">               Last_SQL_Error:</span><br><span class="line">  Replicate_Ignore_Server_Ids:</span><br><span class="line">             Master_Server_Id: 1</span><br><span class="line">                  Master_UUID: b84fb42f-c004-11e9-9449-005056be31d6</span><br><span class="line">             Master_Info_File: /var/lib/mysql/master.info</span><br><span class="line">                    SQL_Delay: 0</span><br><span class="line">          SQL_Remaining_Delay: NULL</span><br><span class="line">      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates</span><br><span class="line">           Master_Retry_Count: 86400</span><br><span class="line">                  Master_Bind:</span><br><span class="line">      Last_IO_Error_Timestamp:</span><br><span class="line">     Last_SQL_Error_Timestamp:</span><br><span class="line">               Master_SSL_Crl:</span><br><span class="line">           Master_SSL_Crlpath:</span><br><span class="line">           Retrieved_Gtid_Set:</span><br><span class="line">            Executed_Gtid_Set:</span><br><span class="line">                Auto_Position: 0</span><br><span class="line">         Replicate_Rewrite_DB:</span><br><span class="line">                 Channel_Name:</span><br><span class="line">           Master_TLS_Version:</span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="keyword">ERROR</span>:</span><br><span class="line"><span class="keyword">No</span> <span class="keyword">query</span> specified</span><br></pre></td></tr></table></figure>
+
+<p>Slave_IO_Running和Slave_SQL_Running都为yes，则表示同步成功.</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>主服务器建表添加数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table tb_test(id int,name varchar(20),age int);</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into tb_test values (19,'aa',40);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+<span class="comment">----------------+</span></span><br><span class="line">| Tables_in_test |</span><br><span class="line">+<span class="comment">----------------+</span></span><br><span class="line">| tb_test        |</span><br><span class="line">+<span class="comment">----------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">select</span> * <span class="keyword">from</span> tb_test;</span><br><span class="line">+<span class="comment">------+------+------+</span></span><br><span class="line">| id   | name | age  |</span><br><span class="line">+<span class="comment">------+------+------+</span></span><br><span class="line">|   19 | aa   |   40 |</span><br><span class="line">+<span class="comment">------+------+------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>查看从服务器</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">| Database           |</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+<span class="comment">--------------------+</span></span><br><span class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>再看slave的状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show slave status\G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Waiting for master to send event</span><br><span class="line">                  Master_Host: 172.18.4.12</span><br><span class="line">                  Master_User: masterbackup</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: master-bin.000004</span><br><span class="line">          Read_Master_Log_Pos: 615</span><br><span class="line">               Relay_Log_File: slave-relay-bin.000002</span><br><span class="line">                Relay_Log_Pos: 321</span><br><span class="line">        Relay_Master_Log_File: master-bin.000004</span><br><span class="line">             Slave_IO_Running: Yes</span><br><span class="line">            Slave_SQL_Running: No</span><br><span class="line">              Replicate_Do_DB:</span><br><span class="line">          Replicate_Ignore_DB:</span><br><span class="line">           Replicate_Do_Table:</span><br><span class="line">       Replicate_Ignore_Table:</span><br><span class="line">      Replicate_Wild_Do_Table:</span><br><span class="line">  Replicate_Wild_Ignore_Table:</span><br><span class="line">                   Last_Errno: 1049</span><br><span class="line">                   Last_Error: Error 'Unknown database 'test'' on query. Default database: 'test'. Query: '<span class="keyword">create</span> <span class="keyword">table</span> tb_test(<span class="keyword">id</span> <span class="built_in">int</span>,<span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">20</span>),age <span class="built_in">int</span>)<span class="string">'</span></span><br><span class="line"><span class="string">                 Skip_Counter: 0</span></span><br><span class="line"><span class="string">          Exec_Master_Log_Pos: 154</span></span><br><span class="line"><span class="string">              Relay_Log_Space: 1540</span></span><br><span class="line"><span class="string">              Until_Condition: None</span></span><br><span class="line"><span class="string">               Until_Log_File:</span></span><br><span class="line"><span class="string">                Until_Log_Pos: 0</span></span><br><span class="line"><span class="string">           Master_SSL_Allowed: No</span></span><br><span class="line"><span class="string">           Master_SSL_CA_File:</span></span><br><span class="line"><span class="string">           Master_SSL_CA_Path:</span></span><br><span class="line"><span class="string">              Master_SSL_Cert:</span></span><br><span class="line"><span class="string">            Master_SSL_Cipher:</span></span><br><span class="line"><span class="string">               Master_SSL_Key:</span></span><br><span class="line"><span class="string">        Seconds_Behind_Master: NULL</span></span><br><span class="line"><span class="string">Master_SSL_Verify_Server_Cert: No</span></span><br><span class="line"><span class="string">                Last_IO_Errno: 0</span></span><br><span class="line"><span class="string">                Last_IO_Error:</span></span><br><span class="line"><span class="string">               Last_SQL_Errno: 1049</span></span><br><span class="line"><span class="string">               Last_SQL_Error: Error '</span><span class="literal">Unknown</span> <span class="keyword">database</span> <span class="string">'test'' on query. Default database: '</span><span class="keyword">test</span><span class="string">'. Query: '</span><span class="keyword">create</span> <span class="keyword">table</span> tb_test(<span class="keyword">id</span> <span class="built_in">int</span>,<span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">20</span>),age <span class="built_in">int</span>)<span class="string">'</span></span><br><span class="line"><span class="string">  Replicate_Ignore_Server_Ids:</span></span><br><span class="line"><span class="string">             Master_Server_Id: 1</span></span><br><span class="line"><span class="string">                  Master_UUID: b84fb42f-c004-11e9-9449-005056be31d6</span></span><br><span class="line"><span class="string">             Master_Info_File: /var/lib/mysql/master.info</span></span><br><span class="line"><span class="string">                    SQL_Delay: 0</span></span><br><span class="line"><span class="string">          SQL_Remaining_Delay: NULL</span></span><br><span class="line"><span class="string">      Slave_SQL_Running_State:</span></span><br><span class="line"><span class="string">           Master_Retry_Count: 86400</span></span><br><span class="line"><span class="string">                  Master_Bind:</span></span><br><span class="line"><span class="string">      Last_IO_Error_Timestamp:</span></span><br><span class="line"><span class="string">     Last_SQL_Error_Timestamp: 190905 15:42:00</span></span><br><span class="line"><span class="string">               Master_SSL_Crl:</span></span><br><span class="line"><span class="string">           Master_SSL_Crlpath:</span></span><br><span class="line"><span class="string">           Retrieved_Gtid_Set:</span></span><br><span class="line"><span class="string">            Executed_Gtid_Set:</span></span><br><span class="line"><span class="string">                Auto_Position: 0</span></span><br><span class="line"><span class="string">         Replicate_Rewrite_DB:</span></span><br><span class="line"><span class="string">                 Channel_Name:</span></span><br><span class="line"><span class="string">           Master_TLS_Version:</span></span><br><span class="line"><span class="string">1 row in set (0.00 sec)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ERROR:</span></span><br><span class="line"><span class="string">No query specified</span></span><br></pre></td></tr></table></figure>
+
+<p>主mysql创建了test数据库，同步的是test数据库。所以要求从数据库也自己创建test数据库。<br>创建数据库之后，同步不成功，需要重启mysql服务</p>
+<p>重启之后查看同步情况,成功同步</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use test;</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup <span class="keyword">with</span> -A</span><br><span class="line"></span><br><span class="line"><span class="keyword">Database</span> <span class="keyword">changed</span></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">tables</span>;</span><br><span class="line">+<span class="comment">----------------+</span></span><br><span class="line">| Tables_in_test |</span><br><span class="line">+<span class="comment">----------------+</span></span><br><span class="line">| tb_test        |</span><br><span class="line">+<span class="comment">----------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">select</span> * <span class="keyword">from</span> tb_test;</span><br><span class="line">+<span class="comment">------+------+------+</span></span><br><span class="line">| id   | name | age  |</span><br><span class="line">+<span class="comment">------+------+------+</span></span><br><span class="line">|   19 | aa   |   40 |</span><br><span class="line">+<span class="comment">------+------+------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>vm04节点做相同配置，修改server-id即可</p>
+<h2 id="Atlas实现mysql的读写分离"><a href="#Atlas实现mysql的读写分离" class="headerlink" title="Atlas实现mysql的读写分离"></a>Atlas实现mysql的读写分离</h2><p>安装atlas</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 atlas]# ll</span><br><span class="line">total 4848</span><br><span class="line">-rw-r--r--. 1 root root 4963681 Sep  5 16:38 Atlas-2.2.1.el6.x86_64.rpm</span><br><span class="line">[root@vm02 atlas]# pwd</span><br><span class="line">/opt/apps/atlas</span><br><span class="line">[root@vm02 atlas]# rpm -ivh Atlas-2.2.1.el6.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>默认安装位置为<code>/usr/local/mysql-proxy/</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 atlas]# cd /usr/local/mysql-proxy/</span><br><span class="line">[root@vm02 mysql-proxy]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x. 2 root root   75 Sep  5 16:38 bin</span><br><span class="line">drwxr-xr-x. 2 root root   42 Sep  5 17:00 conf</span><br><span class="line">drwxr-xr-x. 3 root root 4096 Sep  5 16:38 lib</span><br><span class="line">drwxr-xr-x. 2 root root    6 Dec 17  2014 log</span><br><span class="line">[root@vm02 mysql-proxy]# cd conf/</span><br><span class="line">[root@vm02 conf]# ll</span><br><span class="line">total 8</span><br><span class="line">-rw-r--r--. 1 root root 2860 Sep  5 17:00 test.cnf</span><br><span class="line">-rw-r--r--. 1 root root 2810 Dec 17  2014 test.cnf_bak</span><br><span class="line">[root@vm02 conf]# vi test.cnf</span><br><span class="line">[mysql-proxy]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>带#号的为非必需的配置项目</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>管理接口的用户名</span><br><span class="line">admin-username = masterbackup</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>管理接口的密码</span><br><span class="line">admin-password = !QAZ2wsx3edc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Atlas后端连接的MySQL主库的IP和端口，可设置多项，用逗号分隔</span><br><span class="line">proxy-backend-addresses = 172.18.4.12:3306</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Atlas后端连接的MySQL从库的IP和端口，@后面的数字代表权重，用来作负载均衡，若省略则默认为1，可设置多项，用逗号分隔</span><br><span class="line">proxy-read-only-backend-addresses = 172.18.4.13:3306@1,172.18.4.14:3306@1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>用户名与其对应的加密过的MySQL密码，密码使用PREFIX/bin目录下的加密程序encrypt加密，下行的user1和user2为示例，将其替换为你的MySQL的用户名和加密密码！</span><br><span class="line">pwds = masterbackup:+jKsgB3YAG8=, masterbackup:GS+tr4TPgqc=</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置Atlas的运行方式，设为true时为守护进程方式，设为false时为前台方式，一般开发调试时设为false，线上运行时设为true,true后面不能有空格。</span><br><span class="line">daemon = true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>设置Atlas的运行方式，设为true时Atlas会启动两个进程，一个为monitor，一个为worker，monitor在worker意外退出后会自动将其重启，设为false时只有worker，没有monitor，一般开发调试时设为false，线上运行时设为true,true后面不能有空格。</span><br><span class="line">keepalive = true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>工作线程数，对Atlas的性能有很大影响，可根据情况适当设置</span><br><span class="line">event-threads = 8</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>日志级别，分为message、warning、critical、error、debug五个级别</span><br><span class="line">log-level = message</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>日志存放的路径</span><br><span class="line">log-path = /usr/local/mysql-proxy/log</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>SQL日志的开关，可设置为OFF、ON、REALTIME，OFF代表不记录SQL日志，ON代表记录SQL日志，REALTIME代表记录SQL日志且实时写入磁盘，默认为OFF</span><br><span class="line">sql-log = OFF</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>慢日志输出设置。当设置了该参数时，则日志只输出执行时间超过sql-log-slow（单位：ms)的日志记录。不设置该参数则输出全部日志。</span><br><span class="line">sql-log-slow = 10</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>实例名称，用于同一台机器上多个Atlas实例间的区分</span><br><span class="line"><span class="meta">#</span>instance = test</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Atlas监听的工作接口IP和端口</span><br><span class="line">proxy-address = 0.0.0.0:1234</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Atlas监听的管理接口IP和端口</span><br><span class="line">admin-address = 0.0.0.0:2345</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>分表设置，此例中person为库名，mt为表名，id为分表字段，3为子表数量，可设置多项，以逗号分隔，若不分表则不需要设置该项</span><br><span class="line"><span class="meta">#</span>tables = person.mt.id.3</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>默认字符集，设置该项后客户端不再需要执行SET NAMES语句</span><br><span class="line">charset = utf8</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>允许连接Atlas的客户端的IP，可以是精确IP，也可以是IP段，以逗号分隔，若不设置该项则允许所有IP连接，否则只允许列表中的IP连接</span><br><span class="line"><span class="meta">#</span>client-ips = 127.0.0.1, 192.168.1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Atlas前面挂接的LVS的物理网卡的IP(注意不是虚IP)，若有LVS且设置了client-ips则此项必须设置，否则可以不设置</span><br><span class="line"><span class="meta">#</span>lvs-ips = 192.168.1.1</span><br></pre></td></tr></table></figure>
+
+<p>启动和关闭atlas</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>启动</span><br><span class="line">[root@vm02 bin]# ./mysql-proxyd test start</span><br><span class="line">OK: MySQL-Proxy of test is started</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>关闭</span><br><span class="line">[root@vm02 bin]# ./mysql-proxyd test stop</span><br></pre></td></tr></table></figure>
+
+<p>启动服务之后，查看读写分离状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">[root@vm02 bin]<span class="comment"># mysql -h127.0.0.1 -P2345 -umasterbackup -p</span></span><br><span class="line">Enter password:</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT * FROM help;</span><br><span class="line">+<span class="comment">----------------------------+---------------------------------------------------------+</span></span><br><span class="line">| command                    | description                                             |</span><br><span class="line">+<span class="comment">----------------------------+---------------------------------------------------------+</span></span><br><span class="line">| <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">help</span>         | shows this <span class="keyword">help</span>                                         |</span><br><span class="line">| <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> backends     | lists the backends <span class="keyword">and</span> their state                      |</span><br><span class="line">| <span class="keyword">SET</span> <span class="keyword">OFFLINE</span> $backend_id    | <span class="keyword">offline</span> backend <span class="keyword">server</span>, $backend_id <span class="keyword">is</span> backend_ndx<span class="string">'s id |</span></span><br><span class="line"><span class="string">| SET ONLINE $backend_id     | online backend server, ...                              |</span></span><br><span class="line"><span class="string">| ADD MASTER $backend        | example: "add master 127.0.0.1:3306", ...               |</span></span><br><span class="line"><span class="string">| ADD SLAVE $backend         | example: "add slave 127.0.0.1:3306", ...                |</span></span><br><span class="line"><span class="string">| REMOVE BACKEND $backend_id | example: "remove backend 1", ...                        |</span></span><br><span class="line"><span class="string">| SELECT * FROM clients      | lists the clients                                       |</span></span><br><span class="line"><span class="string">| ADD CLIENT $client         | example: "add client 192.168.1.2", ...                  |</span></span><br><span class="line"><span class="string">| REMOVE CLIENT $client      | example: "remove client 192.168.1.2", ...               |</span></span><br><span class="line"><span class="string">| SELECT * FROM pwds         | lists the pwds                                          |</span></span><br><span class="line"><span class="string">| ADD PWD $pwd               | example: "add pwd user:raw_password", ...               |</span></span><br><span class="line"><span class="string">| ADD ENPWD $pwd             | example: "add enpwd user:encrypted_password", ...       |</span></span><br><span class="line"><span class="string">| REMOVE PWD $pwd            | example: "remove pwd user", ...                         |</span></span><br><span class="line"><span class="string">| SAVE CONFIG                | save the backends to config file                        |</span></span><br><span class="line"><span class="string">| SELECT VERSION             | display the version of Atlas                            |</span></span><br><span class="line"><span class="string">+----------------------------+---------------------------------------------------------+</span></span><br><span class="line"><span class="string">16 rows in set (0.00 sec)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">mysql&gt; SELECT * FROM backends;</span></span><br><span class="line"><span class="string">+-------------+------------------+-------+------+</span></span><br><span class="line"><span class="string">| backend_ndx | address          | state | type |</span></span><br><span class="line"><span class="string">+-------------+------------------+-------+------+</span></span><br><span class="line"><span class="string">|           1 | 172.18.4.12:3306 | up    | rw   |</span></span><br><span class="line"><span class="string">|           2 | 172.18.4.13:3306 | up    | ro   |</span></span><br><span class="line"><span class="string">|           3 | 172.18.4.14:3306 | up    | ro   |</span></span><br><span class="line"><span class="string">+-------------+------------------+-------+------+</span></span><br><span class="line"><span class="string">3 rows in set (0.01 sec)</span></span><br><span class="line"><span class="string">#up表示连接成功</span></span><br><span class="line"><span class="string">#rw代表写</span></span><br><span class="line"><span class="string">#ro代表读</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/qq_15092079/article/details/81672920" target="_blank" rel="noopener">mysql数据库的主从同步，实现读写分离</a><br><a href="https://blog.51cto.com/13555423/2068071" target="_blank" rel="noopener">mysql主从复制与读写分离</a><br><a href="https://blog.csdn.net/u011320740/article/details/78774836" target="_blank" rel="noopener">基于Atlas实现mysql读写分离（1）–主从同步</a><br><a href="https://www.cnblogs.com/cypress/p/8624844.html" target="_blank" rel="noopener">Atlas安装配置</a><br><a href="https://blog.csdn.net/fd2025/article/details/80091343" target="_blank" rel="noopener">Mysql 实现读写分离-Atlas中间件</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i>Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/05/Learn/kettle的学习使用/" rel="next" title="kettle的学习使用">
+                <i class="fa fa-chevron-left"></i> kettle的学习使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">一杯茶，一包烟，一行代码写一天。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zzditto" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:18332779639@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制以及主从复制的作用"><span class="nav-number">1.</span> <span class="nav-text">主从复制以及主从复制的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体设置"><span class="nav-number">2.</span> <span class="nav-text">具体设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装mysql"><span class="nav-number">2.1.</span> <span class="nav-text">安装mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#vm02"><span class="nav-number">2.1.1.</span> <span class="nav-text">vm02</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vm03-vm04"><span class="nav-number">2.1.2.</span> <span class="nav-text">vm03,vm04</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置主从复制"><span class="nav-number">2.2.</span> <span class="nav-text">设置主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主节点"><span class="nav-number">2.2.1.</span> <span class="nav-text">主节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从节点"><span class="nav-number">2.2.2.</span> <span class="nav-text">从节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">2.2.3.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Atlas实现mysql的读写分离"><span class="nav-number">3.</span> <span class="nav-text">Atlas实现mysql的读写分离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '72k0g9eKNEsH0oKrE0mHxMNG-gzGzoHsz',
+        appKey: 'Ot78M5apR3PGpfpKlRB2PvGk',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

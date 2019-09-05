@@ -294,6 +294,377 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/08/14/BigData/HDP安装常见问题及解决/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/14/BigData/HDP安装常见问题及解决/" itemprop="url">HDP安装常见问题及解决</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-14T22:46:45+08:00">
+                2019-08-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-19T11:07:44+08:00">
+                2019-08-19
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/HDP/" itemprop="url" rel="index">
+                    <span itemprop="name">HDP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/14/BigData/HDP安装常见问题及解决/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/14/BigData/HDP安装常见问题及解决/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Requires-redhat-lsb-core"><a href="#Requires-redhat-lsb-core" class="headerlink" title="Requires: redhat-lsb-core"></a>Requires: redhat-lsb-core</h3><p>问题描述：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">resource_management.core.exceptions.ExecutionFailed: Execution of '/usr/bin/yum -d 0 -e 0 -y install hbase_2_6_5_0_292' returned 1. Error: Package: hadoop_2_6_5_0_292-hdfs-2.7.3.2.6.5.0-292.x86_64 (HDP-2.6.5.0)</span><br><span class="line">           Requires: libtirpc-devel</span><br><span class="line">Error: Package: hadoop_2_6_5_0_292-2.7.3.2.6.5.0-292.x86_64 (HDP-2.6.5.0)</span><br><span class="line">           Requires: redhat-lsb-core</span><br><span class="line"> You could try using --skip-broken to work around the problem</span><br><span class="line">** Found 2 pre-existing rpmdb problem(s), 'yum check' output follows:</span><br><span class="line">2:postfix-2.10.1-6.el7.x86_64 has missing requires of libmysqlclient.so.18()(64bit)</span><br><span class="line">2:postfix-2.10.1-6.el7.x86_64 has missing requires of libmysqlclient.so.18(libmysqlclient_18)(64bit)</span><br></pre></td></tr></table></figure>
+
+<p>解决：在新的机器上下载所需的软件包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">[root@test apps]# yum -y install --downloadonly --downloaddir=/opt/apps/redhat-lsb-core redhat-lsb-core</span><br><span class="line"></span><br><span class="line">[root@test redhat-lsb-core]# ll</span><br><span class="line">总用量 1928</span><br><span class="line">-rw-r--r--. 1 root root  52232 11月 12 2018 at-3.1.13-24.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root  62960 4月  25 2018 avahi-libs-0.6.31-19.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 117272 7月   4 2014 bc-1.06.95-13.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 154336 4月  25 2018 cups-client-1.6.3-35.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 365828 4月  25 2018 cups-libs-1.6.3-35.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root  73448 7月   4 2014 ed-1.9-4.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 262480 11月 25 2015 m4-1.4.16-10.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 250776 4月  25 2018 mailx-12.5-19.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 112768 5月  10 2018 patch-2.7.1-10.el7_5.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 144300 8月  11 2017 psmisc-22.20-15.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root  38428 3月  27 2015 redhat-lsb-core-4.1-27.el7.centos.1.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root  15616 3月  27 2015 redhat-lsb-submod-security-4.1-27.el7.centos.1.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 265768 7月  27 2015 spax-1.5.2-13.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root  31064 7月   4 2014 time-1.7-45.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>安装顺序如下</span><br><span class="line">正在安装    : avahi-libs-0.6.31-19.el7.x86_64                                                                                                                 1/14</span><br><span class="line">正在安装    : 1:cups-libs-1.6.3-35.el7.x86_64                                                                                                                 2/14</span><br><span class="line">正在安装    : 1:cups-client-1.6.3-35.el7.x86_64                                                                                                               3/14</span><br><span class="line">正在安装    : bc-1.06.95-13.el7.x86_64                                                                                                                        4/14</span><br><span class="line">正在安装    : m4-1.4.16-10.el7.x86_64                                                                                                                         5/14</span><br><span class="line">正在安装    : psmisc-22.20-15.el7.x86_64                                                                                                                      6/14</span><br><span class="line">正在安装    : ed-1.9-4.el7.x86_64                                                                                                                             7/14</span><br><span class="line">正在安装    : patch-2.7.1-10.el7_5.x86_64                                                                                                                     8/14</span><br><span class="line">正在安装    : mailx-12.5-19.el7.x86_64                                                                                                                        9/14</span><br><span class="line">正在安装    : spax-1.5.2-13.el7.x86_64                                                                                                                       10/14</span><br><span class="line">正在安装    : at-3.1.13-24.el7.x86_64                                                                                                                        11/14</span><br><span class="line">正在安装    : time-1.7-45.el7.x86_64                                                                                                                         12/14</span><br><span class="line">正在安装    : redhat-lsb-submod-security-4.1-27.el7.centos.1.x86_64                                                                                          13/14</span><br><span class="line">正在安装    : redhat-lsb-core-4.1-27.el7.centos.1.x86_64                                                                                                     14/14</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>安装代码</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh avahi-libs-0.6.31-19.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        file /usr/lib64/libavahi-client.so.3.2.9 from install of avahi-libs-0.6.31-19.el7.x86_64 conflicts with file from package avahi-libs-0.6.31-17.el7.x86_64</span><br><span class="line">        file /usr/lib64/libavahi-common.so.3.5.3 from install of avahi-libs-0.6.31-19.el7.x86_64 conflicts with file from package avahi-libs-0.6.31-17.el7.x86_64</span><br><span class="line"><span class="meta">#</span>说明系统中含有此软件，版本不同。卸载旧版本，安装新版本。</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -e --nodeps avahi-libs-0.6.31-17.el7.x86_64</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh avahi-libs-0.6.31-19.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:avahi-libs-0.6.31-19.el7         ################################# [100%]</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh cups-libs-1.6.3-35.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package cups-libs-1:1.6.3-35.el7.x86_64 is already installed</span><br><span class="line"><span class="meta">#</span>提示一句安装，版本相同，则不用卸载</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh cups-client-1.6.3-35.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package cups-client-1:1.6.3-35.el7.x86_64 is already installed</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh bc-1.06.95-13.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package bc-1.06.95-13.el7.x86_64 is already installed</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh m4-1.4.16-10.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package m4-1.4.16-10.el7.x86_64 is already installed</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh psmisc-22.20-15.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        file /usr/bin/killall from install of psmisc-22.20-15.el7.x86_64 conflicts with file from package psmisc-22.20-11.el7.x86_64</span><br><span class="line">        file /usr/bin/peekfd from install of psmisc-22.20-15.el7.x86_64 conflicts with file from package psmisc-22.20-11.el7.x86_64</span><br><span class="line">        file /usr/bin/prtstat from install of psmisc-22.20-15.el7.x86_64 conflicts with file from package psmisc-22.20-11.el7.x86_64</span><br><span class="line">        file /usr/bin/pstree from install of psmisc-22.20-15.el7.x86_64 conflicts with file from package psmisc-22.20-11.el7.x86_64</span><br><span class="line">        file /usr/sbin/fuser from install of psmisc-22.20-15.el7.x86_64 conflicts with file from package psmisc-22.20-11.el7.x86_64</span><br><span class="line">        file /usr/share/man/man1/fuser.1.gz from install of psmisc-22.20-15.el7.x86_64 conflicts with file from package psmisc-22.20-11.el7.x86_64</span><br><span class="line">        file /usr/share/man/man1/peekfd.1.gz from install of psmisc-22.20-15.el7.x86_64 conflicts with file from package psmisc-22.20-11.el7.x86_64</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -e --nodeps psmisc-22.20-11.el7.x86_64</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh psmisc-22.20-15.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:psmisc-22.20-15.el7              ################################# [100%]</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh ed-1.9-4.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package ed-1.9-4.el7.x86_64 is already installed</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh patch-2.7.1-10.el7_5.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package patch-2.7.1-10.el7_5.x86_64 is already installed</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh mailx-12.5-19.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        file /bin/mailx from install of mailx-12.5-19.el7.x86_64 conflicts with file from package mailx-12.5-12.el7_0.x86_64</span><br><span class="line">        file /usr/share/man/man1/mailx.1.gz from install of mailx-12.5-19.el7.x86_64 conflicts with file from package mailx-12.5-12.el7_0.x86_64</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -e --nodeps mailx-12.5-12.el7_0.x86_64</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh mailx-12.5-19.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mailx-12.5-19.el7                ################################# [100%]</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh spax-1.5.2-13.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package spax-1.5.2-13.el7.x86_64 is already installed</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh at-3.1.13-24.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        file /usr/sbin/atd from install of at-3.1.13-24.el7.x86_64 conflicts with file from package at-3.1.13-22.el7.x86_64</span><br><span class="line">        file /usr/bin/at from install of at-3.1.13-24.el7.x86_64 conflicts with file from package at-3.1.13-22.el7.x86_64</span><br><span class="line">        file /var/spool/at from install of at-3.1.13-24.el7.x86_64 conflicts with file from package at-3.1.13-22.el7.x86_64</span><br><span class="line">        file /usr/share/man/man8/atd.8.gz from install of at-3.1.13-24.el7.x86_64 conflicts with file from package at-3.1.13-22.el7.x86_64</span><br><span class="line">        file /var/spool/at/spool from install of at-3.1.13-24.el7.x86_64 conflicts with file from package at-3.1.13-22.el7.x86_64</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -e --nodeps at-3.1.13-22.el7.x86_64</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh at-3.1.13-24.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:at-3.1.13-24.el7                 ################################# [100%]</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh time-1.7-45.el7.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package time-1.7-45.el7.x86_64 is already installed</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh redhat-lsb-submod-security-4.1-27.el7.centos.1.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package redhat-lsb-submod-security-4.1-27.el7.centos.1.x86_64 is already installed</span><br><span class="line">[root@vm01 redhat-lsb-core]# rpm -ivh redhat-lsb-core-4.1-27.el7.centos.1.x86_64.rpm</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">        package redhat-lsb-core-4.1-27.el7.centos.1.x86_64 is already installed</span><br></pre></td></tr></table></figure>
+
+<pre><code class="shell">[root@test libtirpc-devel]# yum -y install --downloadonly --downloaddir=/opt/apps/other libtirpc-devel
+
+[root@test libtirpc-devel]# ll
+总用量 184
+-rw-r--r--. 1 root root 91124 11月 12 2018 libtirpc-0.2.4-0.15.el7.x86_64.rpm
+-rw-r--r--. 1 root root 93048 11月 12 2018 libtirpc-devel-0.2.4-0.15.el7.x86_64.rpm
+
+<span class="meta">#</span>安装顺序
+正在安装    : libtirpc-0.2.4-0.15.el7.x86_64                                                                                                                   1/2
+正在安装    : libtirpc-devel-0.2.4-0.15.el7.x86_64                                                                                                             2/2</code></pre>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/08/14/BigData/HDP集群卸载/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/14/BigData/HDP集群卸载/" itemprop="url">HDP集群卸载</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-14T14:52:46+08:00">
+                2019-08-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-16T11:57:31+08:00">
+                2019-08-16
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/HDP/" itemprop="url" rel="index">
+                    <span itemprop="name">HDP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/14/BigData/HDP集群卸载/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/14/BigData/HDP集群卸载/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="ambari-server-stop-master"><a href="#ambari-server-stop-master" class="headerlink" title="ambari-server stop [master]"></a>ambari-server stop [master]</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@vm110 ~]# ambari-server  stop</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Stopping ambari-server</span><br><span class="line">Waiting for server stop...</span><br><span class="line">Ambari Server stopped</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/14/BigData/HDP集群卸载/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/08/13/BigData/spark错误记录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1693,349 +2064,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/07/30/Learn/solo使用教程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小柚麯">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/顶着面包的girl.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小柚麯">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/30/Learn/solo使用教程/" itemprop="url">solo使用教程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T14:09:01+08:00">
-                2019-07-30
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2019-08-13T15:34:16+08:00">
-                2019-08-13
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/实战教程/" itemprop="url" rel="index">
-                    <span itemprop="name">实战教程</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/30/Learn/solo使用教程/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/30/Learn/solo使用教程/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>注：需要在windows下安装mysql，具体步骤：<br><a href="http://www.zzditto.cn/2019/07/30/windows%E4%B8%8Bmysql%E7%9A%84%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/#more">http://www.zzditto.cn/2019/07/30/windows%E4%B8%8Bmysql%E7%9A%84%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/#more</a></p>
-<h2 id="登录mysql，创建solo数据库"><a href="#登录mysql，创建solo数据库" class="headerlink" title="登录mysql，创建solo数据库"></a>登录mysql，创建solo数据库</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database solo;</span><br><span class="line">Query OK, 1 row affected (0.64 sec)</span><br></pre></td></tr></table></figure>
-
-<h2 id="下载solo安装包"><a href="#下载solo安装包" class="headerlink" title="下载solo安装包"></a>下载solo安装包</h2><p><a href="https://github.com/b3log/solo/releases?utm_source=hacpai.com" target="_blank" rel="noopener">https://github.com/b3log/solo/releases?utm_source=hacpai.com</a></p>
-<p>下载 solo-v3.6.3.war</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/07/30/Learn/solo使用教程/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/07/30/Learn/hexo的使用教程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小柚麯">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/顶着面包的girl.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小柚麯">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/30/Learn/hexo的使用教程/" itemprop="url">hexo使用教程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T11:34:17+08:00">
-                2019-07-30
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2019-08-29T16:47:32+08:00">
-                2019-08-29
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/实战教程/" itemprop="url" rel="index">
-                    <span itemprop="name">实战教程</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/30/Learn/hexo的使用教程/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/30/Learn/hexo的使用教程/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>windows环境</p>
-<h2 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h2><p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
-<h2 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h2><p><a href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a></p>
-<h2 id="使用管理员权限操作命令行"><a href="#使用管理员权限操作命令行" class="headerlink" title="使用管理员权限操作命令行"></a>使用管理员权限操作命令行</h2><p>开始菜单点击鼠标右键，选择powershell(管理员)</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/07/30/Learn/hexo的使用教程/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2088,7 +2116,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2099,7 +2127,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
