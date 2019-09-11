@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Ambari，HDP,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="准备工作确认已经安装的HDP平台的ambari版本  下载对应的源码包 npm依赖包下载">
+<meta name="keywords" content="Ambari，HDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ambari汉化">
+<meta property="og:url" content="www.zzditto.cn/2019/09/09/BigData/Ambari汉化/index.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="准备工作确认已经安装的HDP平台的ambari版本  下载对应的源码包 npm依赖包下载">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari%E7%89%88%E6%9C%AC.png">
+<meta property="og:updated_time" content="2019-09-11T07:03:33.210Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ambari汉化">
+<meta name="twitter:description" content="准备工作确认已经安装的HDP平台的ambari版本  下载对应的源码包 npm依赖包下载">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari%E7%89%88%E6%9C%AC.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/2019/09/09/BigData/Ambari汉化/">
+
+
+
+
+
+  <title>Ambari汉化 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/09/BigData/Ambari汉化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ambari汉化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-09T16:52:12+08:00">
+                2019-09-09
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-11T15:03:33+08:00">
+                2019-09-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/Ambari/" itemprop="url" rel="index">
+                    <span itemprop="name">Ambari</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/09/BigData/Ambari汉化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/09/BigData/Ambari汉化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>确认已经安装的HDP平台的ambari版本</p>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari%E7%89%88%E6%9C%AC.png" alt="ambari版本"></p>
+<p><a href="https://github.com/apache/ambari/tree/release-2.6.2" target="_blank" rel="noopener">下载对应的源码包</a></p>
+<p><a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">npm依赖包下载</a></p>
+<a id="more"></a>
+<h3 id="上传解压源码包"><a href="#上传解压源码包" class="headerlink" title="上传解压源码包"></a>上传解压源码包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>下载安装unzip工具</span><br><span class="line">[root@test zip]# yum  install --downloadonly --downloaddir=/opt/apps/zip unzip</span><br><span class="line">[root@test zip]# yum -y install unzip-6.0-19.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>上传源码包，解压</span><br><span class="line">[root@test opt]# pwd</span><br><span class="line">/opt</span><br><span class="line">[root@test opt]# ll</span><br><span class="line">总用量 140632</span><br><span class="line">-rw-r--r--.  1 root root 144004645 9月   6 07:57 ambari-release-2.6.2.zip</span><br><span class="line">drwxr-xr-x. 11 root root       129 9月   6 07:38 apps</span><br><span class="line">[root@test opt]# unzip ambari-release-2.6.2.zip</span><br><span class="line">Archive:  ambari-release-2.6.2.zip</span><br><span class="line">631319b00937a8d04667d93714241d2a0cb17275</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装npm依赖包【用于实时编译js】"><a href="#安装npm依赖包【用于实时编译js】" class="headerlink" title="安装npm依赖包【用于实时编译js】"></a>安装npm依赖包【用于实时编译js】</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@test npm]# pwd</span><br><span class="line">/opt/apps/npm</span><br><span class="line">[root@test npm]# ll</span><br><span class="line">总用量 12736</span><br><span class="line">-rw-r--r--. 1 root root 13040896 9月   6 07:33 node-v10.16.3-linux-x64.tar.xz</span><br><span class="line">[root@test npm]# tar -xvf node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
+
+<p>编辑环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@test opt]# cat /etc/profile</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/opt/apps/jdk/jdk1.8.0_144</span><br><span class="line">export NODE_HOME=/opt/apps/npm/node-v10.16.3-linux-x64</span><br><span class="line">export PATH=$PATH:$JAVA_HOME/bin:$NODE_HOME/bin</span><br></pre></td></tr></table></figure>
+
+<p>测试是否安装成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@mm01 img]# source /etc/profile</span><br><span class="line">[root@mm01 img]# npm -v</span><br><span class="line">6.9.0</span><br><span class="line">[root@mm01 img]# node -v</span><br><span class="line">v10.16.0</span><br></pre></td></tr></table></figure>
+
+<p>到ambari源码包的web目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ambari-web]# pwd</span><br><span class="line">/opt/ambari-release-2.6.2/ambari-web</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装brunch"><a href="#安装brunch" class="headerlink" title="安装brunch"></a>安装brunch</h3><p>使用一台可以联网环境的linux</p>
+<h4 id="安装npmbox"><a href="#安装npmbox" class="headerlink" title="安装npmbox"></a>安装npmbox</h4><p>npmbox原名叫npmzip，用于压缩npm安装包。npmbox工具会直接在npm服务器上自动查找并下载好我们指定的安装包，并将安装包压缩成一个后缀为.npmbox的压缩文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@test opt]# npm install npmbox -g</span><br><span class="line">npm ERR! code CERT_NOT_YET_VALID</span><br><span class="line">npm ERR! errno CERT_NOT_YET_VALID</span><br><span class="line">npm ERR! request to https://registry.npmjs.org/npmbox failed, reason: certificate is not yet valid</span><br><span class="line"></span><br><span class="line">npm ERR! A complete log of this run can be found in:</span><br><span class="line">npm ERR!     /root/.npm/_logs/2019-09-06T01_44_51_956Z-debug.log</span><br></pre></td></tr></table></figure>
+
+<p>提示报错，这是由于时间与本地时间不一致</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>当前时间：2019-9-10 11:59:00</span><br><span class="line">[root@test opt]# date</span><br><span class="line">2019年 09月 06日 星期五 09:46:11 CST</span><br></pre></td></tr></table></figure>
+
+<p>安装ntpdate服务，设置时间</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@test opt]# yum -y install ntpdate</span><br><span class="line">[root@test opt]# systemctl start ntpdate</span><br><span class="line"><span class="meta">#</span>若启动失败，查看是否开启了ntp服务，关闭ntp，启动ntpdate即可</span><br><span class="line"></span><br><span class="line">[root@test opt]# ntpdate 'ntp3.aliyun.com'</span><br><span class="line">10 Sep 12:03:18 ntpdate[17115]: adjust time server 203.107.6.88 offset 0.021964 sec</span><br><span class="line">[root@test opt]# date</span><br><span class="line">2019年 09月 10日 星期二 12:03:21 CST</span><br></pre></td></tr></table></figure>
+
+<p>安装npmbox，并且下载npmbox包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@test npmbox]# npm install npmbox -g</span><br><span class="line">npm WARN deprecated jade@0.26.3: Jade has been renamed to pug, please install the latest version of pug instead of jade</span><br><span class="line">npm WARN deprecated minimatch@0.3.0: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue</span><br><span class="line">npm WARN deprecated tar.gz@1.0.2: ⚠️  WARNING ⚠️ tar.gz module has been deprecated and your application is vulnerable. Please use tar module instead: https://npmjs.com/tar</span><br><span class="line">npm WARN deprecated to-iso-string@0.0.2: to-iso-string has been deprecated, use @segment/to-iso-string instead.</span><br><span class="line">npm WARN deprecated minimatch@3.0.0: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue</span><br><span class="line">/opt/apps/npm/node-v10.16.3-linux-x64/bin/npmbox -&gt; /opt/apps/npm/node-v10.16.3-linux-x64/lib/node_modules/npmbox/bin/npmbox</span><br><span class="line">/opt/apps/npm/node-v10.16.3-linux-x64/bin/npmunbox -&gt; /opt/apps/npm/node-v10.16.3-linux-x64/lib/node_modules/npmbox/bin/npmunbox</span><br><span class="line">+ npmbox@4.2.1</span><br><span class="line">added 340 packages from 807 contributors in 108.399s</span><br><span class="line"></span><br><span class="line">[root@test npmbox]# ll</span><br><span class="line">总用量 11012</span><br><span class="line">-rw-r--r--. 1 root root 11272311 9月  10 14:12 npmbox.npmbox</span><br></pre></td></tr></table></figure>
+
+<p>下载brunch包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@test brunch]# npmbox brunch</span><br><span class="line">[root@test brunch]# ll</span><br><span class="line">总用量 6016</span><br><span class="line">-rw-r--r--. 1 root root 6156380 9月  10 14:15 brunch.npmbox</span><br></pre></td></tr></table></figure>
+
+<p>此时，转换到无法联网的正式服务器上，使用npmbox命令解压安装brunch</p>
+<p>上传npmbox包和brunch包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 npmbox]# pwd</span><br><span class="line">/opt/apps/npmbox</span><br><span class="line">[root@vm01 npmbox]# ll</span><br><span class="line">total 11012</span><br><span class="line">-rw-r--r-- 1 root root 11272311 Sep 10 14:22 npmbox.npmbox</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>解压</span><br><span class="line">[root@vm01 npmbox]# tar --no-same-owner --no-same-permissions -xvzf npmbox.npmbox</span><br><span class="line">[root@vm01 npmbox]# ll -a</span><br><span class="line">total 11024</span><br><span class="line">drwxr-xr-x    4 root root       70 Sep 10 14:24 .</span><br><span class="line">drwxr-xr-x.  16 root root      211 Sep 10 14:20 ..</span><br><span class="line">drwxr-xr-x    3 root root       19 Sep 10 14:24 ..npmbox.cache</span><br><span class="line">drwxr-xr-x  253 root root     8192 Sep 10 14:12 .npmbox.cache</span><br><span class="line">-rw-r--r--    1 root root 11272311 Sep 10 14:22 npmbox.npmbox</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>安装</span><br><span class="line">[root@vm01 npmbox]# npm install --global --cache .\.npmbox.cache --cache-min 99999 --shrinkwrap false npmbox</span><br><span class="line"></span><br><span class="line">npm ERR! code ENOTFOUND</span><br><span class="line">npm ERR! errno ENOTFOUND</span><br><span class="line">npm ERR! network request to https://registry.npmjs.org/npmbox failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443</span><br><span class="line">npm ERR! network This is a problem related to network connectivity.</span><br><span class="line">npm ERR! network In most cases you are behind a proxy or have bad network settings.</span><br><span class="line">npm ERR! network</span><br><span class="line">npm ERR! network If you are behind a proxy, please make sure that the</span><br><span class="line">npm ERR! network 'proxy' config is set properly.  See: 'npm help config'</span><br><span class="line"></span><br><span class="line">npm ERR! A complete log of this run can be found in:</span><br><span class="line">npm ERR!     /opt/apps/npmbox/..npmbox.cache/_logs/2019-09-10T06_29_35_160Z-debug.log</span><br></pre></td></tr></table></figure>
+
+<p>报错</p>
+<blockquote>
+<p>node模块的安装步骤如下：<br>发出npm install命令<br>npm 向 registry 查询模块压缩包的网址<br>下载压缩包，存放在~/.npm目录<br>解压压缩包到当前项目的node_modules目录</p>
+</blockquote>
+<p>所以一个模块安装后，在服务器上实际上是保存了两份，一份在~/.npm，一份在node_modules。但是，运行npm install时，只会检查node_modules目录。所以如果此目录没有文件，npm仍旧会联网进行下载</p>
+<p>因此，这里将联网服务器安装模块的node_modules下的所有文件都拷贝到离线服务器的目录中<br><strong>注</strong>：这里的npm是tar安装包离线安装不是在线命令安装，所以目录在安装包的解压目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>离线服务器目录before</span><br><span class="line">[root@vm01 node_modules]# pwd</span><br><span class="line">/opt/node-v10.16.3-linux-x64/lib/node_modules</span><br><span class="line">[root@vm01 node_modules]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxrwxr-x 10 500 500 4096 Aug 16 02:51 npm</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>联网服务器目录before</span><br><span class="line">[root@test node_modules]# pwd</span><br><span class="line">/opt/apps/npm/node-v10.16.3-linux-x64/lib/node_modules</span><br><span class="line">[root@test node_modules]# ll</span><br><span class="line">总用量 4</span><br><span class="line">drwxr-xr-x.  6 root root  226 9月  10 12:47 brunch</span><br><span class="line">drwxrwxr-x. 10  500  500 4096 8月  16 02:51 npm</span><br><span class="line">drwxr-xr-x.  4 root root  246 9月  10 14:09 npmbox</span><br></pre></td></tr></table></figure>
+
+<p>拷贝</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@test node_modules]# scp -r brunch/  npmbox/   192.168.133.3:/opt/node-v10.16.3-linux-x64/lib/node_modules</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>离线服务器目录after</span><br><span class="line">[root@vm01 node_modules]# pwd</span><br><span class="line">/opt/node-v10.16.3-linux-x64/lib/node_modules</span><br><span class="line">[root@vm01 node_modules]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x  6 root root  226 Sep 10 14:38 brunch</span><br><span class="line">drwxrwxr-x 10  500  500 4096 Aug 16 02:51 npm</span><br><span class="line">drwxr-xr-x  4 root root  246 Sep 10 14:38 npmbox</span><br></pre></td></tr></table></figure>
+
+<p>安装npmbox</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 npmbox]# npm install --global --cache .\.npmbox.cache --optional --cache-min 99999 --shrinkwrap false npmbox</span><br><span class="line">npm ERR! code ENOTFOUND</span><br><span class="line">npm ERR! errno ENOTFOUND</span><br><span class="line">npm ERR! network request to https://registry.npmjs.org/npmbox failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443</span><br><span class="line">npm ERR! network This is a problem related to network connectivity.</span><br><span class="line">npm ERR! network In most cases you are behind a proxy or have bad network settings.</span><br><span class="line">npm ERR! network</span><br><span class="line">npm ERR! network If you are behind a proxy, please make sure that the</span><br><span class="line">npm ERR! network 'proxy' config is set properly.  See: 'npm help config'</span><br><span class="line"></span><br><span class="line">npm ERR! A complete log of this run can be found in:</span><br><span class="line">npm ERR!     /opt/apps/npmbox/..npmbox.cache/_logs/2019-09-10T06_59_41_645Z-debug.log</span><br></pre></td></tr></table></figure>
+
+<p>仍然报错</p>
+<p>突然意识到在联网服务器上，只是使用npmbox下载包，并没有安装。所以使用npm命令安装之后，将node_models下的文件拷贝<br>但仍然报错失败</p>
+<p>后面又意识到，我只是需要一个汉化文件，用来做软连接，只是这个汉化文件需要使用brunch工具，所以决定在联网机器上先编译好文件，然后再复制过去</p>
+<p>联网机器上的编译步骤：</p>
+<ol>
+<li>下载源码包文件，对里面内容进行更改（汉化，logo，字体等）</li>
+<li>打包上传到联网服务器上，解压</li>
+<li>进入解压的文件夹的ambari-web下，安装npm<code>npm install</code></li>
+<li>安装brunch，<code>npm -g install brunch</code></li>
+<li>使用<code>brunch build</code>命令进行编译</li>
+<li>将编译好的整个文件夹拷贝到离线服务器上，建立ambari中的web文件夹的软连接</li>
+<li>重启ambari-server</li>
+</ol>
+<h3 id="使用brunch编译"><a href="#使用brunch编译" class="headerlink" title="使用brunch编译"></a>使用brunch编译</h3><p>使用的是联网的服务器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@test ambari-web]# pwd</span><br><span class="line">/opt/ambari-release-2.6.2/ambari-web</span><br><span class="line">[root@test ambari-web]# ll</span><br><span class="line">总用量 216</span><br><span class="line">drwxr-xr-x.  13 root root   4096 4月  27 2018 app</span><br><span class="line">-rw-r--r--.   1 root root   4142 4月  27 2018 config.coffee</span><br><span class="line">-rw-r--r--.   1 root root   1662 4月  27 2018 copy-pluggable-stack-resources.sh</span><br><span class="line">-rw-r--r--.   1 root root    862 4月  27 2018 gzip-content.cmd</span><br><span class="line">-rw-r--r--.   1 root root   2349 4月  27 2018 gzip-content.ps1</span><br><span class="line">-rw-r--r--.   1 root root   5437 4月  27 2018 karma.conf.js</span><br><span class="line">drwxr-xr-x. 387 root root  12288 9月  10 12:35 node_modules</span><br><span class="line">-rw-r--r--.   1 root root   1326 4月  27 2018 package.json</span><br><span class="line">-rw-r--r--.   1 root root  14106 4月  27 2018 pom.xml</span><br><span class="line">drwxr-xr-x.   9 root root    125 9月  10 12:47 public</span><br><span class="line">-rw-r--r--.   1 root root    868 4月  27 2018 set-ambari-version.cmd</span><br><span class="line">-rw-r--r--.   1 root root   1144 4月  27 2018 set-ambari-version.ps1</span><br><span class="line">-rw-r--r--.   1 root root   1042 4月  27 2018 set-ambari-version.sh</span><br><span class="line">-rw-r--r--.   1 root root    875 4月  27 2018 set-default-stack-version.cmd</span><br><span class="line">-rw-r--r--.   1 root root   1800 4月  27 2018 set-default-stack-version.ps1</span><br><span class="line">-rw-r--r--.   1 root root   1369 4月  27 2018 set-default-stack-version.sh</span><br><span class="line">drwxr-xr-x.  12 root root   4096 4月  27 2018 test</span><br><span class="line">-rw-r--r--.   1 root root    869 4月  27 2018 toggle-experimental.cmd</span><br><span class="line">-rw-r--r--.   1 root root   1138 4月  27 2018 toggle-experimental.ps1</span><br><span class="line">-rw-r--r--.   1 root root   1056 4月  27 2018 toggle-experimental.sh</span><br><span class="line">drwxr-xr-x.   4 root root     35 4月  27 2018 vendor</span><br><span class="line">-rw-r--r--.   1 root root 107873 4月  27 2018 yarn.lock</span><br></pre></td></tr></table></figure>
+
+<p>上传下载的汉化包，解压获取messages.js文件<a href="https://github.com/louisliu0318/Ambari-Web-Modify" target="_blank" rel="noopener">下载地址</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@test app]# pwd</span><br><span class="line">/opt/Ambari-Web-Modify-master/ambari-web/app</span><br><span class="line">[root@test app]# ll</span><br><span class="line">总用量 332</span><br><span class="line">-rw-r--r--. 1 root root  13923 8月  12 2016 app.js</span><br><span class="line">drwxr-xr-x. 7 root root     87 8月  12 2016 assets</span><br><span class="line">-rw-r--r--. 1 root root   3928 8月  12 2016 config.js</span><br><span class="line">drwxr-xr-x. 5 root root    170 8月  12 2016 controllers</span><br><span class="line">-rw-r--r--. 1 root root   9508 8月  12 2016 controllers.js</span><br><span class="line">drwxr-xr-x. 7 root root    234 8月  12 2016 data</span><br><span class="line">-rw-r--r--. 1 root root    829 8月  12 2016 ember.js</span><br><span class="line">-rw-r--r--. 1 root root   1900 8月  12 2016 initialize.js</span><br><span class="line">drwxr-xr-x. 3 root root   4096 8月  12 2016 mappers</span><br><span class="line">-rw-r--r--. 1 root root   1960 8月  12 2016 mappers.js</span><br><span class="line">-rw-r--r--. 1 root root 223487 8月  12 2016 messages.js</span><br><span class="line">drwxr-xr-x. 7 root root     81 8月  12 2016 mixins</span><br><span class="line">-rw-r--r--. 1 root root   2713 8月  12 2016 mixins.js</span><br><span class="line">drwxr-xr-x. 6 root root   4096 8月  12 2016 models</span><br><span class="line">-rw-r--r--. 1 root root   3013 8月  12 2016 models.js</span><br><span class="line">-rw-r--r--. 1 root root  18585 8月  12 2016 router.js</span><br><span class="line">drwxr-xr-x. 2 root root   4096 8月  12 2016 routes</span><br><span class="line">drwxr-xr-x. 2 root root    211 8月  12 2016 styles</span><br><span class="line">drwxr-xr-x. 6 root root    160 8月  12 2016 templates</span><br><span class="line">-rw-r--r--. 1 root root   1227 8月  12 2016 templates.js</span><br><span class="line">drwxr-xr-x. 5 root root   4096 8月  12 2016 utils</span><br><span class="line">drwxr-xr-x. 5 root root    160 8月  12 2016 views</span><br><span class="line">-rw-r--r--. 1 root root  17744 8月  12 2016 views.js</span><br></pre></td></tr></table></figure>
+
+<p>备份源码包里面的messages.js，并将汉化包中的messages.js复制到源码包中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@test app]# mv messages.js messages.js_bak</span><br><span class="line">[root@test app]# pwd</span><br><span class="line">/opt/ambari-release-2.6.2/ambari-web/app</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@test app]# pwd</span><br><span class="line">/opt/Ambari-Web-Modify-master/ambari-web/app</span><br><span class="line">[root@test app]# cp messages.js /opt/ambari-release-2.6.2/ambari-web/app</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>查看源码包</span><br><span class="line">[root@test app]# ll</span><br><span class="line">总用量 604</span><br><span class="line">-rw-r--r--. 1 root root  14809 4月  27 2018 app.js</span><br><span class="line">drwxr-xr-x. 7 root root     87 4月  27 2018 assets</span><br><span class="line">-rw-r--r--. 1 root root   4505 4月  27 2018 config.js</span><br><span class="line">drwxr-xr-x. 5 root root    170 4月  27 2018 controllers</span><br><span class="line">-rw-r--r--. 1 root root  10117 4月  27 2018 controllers.js</span><br><span class="line">drwxr-xr-x. 7 root root    234 4月  27 2018 data</span><br><span class="line">-rw-r--r--. 1 root root    829 4月  27 2018 ember.js</span><br><span class="line">-rw-r--r--. 1 root root   1859 4月  27 2018 initialize.js</span><br><span class="line">drwxr-xr-x. 3 root root   4096 4月  27 2018 mappers</span><br><span class="line">-rw-r--r--. 1 root root   2004 4月  27 2018 mappers.js</span><br><span class="line">-rw-r--r--. 1 root root 223487 9月  10 17:09 messages.js</span><br><span class="line">-rw-r--r--. 1 root root 256344 4月  27 2018 messages.js_bak</span><br><span class="line">drwxr-xr-x. 7 root root     81 4月  27 2018 mixins</span><br><span class="line">-rw-r--r--. 1 root root   3353 4月  27 2018 mixins.js</span><br><span class="line">drwxr-xr-x. 7 root root   4096 4月  27 2018 models</span><br><span class="line">-rw-r--r--. 1 root root   3244 4月  27 2018 models.js</span><br><span class="line">-rw-r--r--. 1 root root  29313 4月  27 2018 router.js</span><br><span class="line">drwxr-xr-x. 2 root root   4096 4月  27 2018 routes</span><br><span class="line">drwxr-xr-x. 2 root root    239 4月  27 2018 styles</span><br><span class="line">drwxr-xr-x. 6 root root    160 4月  27 2018 templates</span><br><span class="line">-rw-r--r--. 1 root root   1283 4月  27 2018 templates.js</span><br><span class="line">drwxr-xr-x. 6 root root   4096 4月  27 2018 utils</span><br><span class="line">-rw-r--r--. 1 root root   1477 4月  27 2018 utils.js</span><br><span class="line">drwxr-xr-x. 5 root root    160 4月  27 2018 views</span><br><span class="line">-rw-r--r--. 1 root root  20029 4月  27 2018 views.js</span><br></pre></td></tr></table></figure>
+
+<p>编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@test ambari-web]# pwd</span><br><span class="line">/opt/ambari-release-2.6.2/ambari-web</span><br><span class="line">[root@test ambari-web]# brunch build</span><br><span class="line">10 Sep 17:10:22 - info: compiled 1265 files into 5 files, copied 318 in 6073ms</span><br></pre></td></tr></table></figure>
+
+<p>将编译好的web文件夹整个拷贝到离线服务器中，并建立软连接替代原本的ambari的web文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>ambari服务自带的web目录</span><br><span class="line">[root@vm01 web]# pwd</span><br><span class="line">/lib/ambari-server/web</span><br><span class="line">[root@vm01 web]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 23 root root 4096 Aug 19 10:38 data</span><br><span class="line">drwxr-xr-x  2 root root  131 Aug 19 10:38 font</span><br><span class="line">drwxr-xr-x  3 root root 4096 Aug 19 10:38 img</span><br><span class="line">-rw-r--r--  1 root root 2012 May 30  2018 index.html</span><br><span class="line">drwxr-xr-x  2 root root   37 Aug 19 10:38 javascripts</span><br><span class="line">drwxr-xr-x  2 root root   24 Aug 19 10:38 licenses</span><br><span class="line">drwxr-xr-x  2 root root   39 Aug 19 10:38 stylesheets</span><br><span class="line">drwxr-xr-x  3 root root   80 Aug 19 10:38 test</span><br><span class="line">[root@vm01 web]# cd ..</span><br><span class="line">[root@vm01 ambari-server]# mv web/  web_bak</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>建立软连接</span><br><span class="line">[root@vm01 ambari-server]# ln -s /opt/ambari-web/public web</span><br><span class="line"></span><br><span class="line">-rw-r--r-- 1 root root   63777 May 30  2018 validation-api-1.1.0.Final.jar</span><br><span class="line">-rw-r--r-- 1 root root  449505 May 30  2018 velocity-1.7.jar</span><br><span class="line">lrwxrwxrwx 1 root root      22 Sep 10 17:16 web -&gt; /opt/ambari-web/public</span><br><span class="line">drwxr-xr-x 9 root root     125 Aug 19 10:38 web_bak</span><br><span class="line">-rw-r--r-- 1 root root   15010 May 30  2018 xmlenc-0.52.jar</span><br><span class="line">-rw-r--r-- 1 root root   94816 May 30  2018 xz-1.2.jar</span><br></pre></td></tr></table></figure>
+
+<p>重启ambari-server服务。完成</p>
+<h3 id="图标"><a href="#图标" class="headerlink" title="图标"></a>图标</h3><p>ambari-web/app/assets/img/logo.png<br>ambari-web/app/assets/img/logo-white.png</p>
+<p>此路径下的logo.png文件为页面浏览器标题上的图标文件<br>logo-white.png为大数据集成平台的图标文件</p>
+<p>设置app/assets/img下的路径是原始包，更改里面的图标。后面进行编译，自动在public中有此更改的图标</p>
+<p>也可设置public中的img图片，不过重新编译之后会丢失。可用于测试</p>
+<h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><ol>
+<li>更改logo，logo_white图片</li>
+<li>将hdp字符取消</li>
+<li>修改了字体为显示中文</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/zzzxmfj/article/details/90516958" target="_blank" rel="noopener">基于已部署的Ambari 2.6.2 集群 对Ambari-web 前端源码二次开发实时编译</a><br><a href="https://www.cnblogs.com/loveBolin/p/9724919.html" target="_blank" rel="noopener">Ambari安装和汉化（转）</a><br><a href="https://blog.csdn.net/wang1472jian1110/article/details/50803887" target="_blank" rel="noopener">Ambari2.0.0汉化</a><br><a href="http://www.ruanyifeng.com/blog/2016/01/npm-install.html" target="_blank" rel="noopener">npm 模块安装机制简介</a><br><a href="https://blog.csdn.net/wenwenxiong/article/details/59499633" target="_blank" rel="noopener">npm离线安装包</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Ambari，HDP/" rel="tag"><i class="fa fa-tag"></i>Ambari，HDP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/05/Learn/mysql的主从复制和读写分离/" rel="next" title="mysql的主从复制和读写分离">
+                <i class="fa fa-chevron-left"></i> mysql的主从复制和读写分离
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/10/Learn/npm离线安装/" rel="prev" title="npm离线安装">
+                npm离线安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">一杯茶，一包烟，一行代码写一天。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zzditto" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:18332779639@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上传解压源码包"><span class="nav-number">1.1.</span> <span class="nav-text">上传解压源码包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装npm依赖包【用于实时编译js】"><span class="nav-number">1.2.</span> <span class="nav-text">安装npm依赖包【用于实时编译js】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装brunch"><span class="nav-number">1.3.</span> <span class="nav-text">安装brunch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装npmbox"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装npmbox</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用brunch编译"><span class="nav-number">1.4.</span> <span class="nav-text">使用brunch编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图标"><span class="nav-number">1.5.</span> <span class="nav-text">图标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记录"><span class="nav-number">1.6.</span> <span class="nav-text">记录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '72k0g9eKNEsH0oKrE0mHxMNG-gzGzoHsz',
+        appKey: 'Ot78M5apR3PGpfpKlRB2PvGk',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
