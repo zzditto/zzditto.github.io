@@ -88,7 +88,7 @@
 <meta property="og:description" content="准备工作确认已经安装的HDP平台的ambari版本  下载对应的源码包 npm依赖包下载">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari%E7%89%88%E6%9C%AC.png">
-<meta property="og:updated_time" content="2019-09-11T07:03:33.210Z">
+<meta property="og:updated_time" content="2019-09-12T06:38:13.930Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ambari汉化">
 <meta name="twitter:description" content="准备工作确认已经安装的HDP平台的ambari版本  下载对应的源码包 npm依赖包下载">
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-11T15:03:33+08:00">
-                2019-09-11
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-12T14:38:13+08:00">
+                2019-09-12
               </time>
             
           </span>
@@ -478,7 +478,10 @@
 <ol>
 <li>下载源码包文件，对里面内容进行更改（汉化，logo，字体等）</li>
 <li>打包上传到联网服务器上，解压</li>
-<li>进入解压的文件夹的ambari-web下，安装npm<code>npm install</code></li>
+<li>进入解压的文件夹的ambari-web下，安装npm<code>npm install</code><ol>
+<li>npm安装过程十分缓慢，可以在打包时将node_model文件夹复制到ambari-web中，后续就不用使用<code>npm install</code>，可以直接brunch，前提是机器上已经安装过npm和brunch</li>
+</ol>
+</li>
 <li>安装brunch，<code>npm -g install brunch</code></li>
 <li>使用<code>brunch build</code>命令进行编译</li>
 <li>将编译好的整个文件夹拷贝到离线服务器上，建立ambari中的web文件夹的软连接</li>
@@ -636,7 +639,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -902,9 +905,9 @@
         el: '#comments' ,
         verify: false,
         notify: false,
-        appId: '72k0g9eKNEsH0oKrE0mHxMNG-gzGzoHsz',
-        appKey: 'Ot78M5apR3PGpfpKlRB2PvGk',
-        placeholder: 'Just go go',
+        appId: 'ATLN8AC6PiHK2RYMk6IQOU6N-MdYXbMMI',
+        appKey: 'SntQjviLuKeSUN0zoVI0B7hf',
+        placeholder: '你在想什么呢？',
         avatar:'mm',
         guest_info:guest,
         pageSize:'10' || 10,
