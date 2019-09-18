@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="HDP,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="起因使用测试集群增加个人电脑的节点到集群中">
+<meta name="keywords" content="HDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试集群增加节点以及删除节点">
+<meta property="og:url" content="www.zzditto.cn/2019/09/17/BigData/测试集群增加节点以及删除节点/index.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="起因使用测试集群增加个人电脑的节点到集群中">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/testdata.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/decommission.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode4.png">
+<meta property="og:updated_time" content="2019-09-18T03:50:26.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="测试集群增加节点以及删除节点">
+<meta name="twitter:description" content="起因使用测试集群增加个人电脑的节点到集群中">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/testdata.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/2019/09/17/BigData/测试集群增加节点以及删除节点/">
+
+
+
+
+
+  <title>测试集群增加节点以及删除节点 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/17/BigData/测试集群增加节点以及删除节点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">测试集群增加节点以及删除节点</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-17T17:20:17+08:00">
+                2019-09-17
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-18T11:50:26+08:00">
+                2019-09-18
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/HDP/" itemprop="url" rel="index">
+                    <span itemprop="name">HDP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/17/BigData/测试集群增加节点以及删除节点/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/17/BigData/测试集群增加节点以及删除节点/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>使用测试集群增加个人电脑的节点到集群中</p>
+<a id="more"></a>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="设置个人电脑虚拟机为桥接模式"><a href="#设置个人电脑虚拟机为桥接模式" class="headerlink" title="设置个人电脑虚拟机为桥接模式"></a>设置个人电脑虚拟机为桥接模式</h3><h3 id="新机器设置"><a href="#新机器设置" class="headerlink" title="新机器设置"></a>新机器设置</h3><h4 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@test ~]# cat /etc/sysconfig/network-scripts/ifcfg-ens33</span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">IPV6_ADDR_GEN_MODE=stable-privacy</span><br><span class="line">NAME=ens33</span><br><span class="line">DEVICE=ens33</span><br><span class="line">ONBOOT=yes</span><br><span class="line">IPADDR=192.168.2.250</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.2.1</span><br><span class="line">DNS1=8.8.8.8</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong>设置为桥接模式，需处于和主机相同网段</p>
+<h4 id="修改主机名和主机映射"><a href="#修改主机名和主机映射" class="headerlink" title="修改主机名和主机映射"></a>修改主机名和主机映射</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@test ~]# vi /etc/hosts</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.200.110  vm110</span><br><span class="line">192.168.200.111  vm111</span><br><span class="line">192.168.200.112  vm112</span><br><span class="line">192.168.200.200 bs00</span><br><span class="line">192.168.200.201 bs01</span><br><span class="line">192.168.200.202 bs02</span><br><span class="line">192.168.200.203 bs03</span><br><span class="line"></span><br><span class="line">192.168.2.250   test</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改-etc-sysconfig-network"><a href="#修改-etc-sysconfig-network" class="headerlink" title="修改/etc/sysconfig/network"></a>修改<code>/etc/sysconfig/network</code></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@test ~]# cat /etc/sysconfig/network</span><br><span class="line"><span class="meta">#</span> Created by anaconda</span><br><span class="line">NETWORKING=yes</span><br><span class="line"></span><br><span class="line">[root@test ~]# systemctl restart network</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置jdk"><a href="#配置jdk" class="headerlink" title="配置jdk"></a>配置jdk</h4><h4 id="配置免密"><a href="#配置免密" class="headerlink" title="配置免密"></a>配置免密</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@vm110 home]# ssh-copy-id test</span><br><span class="line">The authenticity of host 'test (192.168.2.250)' can't be established.</span><br><span class="line">ECDSA key fingerprint is 7f:0c:e8:7f:87:29:ed:e9:66:4c:1b:50:f8:26:ac:a5.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)? yes</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed</span><br><span class="line">/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys</span><br><span class="line">root@test's password:</span><br><span class="line"></span><br><span class="line">Number of key(s) added: 1</span><br><span class="line"></span><br><span class="line">Now try logging into the machine, with:   "ssh 'test'"</span><br><span class="line">and check to make sure that only the key(s) you wanted were added.</span><br><span class="line"></span><br><span class="line">[root@vm110 home]# ssh vm110 date; ssh vm111 date; ssh vm112 date ; ssh test date;</span><br><span class="line">Tue Sep 17 17:39:48 CST 2019</span><br><span class="line">Tue Sep 17 17:39:48 CST 2019</span><br><span class="line">Tue Sep 17 17:39:48 CST 2019</span><br><span class="line">Tue Sep 17 17:39:47 CST 2019</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改文件限制"><a href="#修改文件限制" class="headerlink" title="修改文件限制"></a>修改文件限制</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@test jdk]# vi /etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span> End of file</span><br><span class="line"></span><br><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 131072</span><br><span class="line">* soft nproc 2048</span><br><span class="line">* hard nproc 4096</span><br></pre></td></tr></table></figure>
+
+<h4 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h4><h4 id="设置selinux"><a href="#设置selinux" class="headerlink" title="设置selinux"></a>设置selinux</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@test jdk]# vi /etc/selinux/config</span><br><span class="line"><span class="meta">#</span> This file controls the state of SELinux on the system.</span><br><span class="line"><span class="meta">#</span> SELINUX= can take one of these three values:</span><br><span class="line"><span class="meta">#</span>     enforcing - SELinux security policy is enforced.</span><br><span class="line"><span class="meta">#</span>     permissive - SELinux prints warnings instead of enforcing.</span><br><span class="line"><span class="meta">#</span>     disabled - No SELinux policy is loaded.</span><br><span class="line">SELINUX=disabled</span><br><span class="line"><span class="meta">#</span> SELINUXTYPE= can take one of three values:</span><br><span class="line"><span class="meta">#</span>     targeted - Targeted processes are protected,</span><br><span class="line"><span class="meta">#</span>     minimum - Modification of targeted policy. Only selected processes are protected.</span><br><span class="line"><span class="meta">#</span>     mls - Multi Level Security protection.</span><br><span class="line">SELINUXTYPE=targeted</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置ntp服务，同步时钟"><a href="#设置ntp服务，同步时钟" class="headerlink" title="设置ntp服务，同步时钟"></a>设置ntp服务，同步时钟</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@test jdk]# vi /etc/ntp.conf</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>server 0.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 1.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 2.centos.pool.ntp.org iburst</span><br><span class="line"><span class="meta">#</span>server 3.centos.pool.ntp.org iburst</span><br><span class="line"></span><br><span class="line">server  192.168.200.110 prefer</span><br><span class="line"></span><br><span class="line">[root@test jdk]# ntpq -p</span><br><span class="line">     remote           refid      st t when poll reach   delay   offset  jitter</span><br><span class="line">==============================================================================</span><br><span class="line"> vm110           120.25.115.20    3 u   13   64    1    2.422   49.073   0.000</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改yum源"><a href="#修改yum源" class="headerlink" title="修改yum源"></a>修改yum源</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm110 yum.repos.d]# scp ambari.repo test:/etc/yum.repos.d/</span><br><span class="line">ambari.repo                                                                                                                        100%  271     0.3KB/s   00:00</span><br><span class="line">[root@vm110 yum.repos.d]# scp hdp.repo test:/etc/yum.repos.d/</span><br><span class="line">hdp.repo</span><br></pre></td></tr></table></figure>
+
+<h4 id="页面增加节点"><a href="#页面增加节点" class="headerlink" title="页面增加节点"></a>页面增加节点</h4><p><strong>注意</strong>：在test节点安装hadoop组件时，出现了无法使用163镜像和阿里云镜像，虽然网络是可以ping通百度，但也是十分不稳定，所以采用了离线安装的方式。即：<br>将已经准备好的local_yum上传至/var/www/html(需要提前安装httpd服务),然后配置本地yum源，将base的yum源移除，此时，节点上可使用的yum源为ambari，hdp，local_yum。遂安装成功</p>
+<h3 id="安装节点后测试"><a href="#安装节点后测试" class="headerlink" title="安装节点后测试"></a>安装节点后测试</h3><h4 id="wordcount测试"><a href="#wordcount测试" class="headerlink" title="wordcount测试"></a>wordcount测试</h4><h5 id="wordcount数据生成"><a href="#wordcount数据生成" class="headerlink" title="wordcount数据生成"></a>wordcount数据生成</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">wddata</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//数据存储路径</span></span><br><span class="line">        String output= args[<span class="number">0</span>];</span><br><span class="line">        String strs[]=&#123;<span class="string">"hello"</span>, <span class="string">"hi"</span>, <span class="string">"word"</span>, <span class="string">"hahah"</span>, <span class="string">"nihao"</span>, <span class="string">"spark"</span>, <span class="string">"html"</span>, <span class="string">"css"</span>&#125;;</span><br><span class="line"></span><br><span class="line">        String restr=<span class="string">""</span>;</span><br><span class="line">        Random random = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> flog=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            OutputStreamWriter out = <span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(output));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10000000</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> num = random.nextInt(<span class="number">8</span>);</span><br><span class="line">            String str = strs[num];</span><br><span class="line"></span><br><span class="line">            out.write(str);</span><br><span class="line">            out.write(<span class="string">","</span>);</span><br><span class="line"></span><br><span class="line">            flog+=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(flog==<span class="number">10</span>)&#123;</span><br><span class="line">                out.write(<span class="string">"\r\n"</span>);</span><br><span class="line">                flog=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">            out.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打包上传至集群中运行，数据存储在节点本地</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@vm110 testdata]# pwd</span><br><span class="line">/usr/local/src/liu/testdata</span><br><span class="line">[root@vm110 testdata]# ll</span><br><span class="line">total 32</span><br><span class="line">-rw-r--r-- 1 root root 32262 Sep 18 10:55 test2-1.0-SNAPSHOT.jar</span><br><span class="line"></span><br><span class="line">[root@vm110 testdata]# java -cp test2-1.0-SNAPSHOT.jar  wddata /usr/local/src/liu/testdata/data.data</span><br><span class="line"></span><br><span class="line">[root@vm110 testdata]# du -sh *</span><br><span class="line">51M     data.data</span><br></pre></td></tr></table></figure>
+
+<p>将data.data上传至hdfs</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hdfs@vm110 testdata]$ hadoop fs -put data.data /test/wd.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/testdata.png" alt="testdata"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[hdfs@vm110 testdata]$ spark-submit --master yarn --class wdcount test2-1.0-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+
+<h5 id="wordcount"><a href="#wordcount" class="headerlink" title="wordcount"></a>wordcount</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  *classname:wdcount</span></span><br><span class="line"><span class="comment">  *auther:LWZ</span></span><br><span class="line"><span class="comment">  *date:2019/8/23 14:17</span></span><br><span class="line"><span class="comment">  *  </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">object wdcount &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*saprksession*/</span></span><br><span class="line">  <span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line">    val sessioin=SparkSession.builder()</span><br><span class="line"><span class="comment">//      .master("local[*]")</span></span><br><span class="line">      .appName(<span class="keyword">this</span>.getClass.getSimpleName)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*input*/</span></span><br><span class="line">    val input=<span class="string">"hdfs://vm110:8020/test/wd.txt"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*src*/</span></span><br><span class="line">    val src : Dataset[String] =</span><br><span class="line">      sessioin.read.textFile(input)</span><br><span class="line"></span><br><span class="line">    val res: RDD[(String, Int)] =src.rdd.flatMap(line =&gt; &#123;</span><br><span class="line">      val arrs : Array[String] = line.split(<span class="string">","</span>)</span><br><span class="line">      arrs</span><br><span class="line">    &#125;).map(tp =&gt; (tp,<span class="number">1</span>)).reduceByKey((re1,re2)=&gt;re1+re2)</span><br><span class="line"></span><br><span class="line">    println(res.collect().toList)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>((word,<span class="number">1250381</span>), (hello,<span class="number">1250540</span>), (hahah,<span class="number">1251383</span>), (spark,<span class="number">1248842</span>), (hi,<span class="number">1249971</span>), (css,<span class="number">1247879</span>), (html,<span class="number">1250719</span>), (nihao,<span class="number">1250285</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件复制测试"><a href="#文件复制测试" class="headerlink" title="文件复制测试"></a>文件复制测试</h4><p>准备1.1G大文件在节点机器上，上传至hdfs</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[hdfs@vm110 data]$ hadoop fs -mkdir /test</span><br><span class="line">[hdfs@vm110 data]$ hadoop fs -put testdata.data  /test/data.data</span><br><span class="line">[hdfs@vm110 data]$ du -sh *</span><br><span class="line">1.2G    testdata.data</span><br></pre></td></tr></table></figure>
+
+<p>由图可见，test节点使用量为675.74Mb<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode.png" alt="datanode"></p>
+<h5 id="在要删除的节点设置datanode为Decommission"><a href="#在要删除的节点设置datanode为Decommission" class="headerlink" title="在要删除的节点设置datanode为Decommission"></a>在要删除的节点设置datanode为Decommission</h5><p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/decommission.png" alt="decommission"></p>
+<h5 id="查看datanode页面，等待完成"><a href="#查看datanode页面，等待完成" class="headerlink" title="查看datanode页面，等待完成"></a>查看datanode页面，等待完成</h5><p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode2.png" alt="datanode2"></p>
+<h5 id="block块对比"><a href="#block块对比" class="headerlink" title="block块对比"></a>block块对比</h5><p>before<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode3.png" alt="datanode3"></p>
+<p>after<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode4.png" alt="datanode4"></p>
+<p>一个block块有三个副本，现在有四个，说明test上面的block块已经被成功复制</p>
+<h5 id="停止节点上的所有组件"><a href="#停止节点上的所有组件" class="headerlink" title="停止节点上的所有组件"></a>停止节点上的所有组件</h5><h5 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h5><h5 id="重启HDFS"><a href="#重启HDFS" class="headerlink" title="重启HDFS"></a>重启HDFS</h5>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HDP/" rel="tag"><i class="fa fa-tag"></i>HDP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/17/BigData/bigdata零零碎碎/" rel="next" title="bigdata零零碎碎">
+                <i class="fa fa-chevron-left"></i> bigdata零零碎碎
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">一杯茶，一包烟，一行代码写一天。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zzditto" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:18332779639@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤"><span class="nav-number">2.</span> <span class="nav-text">步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置个人电脑虚拟机为桥接模式"><span class="nav-number">2.1.</span> <span class="nav-text">设置个人电脑虚拟机为桥接模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新机器设置"><span class="nav-number">2.2.</span> <span class="nav-text">新机器设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ip"><span class="nav-number">2.2.1.</span> <span class="nav-text">ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改主机名和主机映射"><span class="nav-number">2.2.2.</span> <span class="nav-text">修改主机名和主机映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改-etc-sysconfig-network"><span class="nav-number">2.2.3.</span> <span class="nav-text">修改/etc/sysconfig/network</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置jdk"><span class="nav-number">2.2.4.</span> <span class="nav-text">配置jdk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置免密"><span class="nav-number">2.2.5.</span> <span class="nav-text">配置免密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改文件限制"><span class="nav-number">2.2.6.</span> <span class="nav-text">修改文件限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭防火墙"><span class="nav-number">2.2.7.</span> <span class="nav-text">关闭防火墙</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置selinux"><span class="nav-number">2.2.8.</span> <span class="nav-text">设置selinux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置ntp服务，同步时钟"><span class="nav-number">2.2.9.</span> <span class="nav-text">设置ntp服务，同步时钟</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改yum源"><span class="nav-number">2.2.10.</span> <span class="nav-text">修改yum源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#页面增加节点"><span class="nav-number">2.2.11.</span> <span class="nav-text">页面增加节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装节点后测试"><span class="nav-number">2.3.</span> <span class="nav-text">安装节点后测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#wordcount测试"><span class="nav-number">2.3.1.</span> <span class="nav-text">wordcount测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#wordcount数据生成"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">wordcount数据生成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#wordcount"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">wordcount</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件复制测试"><span class="nav-number">2.3.2.</span> <span class="nav-text">文件复制测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在要删除的节点设置datanode为Decommission"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">在要删除的节点设置datanode为Decommission</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看datanode页面，等待完成"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">查看datanode页面，等待完成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#block块对比"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">block块对比</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#停止节点上的所有组件"><span class="nav-number">2.3.2.4.</span> <span class="nav-text">停止节点上的所有组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除节点"><span class="nav-number">2.3.2.5.</span> <span class="nav-text">删除节点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重启HDFS"><span class="nav-number">2.3.2.6.</span> <span class="nav-text">重启HDFS</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'ATLN8AC6PiHK2RYMk6IQOU6N-MdYXbMMI',
+        appKey: 'SntQjviLuKeSUN0zoVI0B7hf',
+        placeholder: '你在想什么呢？',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
