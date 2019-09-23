@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode4.png">
-<meta property="og:updated_time" content="2019-09-18T03:50:26.493Z">
+<meta property="og:updated_time" content="2019-09-23T08:31:10.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="测试集群增加节点以及删除节点">
 <meta name="twitter:description" content="起因使用测试集群增加个人电脑的节点到集群中">
@@ -347,8 +347,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-18T11:50:26+08:00">
-                2019-09-18
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-23T16:31:10+08:00">
+                2019-09-23
               </time>
             
           </span>
@@ -366,19 +366,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/HDP/" itemprop="url" rel="index">
-                    <span itemprop="name">HDP</span>
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
                   </a>
                 </span>
 
@@ -469,7 +458,11 @@
 <h5 id="block块对比"><a href="#block块对比" class="headerlink" title="block块对比"></a>block块对比</h5><p>before<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode3.png" alt="datanode3"></p>
 <p>after<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/datanode4.png" alt="datanode4"></p>
 <p>一个block块有三个副本，现在有四个，说明test上面的block块已经被成功复制</p>
-<h5 id="停止节点上的所有组件"><a href="#停止节点上的所有组件" class="headerlink" title="停止节点上的所有组件"></a>停止节点上的所有组件</h5><h5 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h5><h5 id="重启HDFS"><a href="#重启HDFS" class="headerlink" title="重启HDFS"></a>重启HDFS</h5>
+<h5 id="停止节点上的所有组件"><a href="#停止节点上的所有组件" class="headerlink" title="停止节点上的所有组件"></a>停止节点上的所有组件</h5><h5 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h5><p>停止ambari-agent</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@test yum.repos.d]# ambari-agent  stop</span><br><span class="line">Verifying Python version compatibility...</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Found ambari-agent PID: 13784</span><br><span class="line">Stopping ambari-agent</span><br><span class="line">Removing PID file at /run/ambari-agent/ambari-agent.pid</span><br><span class="line">ambari-agent successfully stopped</span><br></pre></td></tr></table></figure>
+
+<p>删除</p>
+<h5 id="重启HDFS"><a href="#重启HDFS" class="headerlink" title="重启HDFS"></a>重启HDFS</h5>
       
     </div>
     
@@ -589,7 +582,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -600,7 +593,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -611,7 +604,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

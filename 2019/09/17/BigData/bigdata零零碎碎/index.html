@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="HDP,">
+  <meta name="keywords" content="Other,">
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="个人电脑虚拟机作为测试集群节点桥接模式是将主机当成为一个交换机，桥接模式的虚拟机和主机都可以看成通过这个交换机连接到外部网络，这两个机器不会互相影响，完全独立。但是得设置虚拟机的ip和网关和主机的ip和网关在同一网段 使用测试集群中节点ping主机，能够ping通，所以猜想，如果可以弄一个虚拟机处于和主机相同的网络环境，就可以将此虚拟机增加到集群之中">
-<meta name="keywords" content="HDP">
+<meta name="keywords" content="Other">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bigdata零零碎碎">
 <meta property="og:url" content="www.zzditto.cn/2019/09/17/BigData/bigdata零零碎碎/index.html">
 <meta property="og:site_name" content="小柚麯">
 <meta property="og:description" content="个人电脑虚拟机作为测试集群节点桥接模式是将主机当成为一个交换机，桥接模式的虚拟机和主机都可以看成通过这个交换机连接到外部网络，这两个机器不会互相影响，完全独立。但是得设置虚拟机的ip和网关和主机的ip和网关在同一网段 使用测试集群中节点ping主机，能够ping通，所以猜想，如果可以弄一个虚拟机处于和主机相同的网络环境，就可以将此虚拟机增加到集群之中">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-17T09:19:53.557Z">
+<meta property="og:updated_time" content="2019-09-23T08:22:25.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bigdata零零碎碎">
 <meta name="twitter:description" content="个人电脑虚拟机作为测试集群节点桥接模式是将主机当成为一个交换机，桥接模式的虚拟机和主机都可以看成通过这个交换机连接到外部网络，这两个机器不会互相影响，完全独立。但是得设置虚拟机的ip和网关和主机的ip和网关在同一网段 使用测试集群中节点ping主机，能够ping通，所以猜想，如果可以弄一个虚拟机处于和主机相同的网络环境，就可以将此虚拟机增加到集群之中">
@@ -340,8 +340,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-17T17:19:53+08:00">
-                2019-09-17
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-23T16:22:25+08:00">
+                2019-09-23
               </time>
             
           </span>
@@ -359,19 +359,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
                   </a>
                 </span>
 
@@ -422,6 +411,22 @@
 <a id="more"></a>
 
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://blog.csdn.net/ccyhummer/article/details/80714430" target="_blank" rel="noopener">VMWare桥接方式设置及问题解决</a><br><a href="https://blog.csdn.net/taotongning/article/details/81477472" target="_blank" rel="noopener">VMware的三种网络类型</a></p>
+<h2 id="hive的explode函数"><a href="#hive的explode函数" class="headerlink" title="hive的explode函数"></a>hive的explode函数</h2><p>源数据如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm110 hivetest]# cat test.txt</span><br><span class="line">zs      1,2,3,5 25</span><br><span class="line">li      6,2     30</span><br><span class="line">hh      3       20</span><br></pre></td></tr></table></figure>
+
+<p>hive建表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; create table explodeTest (name string,score array&lt;string&gt;,age string)</span><br><span class="line">    &gt; ROW FORMAT DELIMITED</span><br><span class="line">    &gt; FIELDS TERMINATED BY '\t'</span><br><span class="line">    &gt; COLLECTION ITEMS TERMINATED BY ',';</span><br><span class="line">OK</span><br><span class="line">Time taken: 0.33 seconds</span><br><span class="line">hive&gt; load data local inpath '/usr/local/src/liu/hivetest/test.txt' into table explodetest;</span><br><span class="line">Loading data to table liu.explodetest</span><br><span class="line">Table liu.explodetest stats: [numFiles=1, numRows=0, totalSize=32, rawDataSize=0]</span><br><span class="line">OK</span><br><span class="line">Time taken: 0.224 seconds</span><br><span class="line">hive&gt; select * from explodeTest;</span><br><span class="line">OK</span><br><span class="line">zs      ["1","2","3","5"]       25</span><br><span class="line">li      ["6","2"]       30</span><br><span class="line">hh      ["3"]   20</span><br><span class="line">Time taken: 0.156 seconds, Fetched: 3 row(s)</span><br></pre></td></tr></table></figure>
+
+<p>explode演示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#行转列</span></span><br><span class="line">hive&gt; select explode(score) from explodeTest;</span><br><span class="line">OK</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">Time taken: 0.105 seconds, Fetched: 7 row(s)</span><br></pre></td></tr></table></figure>
+
+<p>使用lateral view</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; select name,age,score1 from explodeTest lateral view explode(score) score2 as score1;</span><br><span class="line">OK</span><br><span class="line">zs      25      1</span><br><span class="line">zs      25      2</span><br><span class="line">zs      25      3</span><br><span class="line">zs      25      5</span><br><span class="line">li      30      6</span><br><span class="line">li      30      2</span><br><span class="line">hh      20      3</span><br><span class="line">Time taken: 0.103 seconds, Fetched: 7 row(s)</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://my.oschina.net/zhzhenqin/blog/602536" target="_blank" rel="noopener">Hive-explode[行转列]关键字使用</a></p>
+<h2 id="spark-sql中使用explode函数"><a href="#spark-sql中使用explode函数" class="headerlink" title="spark-sql中使用explode函数"></a>spark-sql中使用explode函数</h2><p>需要导入两个包，如下</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"># <span class="keyword">import</span> org.apache.spark.sql.functions.explode</span><br><span class="line"># <span class="keyword">import</span> session.implicits._</span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> cn.sic_credit.bigdata.tycdata.com_bus_risks_industrial</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.functions.explode</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.&#123;<span class="type">DataFrame</span>, <span class="type">SparkSession</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  *classname:parseJsonETL</span></span><br><span class="line"><span class="comment">  *auther:LWZ</span></span><br><span class="line"><span class="comment">  *date:2019/9/23 11:41</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">parseJsonETL</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*sparksession*/</span></span><br><span class="line">    <span class="keyword">val</span> session=<span class="type">SparkSession</span>.builder()</span><br><span class="line">      .master(<span class="string">"local[*]"</span>)</span><br><span class="line">      .appName(<span class="keyword">this</span>.getClass.getSimpleName)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">import</span> session.implicits._</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*args*/</span></span><br><span class="line">    <span class="keyword">val</span> tableName=<span class="string">"com_bus_risks-industrial"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*input*/</span></span><br><span class="line">    <span class="keyword">val</span> input=<span class="string">"hdfs://vm50:8020/flume/logs/tyc_data/2019-09-21/*"</span></span><br><span class="line">    <span class="keyword">val</span> output=<span class="string">""</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*src*/</span></span><br><span class="line">    <span class="keyword">val</span> src : <span class="type">DataFrame</span> = session.read.json(input)</span><br><span class="line">    src.show(<span class="number">20</span>)</span><br><span class="line">    src.printSchema()</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**/</span></span><br><span class="line">    <span class="keyword">val</span> df1 = src.select($<span class="string">"com_name"</span>,$<span class="string">"com_credit_code"</span>,(explode($<span class="string">"com_bus_risks-industrial"</span>) as <span class="string">"com_bus_risks-industrial"</span>))</span><br><span class="line">    df1.show(<span class="number">20</span>)</span><br><span class="line">    df1.printSchema()</span><br><span class="line"></span><br><span class="line">    session.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -439,7 +444,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HDP/" rel="tag"><i class="fa fa-tag"></i>HDP</a>
+            <a href="/tags/Other/" rel="tag"><i class="fa fa-tag"></i>Other</a>
           
         </div>
       
@@ -546,7 +551,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -557,7 +562,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -568,7 +573,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -617,7 +622,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#个人电脑虚拟机作为测试集群节点"><span class="nav-number">1.</span> <span class="nav-text">个人电脑虚拟机作为测试集群节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">1.1.</span> <span class="nav-text">参考文章</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#个人电脑虚拟机作为测试集群节点"><span class="nav-number">1.</span> <span class="nav-text">个人电脑虚拟机作为测试集群节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">1.1.</span> <span class="nav-text">参考文章</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive的explode函数"><span class="nav-number">2.</span> <span class="nav-text">hive的explode函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">2.1.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-sql中使用explode函数"><span class="nav-number">3.</span> <span class="nav-text">spark-sql中使用explode函数</span></a></li></ol></div>
             
 
           </div>
