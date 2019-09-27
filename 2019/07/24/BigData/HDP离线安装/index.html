@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="注意在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C">
+<meta name="description" content="注意在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看https://zzditto.cn/2019/08/19/BigData/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%">
 <meta name="keywords" content="HDP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HDP离线安装">
 <meta property="og:url" content="www.zzditto.cn/2019/07/24/BigData/HDP离线安装/index.html">
 <meta property="og:site_name" content="小柚麯">
-<meta property="og:description" content="注意在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C">
+<meta property="og:description" content="注意在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看https://zzditto.cn/2019/08/19/BigData/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/httpd%E6%9C%8D%E5%8A%A1%E6%88%AA%E5%9B%BE.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A21.png">
@@ -98,10 +98,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A28.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A29.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-%E7%95%8C%E9%9D%A210.png">
-<meta property="og:updated_time" content="2019-09-23T08:23:41.872Z">
+<meta property="og:updated_time" content="2019-09-27T01:41:53.917Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDP离线安装">
-<meta name="twitter:description" content="注意在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C">
+<meta name="twitter:description" content="注意在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看https://zzditto.cn/2019/08/19/BigData/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/httpd%E6%9C%8D%E5%8A%A1%E6%88%AA%E5%9B%BE.png">
 
 
@@ -352,8 +352,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-23T16:23:41+08:00">
-                2019-09-23
+              <time title="更新于" itemprop="dateModified" datetime="2019-09-27T09:41:53+08:00">
+                2019-09-27
               </time>
             
           </span>
@@ -418,7 +418,7 @@
       
 
       
-        <p><strong>注意</strong><br>在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看<a href="http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C%B0yum%E6%BA%90/">http://www.zzditto.cn/2019/08/19/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C%B0yum%E6%BA%90/</a>,下文对软件的安装在yum源制作完成之后，都可使用yum -y install packagename 安装。</p>
+        <p><strong>注意</strong><br>在实际生产环境下，需要离线安装，但是一般都是自定义yum源，将所需的rpm软件包及其依赖提前准备好并制作一个yum源服务器，供集群的各节点使用。本文采用的方法很笨，具体yum源的制作请看<a href="https://zzditto.cn/2019/08/19/BigData/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C%B0yum%E6%BA%90/" target="_blank" rel="noopener">https://zzditto.cn/2019/08/19/BigData/HDP%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%88%B6%E4%BD%9C%E6%9C%AC%E5%9C%B0yum%E6%BA%90/</a>;<a href="https://zzditto.cn/2019/08/19/BigData/yum%E4%B8%8B%E8%BD%BDrpm%E4%BB%A5%E5%8F%8A%E4%BE%9D%E8%B5%96%E5%8C%85/" target="_blank" rel="noopener">https://zzditto.cn/2019/08/19/BigData/yum%E4%B8%8B%E8%BD%BDrpm%E4%BB%A5%E5%8F%8A%E4%BE%9D%E8%B5%96%E5%8C%85/</a>,下文对软件的安装在yum源制作完成之后，都可使用yum -y install packagename 安装。</p>
 <h3 id="1-检查系统版本"><a href="#1-检查系统版本" class="headerlink" title="1.检查系统版本"></a>1.检查系统版本</h3><p>HDP2.6需要centos7版本<br>注：系统需要linux的虚拟化主机版或者桌面版。最小化安装缺乏mysql安装的部分依赖包</p>
 <h4 id="cat-etc-redhat-release-适用于Redhat系linux"><a href="#cat-etc-redhat-release-适用于Redhat系linux" class="headerlink" title="cat /etc/redhat-release 适用于Redhat系linux"></a>cat /etc/redhat-release 适用于Redhat系linux</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br></pre></td></tr></table></figure>
 
