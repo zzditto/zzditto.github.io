@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Flume,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="生产集群路径：[root@vm51 myconf]# cd /opt/apps/apache-flume-1.7.0-bin/ conf文件：[root@vm51 myconf]# cd /opt/apps/apache-flume-1.7.0-bin/conf/myconf/ avro_memory_hdfs.conf：">
-<meta name="keywords" content="Flume">
+<meta name="description" content="The article has been encrypted, please enter your password to view.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="flume情况简介">
-<meta property="og:url" content="www.zzditto.cn/2019/08/04/Work/flume情况简介/index.html">
+<meta property="og:title" content="集群基本配置">
+<meta property="og:url" content="www.zzditto.cn/2019/09/04/Works/集群基本情况/index.html">
 <meta property="og:site_name" content="小柚麯">
-<meta property="og:description" content="生产集群路径：[root@vm51 myconf]# cd /opt/apps/apache-flume-1.7.0-bin/ conf文件：[root@vm51 myconf]# cd /opt/apps/apache-flume-1.7.0-bin/conf/myconf/ avro_memory_hdfs.conf：">
+<meta property="og:description" content="The article has been encrypted, please enter your password to view.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-23T08:30:53.443Z">
+<meta property="og:updated_time" content="2019-10-07T14:03:48.172Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="flume情况简介">
-<meta name="twitter:description" content="生产集群路径：[root@vm51 myconf]# cd /opt/apps/apache-flume-1.7.0-bin/ conf文件：[root@vm51 myconf]# cd /opt/apps/apache-flume-1.7.0-bin/conf/myconf/ avro_memory_hdfs.conf：">
+<meta name="twitter:title" content="集群基本配置">
+<meta name="twitter:description" content="The article has been encrypted, please enter your password to view.">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="www.zzditto.cn/2019/08/04/Work/flume情况简介/">
+  <link rel="canonical" href="www.zzditto.cn/2019/09/04/Works/集群基本情况/">
 
 
 
 
 
-  <title>flume情况简介 | 小柚麯</title>
+  <title>集群基本配置 | 小柚麯</title>
   
 
 
@@ -295,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/08/04/Work/flume情况简介/">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/04/Works/集群基本情况/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小柚麯">
@@ -312,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">flume情况简介</h1>
+          <h1 class="post-title" itemprop="name headline">集群基本配置</h1>
         
 
         <div class="post-meta">
@@ -324,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-04T21:54:46+08:00">
-                2019-08-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T10:22:25+08:00">
+                2019-09-04
               </time>
             
 
@@ -340,8 +339,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-23T16:30:53+08:00">
-                2019-09-23
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-07T22:03:48+08:00">
+                2019-10-07
               </time>
             
           </span>
@@ -359,8 +358,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Work/" itemprop="url" rel="index">
-                    <span itemprop="name">Work</span>
+                  <a href="/categories/Works/" itemprop="url" rel="index">
+                    <span itemprop="name">Works</span>
                   </a>
                 </span>
 
@@ -377,8 +376,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/08/04/Work/flume情况简介/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/04/Work/flume情况简介/" itemprop="commentCount"></span>
+                <a href="/2019/09/04/Works/集群基本情况/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/04/Works/集群基本情况/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -406,29 +405,19 @@
       
 
       
-        <h2 id="生产集群"><a href="#生产集群" class="headerlink" title="生产集群"></a>生产集群</h2><p>路径：<br><code>[root@vm51 myconf]# cd /opt/apps/apache-flume-1.7.0-bin/</code></p>
-<p>conf文件：<br><code>[root@vm51 myconf]# cd /opt/apps/apache-flume-1.7.0-bin/conf/myconf/</code></p>
-<p>avro_memory_hdfs.conf：</p>
-<a id="more"></a>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>192.168.200.51 avro_memory_hdfs</span><br><span class="line"></span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>source</span><br><span class="line">a1.sources.r1.type = avro</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">a1.sources.r1.bind = 192.168.200.51</span><br><span class="line">a1.sources.r1.port = 4545</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>memory</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 100000</span><br><span class="line">a1.channels.c1.transactionCapacity = 10000</span><br><span class="line">a1.channels.c1.keep-alive = 30</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>sinks</span><br><span class="line">a1.sinks.k1.type = hdfs</span><br><span class="line">a1.sinks.k1.channel = c1</span><br><span class="line"><span class="meta">#</span>指定目录</span><br><span class="line">a1.sinks.k1.hdfs.path = /flume/logs/%&#123;dataType&#125;/%Y-%m-%d</span><br><span class="line"><span class="meta">#</span>文件的命名, 前缀</span><br><span class="line">a1.sinks.k1.hdfs.filePrefix = logs-</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>24h就改目录（创建目录）， （这些参数影响/flume/events/%y-%m-%d/%H%M/）</span><br><span class="line">a1.sinks.k1.hdfs.round = true</span><br><span class="line">a1.sinks.k1.hdfs.roundValue = 24</span><br><span class="line">a1.sinks.k1.hdfs.roundUnit = hour</span><br><span class="line"><span class="meta">#</span>目录里面有文件</span><br><span class="line"><span class="meta">#</span>------start----符合其中一个就满足---</span><br><span class="line"><span class="meta">#</span>文件滚动之前的等待时间(秒)</span><br><span class="line">a1.sinks.k1.hdfs.rollInterval = 2400</span><br><span class="line"><span class="meta">#</span>文件滚动的大小限制(bytes) 127M</span><br><span class="line">a1.sinks.k1.hdfs.rollSize = 133169152</span><br><span class="line"><span class="meta">#</span>写入多少个event数据后滚动文件(事件个数)</span><br><span class="line">a1.sinks.k1.hdfs.rollCount = 0</span><br><span class="line"><span class="meta">#</span>-------end-----</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>100个事件就往里面写入</span><br><span class="line">a1.sinks.k1.hdfs.batchSize = 100</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>用本地时间格式化目录</span><br><span class="line">a1.sinks.k1.hdfs.useLocalTimeStamp = true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>下沉后, 生成的文件类型，默认是Sequencefile，可用DataStream，则为普通文本</span><br><span class="line">a1.sinks.k1.hdfs.fileType = DataStream</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>操作hdfs超时时间（毫秒）</span><br><span class="line">a1.sinks.k1.hdfs.callTimeout = 50000</span><br></pre></td></tr></table></figure>
-
-<h2 id="爬虫集群"><a href="#爬虫集群" class="headerlink" title="爬虫集群"></a>爬虫集群</h2><h3 id="200"><a href="#200" class="headerlink" title="200"></a>200</h3><p>路径：<br><code>root@ubuntu:~# cd /opt/apps/apache-flume-1.7.0-bin/</code></p>
-<p>conf：<br><code>root@ubuntu:~# cd /opt/apps/apache-flume-1.7.0-bin/conf/myconf/</code></p>
-<p>taildir_memory_avro2.conf：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>192.168.1.200 taildir_memory_avro</span><br><span class="line"></span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>source</span><br><span class="line">a1.sources.r1.type = TAILDIR</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line"><span class="meta">#</span>记录偏移量路径</span><br><span class="line">a1.sources.r1.positionFile = /home/FlumePositionFile/taildir_position.json</span><br><span class="line">a1.sources.r1.filegroups = f1</span><br><span class="line"><span class="meta">#</span>监控文件路径</span><br><span class="line">a1.sources.r1.filegroups.f1 = /home/data1/flume_data/tyc_data/.*.log</span><br><span class="line">a1.sources.r1.headers.f1.headerKey1 = value1</span><br><span class="line">a1.sources.r1.fileHeader = true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>静态拦截器</span><br><span class="line">a1.sources.r1.interceptors  =  i1</span><br><span class="line">a1.sources.r1.interceptors.i1.type=static</span><br><span class="line">a1.sources.r1.interceptors.i1.key= dataType</span><br><span class="line">a1.sources.r1.interceptors.i1.value=tyc_data</span><br><span class="line">a1.sources.r1.interceptors.i1.preserveExisting=false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>memory</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 10000</span><br><span class="line">a1.channels.c1.transactionCapacity = 1000</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>sinks</span><br><span class="line">a1.sinks.k1.type = avro</span><br><span class="line">a1.sinks.k1.channel = c1</span><br><span class="line">a1.sinks.k1.hostname = 192.168.200.51</span><br><span class="line">a1.sinks.k1.port = 4545</span><br></pre></td></tr></table></figure>
-
-<h3 id="201"><a href="#201" class="headerlink" title="201"></a>201</h3><p>路径：<br><code>root@ubuntu:~# cd /opt/apps/apache-flume-1.7.0-bin/</code></p>
-<p>conf：<br><code>root@ubuntu:~# cd /opt/apps/apache-flume-1.7.0-bin/conf/myconf/</code></p>
-<p>taildir_memory_avro2.conf：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>192.168.1.201 taildir_memory_avro</span><br><span class="line"></span><br><span class="line">a1.sources = r1 r2 r3</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>source r1</span><br><span class="line">a1.sources.r1.type = TAILDIR</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">a1.sources.r1.positionFile = /home/FlumePositionFile/taildir_position.json</span><br><span class="line">a1.sources.r1.filegroups = f1</span><br><span class="line">a1.sources.r1.filegroups.f1 = /home/data1/flume_data/tyc_data/.*.log</span><br><span class="line">a1.sources.r1.headers.f1.headerKey1 = value1</span><br><span class="line">a1.sources.r1.fileHeader = true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>静态拦截器 r1</span><br><span class="line">a1.sources.r1.interceptors  =  i1</span><br><span class="line">a1.sources.r1.interceptors.i1.type=static</span><br><span class="line">a1.sources.r1.interceptors.i1.key= dataType</span><br><span class="line">a1.sources.r1.interceptors.i1.value=tyc_data</span><br><span class="line">a1.sources.r1.interceptors.i1.preserveExisting=false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>source r2</span><br><span class="line">a1.sources.r2.type = TAILDIR</span><br><span class="line">a1.sources.r2.channels = c1</span><br><span class="line">a1.sources.r2.positionFile = /home/FlumePositionFile/tyc_relation_data/taildir_position.json</span><br><span class="line">a1.sources.r2.filegroups = f1</span><br><span class="line">a1.sources.r2.filegroups.f1 = /home/data1/flume_data/tyc_relation_data/.*.log</span><br><span class="line">a1.sources.r2.headers.f1.headerKey1 = value1</span><br><span class="line">a1.sources.r2.fileHeader = true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>静态拦截器 r2</span><br><span class="line">a1.sources.r2.interceptors  =  i2</span><br><span class="line">a1.sources.r2.interceptors.i2.type=static</span><br><span class="line">a1.sources.r2.interceptors.i2.key= dataType</span><br><span class="line">a1.sources.r2.interceptors.i2.value=tyc_relation_data</span><br><span class="line">a1.sources.r2.interceptors.i2.preserveExisting=false</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>source r3</span><br><span class="line">a1.sources.r3.type = TAILDIR</span><br><span class="line">a1.sources.r3.channels = c1</span><br><span class="line">a1.sources.r3.positionFile = /home/FlumePositionFile/qcc_data/taildir_position.json</span><br><span class="line">a1.sources.r3.filegroups = f1</span><br><span class="line">a1.sources.r3.filegroups.f1 = /home/data1/flume_data/qcc_data/.*.log</span><br><span class="line">a1.sources.r3.headers.f1.headerKey1 = value1</span><br><span class="line">a1.sources.r3.fileHeader = true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>r2静态拦截器 r3</span><br><span class="line">a1.sources.r3.interceptors  =  i3</span><br><span class="line">a1.sources.r3.interceptors.i3.type=static</span><br><span class="line">a1.sources.r3.interceptors.i3.key= dataType</span><br><span class="line">a1.sources.r3.interceptors.i3.value=qcc_data</span><br><span class="line">a1.sources.r3.interceptors.i3.preserveExisting=false</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>memory</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 10000</span><br><span class="line">a1.channels.c1.transactionCapacity = 1000</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>sinks</span><br><span class="line">a1.sinks.k1.type = avro</span><br><span class="line">a1.sinks.k1.channel = c1</span><br><span class="line">a1.sinks.k1.hostname = 192.168.200.51</span><br><span class="line">a1.sinks.k1.port = 4545</span><br></pre></td></tr></table></figure>
-
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>flume后台运行：<br><code>nohup ./bin/flume-ng agent -n a1 -c ./conf/ -f ./conf/myconf/avro_memory_hdfs.conf &amp;</code></p>
-<p>日志路径：<br><code>cd /opt/apps/apache-flume-1.7.0-bin/logs/</code></p>
-<p>查看：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/opt/apps/apache-flume-1.7.0-bin/conf/myconf# ps -ef | grep flume</span><br><span class="line">root      1551     1  1 Jul01 ?        11:52:15 /usr/local/custom/jdk1.8.0_74/bin/java -Xms2048m -Xmx2048m -Xss256k -Xmn1g -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:-UseGCOverheadLimit -cp /opt/apps/apache-flume-1.7.0-bin/conf:/opt/apps/apache-flume-1.7.0-bin/lib/*:/lib/* -Djava.library.path= org.apache.flume.node.Application -n a1 -f ./conf/myconf/taildir_memory_avro2.conf</span><br><span class="line">root     17247 16911  0 22:16 pts/0    00:00:00 grep --color=auto flume</span><br></pre></td></tr></table></figure>
-
-<p>kill：<br><code>kill -9 1551</code></p>
-
+        <div id="hbe-security">
+  <div class="hbe-input-container">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="Please enter the password to read the blog.">
+    <label for="pass">Please enter the password to read the blog.</label>
+    <div class="bottom-line"></div>
+  </div>
+</div>
+<div id="decryptionError" style="display: none;">Incorrect Password!</div>
+<div id="noContentError" style="display: none;">No content to display!</div>
+<div id="encrypt-blog" style="display:none">
+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
+</div>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
     </div>
     
@@ -443,12 +432,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Flume/" rel="tag"><i class="fa fa-tag"></i>Flume</a>
-          
-        </div>
-      
 
       
       
@@ -458,8 +441,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/01/BigData/Linux系统/" rel="next" title="Linux系统，Linux桌面系统">
-                <i class="fa fa-chevron-left"></i> Linux系统，Linux桌面系统
+              <a href="/2019/09/04/Learn/Nginx的学习使用/" rel="next" title="Nginx的学习使用">
+                <i class="fa fa-chevron-left"></i> Nginx的学习使用
               </a>
             
           </div>
@@ -468,8 +451,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/11/BigData/Ranger学习/" rel="prev" title="Ranger学习">
-                Ranger学习 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/09/04/BigData/ntp错误记录/" rel="prev" title="ntp错误记录">
+                ntp错误记录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -525,17 +508,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -613,22 +587,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#生产集群"><span class="nav-number">1.</span> <span class="nav-text">生产集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬虫集群"><span class="nav-number">2.</span> <span class="nav-text">爬虫集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#200"><span class="nav-number">2.1.</span> <span class="nav-text">200</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#201"><span class="nav-number">2.2.</span> <span class="nav-text">201</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行"><span class="nav-number">3.</span> <span class="nav-text">运行</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
