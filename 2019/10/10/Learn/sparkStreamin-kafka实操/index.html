@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="sparkStreaming,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="The article has been encrypted, please enter your password to view.">
+<meta name="description" content="随机产生单词,写入kafka123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/*** @program: ztgx4-&amp;gt;Scala_SetData* @description: 产生实时流数据* @author: lwz">
+<meta name="keywords" content="sparkStreaming">
 <meta property="og:type" content="article">
-<meta property="og:title" content="集群基本配置">
-<meta property="og:url" content="www.zzditto.cn/2019/09/04/ToWork/集群基本情况/index.html">
+<meta property="og:title" content="sparkStreamin+kafka实操">
+<meta property="og:url" content="www.zzditto.cn/2019/10/10/Learn/sparkStreamin-kafka实操/index.html">
 <meta property="og:site_name" content="小柚麯">
-<meta property="og:description" content="The article has been encrypted, please enter your password to view.">
+<meta property="og:description" content="随机产生单词,写入kafka123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/*** @program: ztgx4-&amp;gt;Scala_SetData* @description: 产生实时流数据* @author: lwz">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-07T14:09:41.237Z">
+<meta property="og:updated_time" content="2019-10-11T08:51:09.798Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="集群基本配置">
-<meta name="twitter:description" content="The article has been encrypted, please enter your password to view.">
+<meta name="twitter:title" content="sparkStreamin+kafka实操">
+<meta name="twitter:description" content="随机产生单词,写入kafka123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960/*** @program: ztgx4-&amp;gt;Scala_SetData* @description: 产生实时流数据* @author: lwz">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="www.zzditto.cn/2019/09/04/ToWork/集群基本情况/">
+  <link rel="canonical" href="www.zzditto.cn/2019/10/10/Learn/sparkStreamin-kafka实操/">
 
 
 
 
 
-  <title>集群基本配置 | 小柚麯</title>
+  <title>sparkStreamin+kafka实操 | 小柚麯</title>
   
 
 
@@ -294,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/04/ToWork/集群基本情况/">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/10/10/Learn/sparkStreamin-kafka实操/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小柚麯">
@@ -311,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">集群基本配置</h1>
+          <h1 class="post-title" itemprop="name headline">sparkStreamin+kafka实操</h1>
         
 
         <div class="post-meta">
@@ -323,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T10:22:25+08:00">
-                2019-09-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-10T14:29:04+08:00">
+                2019-10-10
               </time>
             
 
@@ -339,8 +340,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-10-07T22:09:41+08:00">
-                2019-10-07
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-11T16:51:09+08:00">
+                2019-10-11
               </time>
             
           </span>
@@ -358,8 +359,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ToWork/" itemprop="url" rel="index">
-                    <span itemprop="name">ToWork</span>
+                  <a href="/categories/Learn/" itemprop="url" rel="index">
+                    <span itemprop="name">Learn</span>
                   </a>
                 </span>
 
@@ -376,8 +377,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/09/04/ToWork/集群基本情况/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/04/ToWork/集群基本情况/" itemprop="commentCount"></span>
+                <a href="/2019/10/10/Learn/sparkStreamin-kafka实操/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/10/Learn/sparkStreamin-kafka实操/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -405,19 +406,12 @@
       
 
       
-        <div id="hbe-security">
-  <div class="hbe-input-container">
-  <input type="password" class="hbe-form-control" id="pass" placeholder="Please enter the password to read the blog.">
-    <label for="pass">Please enter the password to read the blog.</label>
-    <div class="bottom-line"></div>
-  </div>
-</div>
-<div id="decryptionError" style="display: none;">Incorrect Password!</div>
-<div id="noContentError" style="display: none;">No content to display!</div>
-<div id="encrypt-blog" style="display:none">
-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
-</div>
-<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+        <h3 id="随机产生单词-写入kafka"><a href="#随机产生单词-写入kafka" class="headerlink" title="随机产生单词,写入kafka"></a>随机产生单词,写入kafka</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* @program: ztgx4-&gt;Scala_SetData</span></span><br><span class="line"><span class="comment">* @description: 产生实时流数据</span></span><br><span class="line"><span class="comment">* @author: lwz</span></span><br><span class="line"><span class="comment">* @create: 2019-09-30 11:40</span></span><br><span class="line"><span class="comment">*  * while true实时产生数据，用于实时处理word-count</span></span><br><span class="line"><span class="comment">  *  * 数据写入kafka</span></span><br><span class="line"><span class="comment">  *  * 26个英文字母和1-9的数字随机组合</span></span><br><span class="line"><span class="comment">  *  * 设置不同时间段的间隔，用于不同时间的随机产生</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Scala_SetData</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*生产数据*/</span></span><br><span class="line"><span class="comment">//    定义字典表</span></span><br><span class="line">   <span class="keyword">val</span> <span class="type">DicData</span>=<span class="type">Array</span>(<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>,<span class="string">"d"</span>,<span class="string">"e"</span>,<span class="string">"f"</span>,<span class="string">"g"</span>,<span class="string">"h"</span>,<span class="string">"i"</span>,<span class="string">"j"</span>,<span class="string">"k"</span>,<span class="string">"l"</span>,<span class="string">"m"</span>,<span class="string">"n"</span>,<span class="string">"o"</span>,<span class="string">"p"</span>,<span class="string">"q"</span>,<span class="string">"r"</span>,<span class="string">"s"</span>,<span class="string">"t"</span>,<span class="string">"u"</span>,<span class="string">"v"</span>,<span class="string">"w"</span>,<span class="string">"x"</span>,<span class="string">"y"</span>,<span class="string">"z"</span>,<span class="string">"0"</span>,<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"4"</span>,<span class="string">"5"</span>,<span class="string">"6"</span>,<span class="string">"7"</span>,<span class="string">"8"</span>,<span class="string">"9"</span>)</span><br><span class="line"><span class="comment">//    定义随机时间 单位ms</span></span><br><span class="line">    <span class="keyword">val</span> <span class="type">DicDate</span>=<span class="type">Array</span>(<span class="number">1500</span>,<span class="number">2000</span>,<span class="number">3000</span>,<span class="number">100</span>,<span class="number">500</span>,<span class="number">4000</span>,<span class="number">10000</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//    时间格式</span></span><br><span class="line">    <span class="keyword">val</span> <span class="type">DateFramt</span> : <span class="type">SimpleDateFormat</span> = <span class="keyword">new</span> <span class="type">SimpleDateFormat</span>(<span class="string">"yyyy-MM-dd HH:mm:SS"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> word=<span class="string">""</span></span><br><span class="line"><span class="comment">//      获取单词,4字母单词,拼接成一行，一行有10个单词</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (i &lt;- <span class="number">1</span> to <span class="number">4</span>) &#123;</span><br><span class="line">          <span class="keyword">val</span> num = <span class="type">Random</span>.nextInt(<span class="number">36</span>)</span><br><span class="line">          word += <span class="type">DicData</span>(num)</span><br><span class="line">        &#125;</span><br><span class="line">      println(word)</span><br><span class="line"></span><br><span class="line">      <span class="comment">/*数据写入kafka*/</span></span><br><span class="line"><span class="comment">//      设置参数</span></span><br><span class="line">      <span class="keyword">val</span> prop : <span class="type">Properties</span> = <span class="keyword">new</span> <span class="type">Properties</span>()</span><br><span class="line">      prop.setProperty(<span class="string">"bootstrap.servers"</span>, <span class="string">"vm110:6667,vm111:6667,vm112:6667"</span>)</span><br><span class="line">      prop.setProperty(<span class="string">"key.serializer"</span>, classOf[<span class="type">StringSerializer</span>].getName)</span><br><span class="line">      prop.setProperty(<span class="string">"value.serializer"</span>, classOf[<span class="type">StringSerializer</span>].getName)</span><br><span class="line"></span><br><span class="line"><span class="comment">//      生产者</span></span><br><span class="line">      <span class="keyword">val</span> kafkaPro : <span class="type">KafkaProducer</span>[<span class="type">String</span>, <span class="type">String</span>] =</span><br><span class="line">        <span class="keyword">new</span> <span class="type">KafkaProducer</span>[<span class="type">String</span>,<span class="type">String</span>](prop)</span><br><span class="line"></span><br><span class="line"><span class="comment">//      定义topic</span></span><br><span class="line">      <span class="keyword">val</span> topic=<span class="string">"test"</span></span><br><span class="line"><span class="comment">//      val words=String.valueOf(word)</span></span><br><span class="line">      <span class="keyword">val</span> mes : <span class="type">ProducerRecord</span>[<span class="type">String</span>, <span class="type">String</span>] =</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ProducerRecord</span>[<span class="type">String</span>,<span class="type">String</span>](topic,<span class="number">2</span>,<span class="string">""</span>,word)</span><br><span class="line">      kafkaPro.send(mes)</span><br><span class="line"></span><br><span class="line">      <span class="comment">/*设置信息产生间隔*/</span></span><br><span class="line"><span class="comment">//      随机数，获取随机时间角标</span></span><br><span class="line">      <span class="keyword">val</span> <span class="type">DicDate_num</span>  = <span class="type">Random</span>.nextInt(<span class="number">7</span>)</span><br><span class="line"><span class="comment">//      睡眠，按照随机时间</span></span><br><span class="line">      <span class="type">Thread</span>.sleep(<span class="type">DicDate</span>(<span class="type">DicDate_num</span>).toLong)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+<h3 id="sparkstreaming从kafka读取数据，wordcount"><a href="#sparkstreaming从kafka读取数据，wordcount" class="headerlink" title="sparkstreaming从kafka读取数据，wordcount"></a>sparkstreaming从kafka读取数据，wordcount</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">StreaminWordCount</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*log4j*/</span></span><br><span class="line">  <span class="type">Logger</span>.getLogger(<span class="string">"org"</span>).setLevel(<span class="type">Level</span>.<span class="type">ERROR</span>)</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*ssc*/</span></span><br><span class="line">    <span class="keyword">val</span> conf : <span class="type">SparkConf</span> = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">    conf.setAppName(<span class="keyword">this</span>.getClass.getSimpleName)</span><br><span class="line">    conf.setMaster(<span class="string">"local[*]"</span>)</span><br><span class="line">    <span class="keyword">val</span> ssc : <span class="type">StreamingContext</span> = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf, <span class="type">Seconds</span>(<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*kafkaparams*/</span></span><br><span class="line">    <span class="keyword">val</span> kafkaPrams : mutable.<span class="type">HashMap</span>[<span class="type">String</span>, <span class="type">Object</span>] =</span><br><span class="line">      <span class="keyword">new</span> mutable.<span class="type">HashMap</span>[<span class="type">String</span>,<span class="type">Object</span>]()</span><br><span class="line">    kafkaPrams += (<span class="string">"bootstrap.servers"</span> -&gt; <span class="string">"vm110:6667,vm111:6667,vm112:6667"</span>)</span><br><span class="line">    kafkaPrams += (<span class="string">"key.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>].getName)</span><br><span class="line">    kafkaPrams += (<span class="string">"value.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>].getName)</span><br><span class="line">    kafkaPrams += (<span class="string">"group.id"</span> -&gt; <span class="string">"test7"</span>)</span><br><span class="line">    kafkaPrams += (<span class="string">"auto.offset.reset"</span> -&gt; <span class="string">"earliest"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*kafkaUtils*/</span></span><br><span class="line">    <span class="keyword">val</span> dsStream: <span class="type">InputDStream</span>[<span class="type">ConsumerRecord</span>[<span class="type">String</span>, <span class="type">String</span>]] =</span><br><span class="line">      <span class="type">KafkaUtils</span>.createDirectStream(ssc,</span><br><span class="line">      <span class="type">LocationStrategies</span>.<span class="type">PreferConsistent</span>,</span><br><span class="line">      <span class="type">ConsumerStrategies</span>.<span class="type">Subscribe</span>(<span class="type">Array</span>(<span class="string">"test"</span>), kafkaPrams: collection.<span class="type">Map</span>[<span class="type">String</span>, <span class="type">Object</span>])</span><br><span class="line">      )</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*wordcount*/</span></span><br><span class="line"><span class="comment">//    map中for循环的，将for循环得到的数据放入集合中，使用flatmap压平，在使用map变成元组</span></span><br><span class="line"></span><br><span class="line">    dsStream.foreachRDD( rdds =&gt; &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">val</span> resWord= rdds.flatMap(values =&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> word  = values.value().toString</span><br><span class="line">        <span class="keyword">val</span> arrs : <span class="type">Array</span>[<span class="type">String</span>] = word.split(<span class="string">""</span>)</span><br><span class="line">       arrs</span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      <span class="keyword">val</span> resWc : <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>)] =</span><br><span class="line">        resWord.map((_,<span class="number">1</span>)).reduceByKey(_+_).filter(f =&gt; !f._1.isEmpty)</span><br><span class="line">     resWc.foreach(println)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    ssc.start()</span><br><span class="line">    ssc.awaitTermination()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
     
@@ -432,6 +426,12 @@ U2FsdGVkX19hTZk+0EzXbzIxV98DUtRy0R7t1pUiZFmApBf6Gqy/5+wgiHhvpXBvYURIAdLJZ+PrWu5r
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/sparkStreaming/" rel="tag"><i class="fa fa-tag"></i>sparkStreaming</a>
+          
+        </div>
+      
 
       
       
@@ -441,8 +441,8 @@ U2FsdGVkX19hTZk+0EzXbzIxV98DUtRy0R7t1pUiZFmApBf6Gqy/5+wgiHhvpXBvYURIAdLJZ+PrWu5r
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/04/Learn/Nginx的学习使用/" rel="next" title="Nginx的学习使用">
-                <i class="fa fa-chevron-left"></i> Nginx的学习使用
+              <a href="/2019/10/07/Essays/我的家庭菜单/" rel="next" title="我的家庭菜单">
+                <i class="fa fa-chevron-left"></i> 我的家庭菜单
               </a>
             
           </div>
@@ -451,8 +451,8 @@ U2FsdGVkX19hTZk+0EzXbzIxV98DUtRy0R7t1pUiZFmApBf6Gqy/5+wgiHhvpXBvYURIAdLJZ+PrWu5r
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/04/BigData/ntp错误记录/" rel="prev" title="ntp错误记录">
-                ntp错误记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/10/Learn/scala/scala-1-简介，变量，函数/" rel="prev" title="scala[1]-简介，变量，函数">
+                scala[1]-简介，变量，函数 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -508,8 +508,17 @@ U2FsdGVkX19hTZk+0EzXbzIxV98DUtRy0R7t1pUiZFmApBf6Gqy/5+wgiHhvpXBvYURIAdLJZ+PrWu5r
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -526,7 +535,7 @@ U2FsdGVkX19hTZk+0EzXbzIxV98DUtRy0R7t1pUiZFmApBf6Gqy/5+wgiHhvpXBvYURIAdLJZ+PrWu5r
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -537,7 +546,7 @@ U2FsdGVkX19hTZk+0EzXbzIxV98DUtRy0R7t1pUiZFmApBf6Gqy/5+wgiHhvpXBvYURIAdLJZ+PrWu5r
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -548,7 +557,7 @@ U2FsdGVkX19hTZk+0EzXbzIxV98DUtRy0R7t1pUiZFmApBf6Gqy/5+wgiHhvpXBvYURIAdLJZ+PrWu5r
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -587,6 +596,22 @@ U2FsdGVkX19hTZk+0EzXbzIxV98DUtRy0R7t1pUiZFmApBf6Gqy/5+wgiHhvpXBvYURIAdLJZ+PrWu5r
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#随机产生单词-写入kafka"><span class="nav-number">1.</span> <span class="nav-text">随机产生单词,写入kafka</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sparkstreaming从kafka读取数据，wordcount"><span class="nav-number">2.</span> <span class="nav-text">sparkstreaming从kafka读取数据，wordcount</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

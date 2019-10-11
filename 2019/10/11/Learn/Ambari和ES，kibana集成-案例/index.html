@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="HDP,Ambari,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简单介绍实现目的虽然上述两个生态应用软件在数据处理上都颇为重要，但是毕竟不是一家人。可是在打造工业产品的过程中，hadoop和elasticsearch经常是缺一不可的（一个用于高吞吐高延迟场景，一个用于低延迟搜索场景）。因此将二者合二为一的需求也是比较明显的。Ambari平台集成的是Apache自家的solr组件，但在实际应用中，ES对于大数据量的数据搜索来说，速度更加稳定。为了方便统一，以及大">
+<meta name="keywords" content="HDP,Ambari">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ambari和ES，kibana集成-案例">
+<meta property="og:url" content="www.zzditto.cn/2019/10/11/Learn/Ambari和ES，kibana集成-案例/index.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="简单介绍实现目的虽然上述两个生态应用软件在数据处理上都颇为重要，但是毕竟不是一家人。可是在打造工业产品的过程中，hadoop和elasticsearch经常是缺一不可的（一个用于高吞吐高延迟场景，一个用于低延迟搜索场景）。因此将二者合二为一的需求也是比较明显的。Ambari平台集成的是Apache自家的solr组件，但在实际应用中，ES对于大数据量的数据搜索来说，速度更加稳定。为了方便统一，以及大">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-server%E5%8E%9F%E7%90%86%E5%9B%BE.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/es%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0web%E9%A1%B5%E9%9D%A2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/esdisplay%E6%95%88%E6%9E%9C%E5%9B%BE.png">
+<meta property="og:updated_time" content="2019-10-11T08:48:27.197Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ambari和ES，kibana集成-案例">
+<meta name="twitter:description" content="简单介绍实现目的虽然上述两个生态应用软件在数据处理上都颇为重要，但是毕竟不是一家人。可是在打造工业产品的过程中，hadoop和elasticsearch经常是缺一不可的（一个用于高吞吐高延迟场景，一个用于低延迟搜索场景）。因此将二者合二为一的需求也是比较明显的。Ambari平台集成的是Apache自家的solr组件，但在实际应用中，ES对于大数据量的数据搜索来说，速度更加稳定。为了方便统一，以及大">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-server%E5%8E%9F%E7%90%86%E5%9B%BE.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/2019/10/11/Learn/Ambari和ES，kibana集成-案例/">
+
+
+
+
+
+  <title>Ambari和ES，kibana集成-案例 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/10/11/Learn/Ambari和ES，kibana集成-案例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ambari和ES，kibana集成-案例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-11T16:45:08+08:00">
+                2019-10-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-11T16:48:27+08:00">
+                2019-10-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Learn/" itemprop="url" rel="index">
+                    <span itemprop="name">Learn</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/11/Learn/Ambari和ES，kibana集成-案例/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/11/Learn/Ambari和ES，kibana集成-案例/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><h4 id="实现目的"><a href="#实现目的" class="headerlink" title="实现目的"></a>实现目的</h4><p>虽然上述两个生态应用软件在数据处理上都颇为重要，但是毕竟不是一家人。可是在打造工业产品的过程中，hadoop和elasticsearch经常是缺一不可的（一个用于高吞吐高延迟场景，一个用于低延迟搜索场景）。因此将二者合二为一的需求也是比较明显的。<br>Ambari平台集成的是Apache自家的solr组件，但在实际应用中，ES对于大数据量的数据搜索来说，速度更加稳定。为了方便统一，以及大数据产品的易用操作性。将二者集成是有必要的。</p>
+<a id="more"></a>
+<h3 id="集成实现过程详解"><a href="#集成实现过程详解" class="headerlink" title="集成实现过程详解"></a>集成实现过程详解</h3><h4 id="ambari安装服务过程"><a href="#ambari安装服务过程" class="headerlink" title="ambari安装服务过程"></a>ambari安装服务过程</h4><p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-server%E5%8E%9F%E7%90%86%E5%9B%BE.jpg" alt="ambari原理图"></p>
+<p>Ambari Server 会读取 Stack 和 Service 的配置文件。当用 Ambari 创建服务的时候，Ambari Server 传送 Stack 和 Service 的配置文件以及 Service 生命周期的控制脚本到 Ambari Agent。Agent 拿到配置文件后，会下载安装公共源里软件包（Redhat，就是使用 yum 服务）。安装完成后，Ambari Server 会通知 Agent 去启动 Service。之后 Ambari Server 会定期发送命令到 Agent 检查 Service 的状态，Agent 上报给 Server，并呈现在 Ambari 的 GUI 上。</p>
+<p>所以Ambari是支持服务扩展的，只需要，将我们的服务整理打包，在stack，service中设置好相应的配合文件。重启Ambari-server，就可以在ambari的增加服务页面找到我们的服务并且安装。</p>
+<h4 id="目录结构解析"><a href="#目录结构解析" class="headerlink" title="目录结构解析"></a>目录结构解析</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">|_ stacks</span><br><span class="line">   |_ &lt;stack_name&gt;</span><br><span class="line">      |_ &lt;stack_version&gt;</span><br><span class="line">         metainfo.xml</span><br><span class="line">         |_ hooks</span><br><span class="line">         |_ repos</span><br><span class="line">            repoinfo.xml    #软件仓库的URL</span><br><span class="line">         |_ services    #服务目录</span><br><span class="line">            |_ &lt;service_name&gt;</span><br><span class="line">               metainfo.xml</span><br><span class="line">               metrics.json</span><br><span class="line">               |_ configuration</span><br><span class="line">                  &#123;configuration files&#125;</span><br><span class="line">               |_ package</span><br><span class="line">                  &#123;files, scripts, templates&#125;</span><br></pre></td></tr></table></figure>
+
+<p>HDFS目录结构</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 HDFS]# pwd</span><br><span class="line">/var/lib/ambari-server/resources/stacks/HDP/2.6/services/HDFS</span><br><span class="line">[root@vm01 HDFS]# tree</span><br><span class="line">.</span><br><span class="line">├── configuration</span><br><span class="line">│   ├── core-site.xml</span><br><span class="line">│   ├── hadoop-env.xml</span><br><span class="line">│   ├── hadoop-metrics2.properties.xml</span><br><span class="line">│   ├── ranger-hdfs-audit.xml</span><br><span class="line">│   └── ranger-hdfs-plugin-properties.xml</span><br><span class="line">├── kerberos.json</span><br><span class="line">└── metainfo.xml</span><br><span class="line"></span><br><span class="line">1 directory, 7 files</span><br></pre></td></tr></table></figure>
+
+<p>安装好的ES的目录结构</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 ELASTICSEARCH-6.4.x]# pwd</span><br><span class="line">/var/lib/ambari-server/resources/stacks/HDP/2.6/services/ELASTICSEARCH-6.4.x</span><br><span class="line">[root@vm01 ELASTICSEARCH-6.4.x]# tree</span><br><span class="line">.</span><br><span class="line">├── alerts.json</span><br><span class="line">├── configuration</span><br><span class="line">│   ├── elasticsearch-config.xml</span><br><span class="line">│   ├── elasticsearch-env.xml</span><br><span class="line">│   ├── elasticsearch-log4j.xml</span><br><span class="line">│   └── original</span><br><span class="line">│       ├── elasticsearch.yml</span><br><span class="line">│       ├── jvm.options</span><br><span class="line">│       ├── log4j2.properties</span><br><span class="line">│       ├── role_mapping.yml</span><br><span class="line">│       ├── roles.yml</span><br><span class="line">│       ├── users</span><br><span class="line">│       └── users_roles</span><br><span class="line">├── metainfo.xml</span><br><span class="line">├── package</span><br><span class="line">│   ├── archive.zip</span><br><span class="line">│   ├── scripts</span><br><span class="line">│   │   ├── es_master.py</span><br><span class="line">│   │   ├── es_slave.py</span><br><span class="line">│   │   ├── __init__.py</span><br><span class="line">│   │   ├── params.py</span><br><span class="line">│   │   ├── service_check.py</span><br><span class="line">│   │   └── status_params.py</span><br><span class="line">│   └── templates</span><br><span class="line">│       ├── elasticsearch.jvm.options.j2</span><br><span class="line">│       ├── elasticsearch.master.yml.j2</span><br><span class="line">│       └── elasticsearch.slave.yml.j2</span><br><span class="line">└── quicklinks</span><br><span class="line">    └── quicklinks.json</span><br><span class="line"></span><br><span class="line">6 directories, 23 files</span><br></pre></td></tr></table></figure>
+
+<h5 id="metainfo-xml-服务整体描述"><a href="#metainfo-xml-服务整体描述" class="headerlink" title="metainfo.xml - 服务整体描述"></a>metainfo.xml - 服务整体描述</h5><p>首先，通过metainfo.xml文件对elasticsearch这个服务进行一个标准的描述。完整文件如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?xml version="1.0"?&gt;</span><br><span class="line">&lt;metainfo&gt;</span><br><span class="line">    &lt;schemaVersion&gt;2.0&lt;/schemaVersion&gt;</span><br><span class="line">    &lt;services&gt;</span><br><span class="line">        &lt;service&gt;</span><br><span class="line">            &lt;name&gt;ELASTICSEARCH&lt;/name&gt;</span><br><span class="line">            &lt;displayName&gt;Elasticsearch&lt;/displayName&gt;</span><br><span class="line">            &lt;comment&gt;A highly scalable open-source full-text search and analytics engine. Including storage, searching, and analyzing big volumes of data quickly and in near real time. &lt;/comment&gt;</span><br><span class="line">            &lt;version&gt;6.4.2&lt;/version&gt;</span><br><span class="line">            &lt;components&gt;</span><br><span class="line">                &lt;component&gt;</span><br><span class="line">                    &lt;name&gt;ELASTICSEARCH_MASTER&lt;/name&gt;</span><br><span class="line">                    &lt;displayName&gt;Elasticsearch Master&lt;/displayName&gt;</span><br><span class="line">                    &lt;category&gt;MASTER&lt;/category&gt;</span><br><span class="line">                    &lt;cardinality&gt;1+&lt;/cardinality&gt;</span><br><span class="line">                    &lt;versionAdvertised&gt;true&lt;/versionAdvertised&gt;</span><br><span class="line">                    &lt;commandScript&gt;</span><br><span class="line">                        &lt;script&gt;scripts/es_master.py&lt;/script&gt;</span><br><span class="line">                        &lt;scriptType&gt;PYTHON&lt;/scriptType&gt;</span><br><span class="line">                        &lt;timeout&gt;1200&lt;/timeout&gt;</span><br><span class="line">                    &lt;/commandScript&gt;</span><br><span class="line">                    &lt;logs&gt;</span><br><span class="line">                        &lt;log&gt;</span><br><span class="line">                            &lt;logId&gt;elasticsearch_master&lt;/logId&gt;</span><br><span class="line">                            &lt;primary&gt;true&lt;/primary&gt;</span><br><span class="line">                        &lt;/log&gt;</span><br><span class="line">                    &lt;/logs&gt;</span><br><span class="line">                &lt;/component&gt;</span><br><span class="line">                &lt;component&gt;</span><br><span class="line">                    &lt;name&gt;ELASTICSEARCH_SLAVE&lt;/name&gt;</span><br><span class="line">                    &lt;displayName&gt;Elasticsearch Slave&lt;/displayName&gt;</span><br><span class="line">                    &lt;category&gt;SLAVE&lt;/category&gt;</span><br><span class="line">                    &lt;cardinality&gt;0+&lt;/cardinality&gt;</span><br><span class="line">                    &lt;versionAdvertised&gt;true&lt;/versionAdvertised&gt;</span><br><span class="line">                    &lt;commandScript&gt;</span><br><span class="line">                        &lt;script&gt;scripts/es_slave.py&lt;/script&gt;</span><br><span class="line">                        &lt;scriptType&gt;PYTHON&lt;/scriptType&gt;</span><br><span class="line">                        &lt;timeout&gt;1200&lt;/timeout&gt;</span><br><span class="line">                    &lt;/commandScript&gt;</span><br><span class="line">                    &lt;logs&gt;</span><br><span class="line">                        &lt;log&gt;</span><br><span class="line">                            &lt;logId&gt;elasticsearch_slave&lt;/logId&gt;</span><br><span class="line">                            &lt;primary&gt;true&lt;/primary&gt;</span><br><span class="line">                        &lt;/log&gt;</span><br><span class="line">                    &lt;/logs&gt;</span><br><span class="line">                &lt;/component&gt;</span><br><span class="line">            &lt;/components&gt;</span><br><span class="line">            &lt;osSpecifics&gt;</span><br><span class="line">                &lt;osSpecific&gt;</span><br><span class="line">                    &lt;osFamily&gt;any&lt;/osFamily&gt;</span><br><span class="line">                    &lt;packages&gt;</span><br><span class="line">                        &lt;package&gt;</span><br><span class="line">                            &lt;name&gt;elasticsearch-6.4.2&lt;/name&gt;  &lt;!-- Not using. Please make sure the os already contains all the dependencies. --&gt;</span><br><span class="line">                        &lt;/package&gt;</span><br><span class="line">                    &lt;/packages&gt;</span><br><span class="line">                &lt;/osSpecific&gt;</span><br><span class="line">            &lt;/osSpecifics&gt;</span><br><span class="line">            &lt;commandScript&gt;</span><br><span class="line">                &lt;script&gt;scripts/service_check.py&lt;/script&gt;</span><br><span class="line">                &lt;scriptType&gt;PYTHON&lt;/scriptType&gt;</span><br><span class="line">                &lt;timeout&gt;300&lt;/timeout&gt;</span><br><span class="line">            &lt;/commandScript&gt;</span><br><span class="line"></span><br><span class="line">            &lt;configuration-dependencies&gt;</span><br><span class="line">                &lt;config-type&gt;elasticsearch-config&lt;/config-type&gt;</span><br><span class="line">                &lt;config-type&gt;elasticsearch-env&lt;/config-type&gt;</span><br><span class="line">                &lt;config-type&gt;elasticsearch-log4j&lt;/config-type&gt;</span><br><span class="line">            &lt;/configuration-dependencies&gt;</span><br><span class="line"></span><br><span class="line">            &lt;restartRequiredAfterChange&gt;true&lt;/restartRequiredAfterChange&gt;</span><br><span class="line"></span><br><span class="line">            &lt;quickLinksConfigurations&gt;</span><br><span class="line">                &lt;quickLinksConfiguration&gt;</span><br><span class="line">                    &lt;fileName&gt;quicklinks.json&lt;/fileName&gt;</span><br><span class="line">                    &lt;default&gt;true&lt;/default&gt;</span><br><span class="line">                &lt;/quickLinksConfiguration&gt;</span><br><span class="line">            &lt;/quickLinksConfigurations&gt;</span><br><span class="line"></span><br><span class="line">        &lt;/service&gt;</span><br><span class="line">    &lt;/services&gt;</span><br><span class="line">&lt;/metainfo&gt;</span><br></pre></td></tr></table></figure>
+
+<h6 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h6><p>###############################################################################<br>定义服务的名称，显示名称，描述，版本号等核心信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;name&gt;ELASTICSEARCH&lt;/name&gt;</span><br><span class="line">&lt;displayName&gt;Elasticsearch&lt;/displayName&gt;</span><br><span class="line">&lt;comment&gt;A highly scalable open-source full-text search and analytics engine. Including storage, searching, and analyzing big volumes of data quickly and in near real time. &lt;/comment&gt;</span><br><span class="line">&lt;version&gt;6.4.2&lt;/version&gt;</span><br></pre></td></tr></table></figure>
+
+<p>###############################################################################<br>定义服务的组件信息，这里针对elasticsearch的实现，分了两种组件：master和slave，这里以master为例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;component&gt;</span><br><span class="line">    &lt;name&gt;ELASTICSEARCH_MASTER&lt;/name&gt;</span><br><span class="line">    &lt;displayName&gt;Elasticsearch Master&lt;/displayName&gt;</span><br><span class="line">    &lt;category&gt;MASTER&lt;/category&gt;</span><br><span class="line">    &lt;cardinality&gt;1+&lt;/cardinality&gt;</span><br><span class="line">    &lt;versionAdvertised&gt;true&lt;/versionAdvertised&gt;</span><br><span class="line">    &lt;commandScript&gt;</span><br><span class="line">        &lt;script&gt;scripts/es_master.py&lt;/script&gt;</span><br><span class="line">        &lt;scriptType&gt;PYTHON&lt;/scriptType&gt;</span><br><span class="line">        &lt;timeout&gt;1200&lt;/timeout&gt;</span><br><span class="line">    &lt;/commandScript&gt;</span><br><span class="line">    &lt;logs&gt;</span><br><span class="line">        &lt;log&gt;</span><br><span class="line">            &lt;logId&gt;elasticsearch_master&lt;/logId&gt;</span><br><span class="line">            &lt;primary&gt;true&lt;/primary&gt;</span><br><span class="line">        &lt;/log&gt;</span><br><span class="line">     &lt;/logs&gt;</span><br><span class="line">&lt;/component&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其中基础信息包括组件名称(name),组件显示名称(displayname)。<br>其他几个重要参数，包括：</p>
+<ol>
+<li>category：描述组件是主服务，节点从服务或是客户端</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>category类别</th>
+<th>默认生命周期命令实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MASTER</td>
+<td>install, start, stop, configure, status</td>
+</tr>
+<tr>
+<td>SLAVE</td>
+<td>install, start, stop, configure, status</td>
+</tr>
+<tr>
+<td>CLIENT</td>
+<td>install, configure, status</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>cardinality：描述组件的数量限制</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>cardinality格式</th>
+<th>格式说明举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数字</td>
+<td><cardinality>1</cardinality>：表示只能有一个</td>
+</tr>
+<tr>
+<td>数字区间</td>
+<td><cardinality>0-1</cardinality>：表示最少有零个，最多有一个</td>
+</tr>
+<tr>
+<td>数字单增区间</td>
+<td><cardinality>1+</cardinality>：表示最少有1个</td>
+</tr>
+<tr>
+<td>ALL</td>
+<td><cardinality>ALL</cardinality>：表示所有节点都需要</td>
+</tr>
+</tbody></table>
+<ol>
+<li>commandScript：组件生命周期命令的执行脚本实现</li>
+</ol>
+<p>脚本地址：<br><code>/var/lib/ambari-server/resources/stacks/HDP/2.6/services/ELASTICSEARCH-6.4.x/package/scripts</code><br>Ambari支持Python脚本，按照Ambari官方文档的模式化脚本进行修改</p>
+<p>###############################################################################<br>所支持的os系统定义，以及需要安装的软件包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;osSpecifics&gt;</span><br><span class="line">    &lt;osSpecific&gt;</span><br><span class="line">        &lt;osFamily&gt;any&lt;/osFamily&gt;</span><br><span class="line">        &lt;packages&gt;</span><br><span class="line">            &lt;package&gt;</span><br><span class="line">                &lt;name&gt;elasticsearch-6.4.2&lt;/name&gt;  &lt;!-- Not using. Please make sure the os already contains all the dependencies. --&gt;</span><br><span class="line">            &lt;/package&gt;</span><br><span class="line">        &lt;/packages&gt;</span><br><span class="line">    &lt;/osSpecific&gt;</span><br><span class="line">&lt;/osSpecifics&gt;</span><br></pre></td></tr></table></figure>
+
+<p>osFamily可定义如：Redhat6，Redhat7，ubuntu14，ubuntu16等。<br>package-name，即为yum install或apt-get install的软件包名称</p>
+<p>###############################################################################<br>服务检查的脚本实现【此处py脚本的命名要保持一致】</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;commandScript&gt;</span><br><span class="line">    &lt;script&gt;scripts/service_check.py&lt;/script&gt;</span><br><span class="line">    &lt;scriptType&gt;PYTHON&lt;/scriptType&gt;</span><br><span class="line">    &lt;timeout&gt;300&lt;/timeout&gt;</span><br><span class="line">&lt;/commandScript&gt;</span><br></pre></td></tr></table></figure>
+
+<p>###############################################################################<br>配置文件依赖，即服务安装前需要填写或者修改的配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration-dependencies&gt;</span><br><span class="line">    &lt;config-type&gt;elasticsearch-config&lt;/config-type&gt;</span><br><span class="line">    &lt;config-type&gt;elasticsearch-env&lt;/config-type&gt;</span><br><span class="line">    &lt;config-type&gt;elasticsearch-log4j&lt;/config-type&gt;</span><br><span class="line">&lt;/configuration-dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<p>###############################################################################<br>配置修改后是否重启【一般都为true】：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;restartRequiredAfterChange&gt;true&lt;/restartRequiredAfterChange&gt;</span><br></pre></td></tr></table></figure>
+
+<p>###############################################################################<br>界面快速链接的json脚本实现【注意，此json脚本的命名要保持一致】：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;quickLinksConfigurations&gt;</span><br><span class="line">    &lt;quickLinksConfiguration&gt;</span><br><span class="line">        &lt;fileName&gt;quicklinks.json&lt;/fileName&gt;</span><br><span class="line">        &lt;default&gt;true&lt;/default&gt;</span><br><span class="line">    &lt;/quickLinksConfiguration&gt;</span><br><span class="line">&lt;/quickLinksConfigurations&gt;</span><br></pre></td></tr></table></figure>
+
+<p>###############################################################################<br>其他参数：<br><a href="https://blog.csdn.net/WangPing1223/article/details/77499098" target="_blank" rel="noopener">ambari自定义服务（二）metainfo.xml说明</a><br><a href="https://cwiki.apache.org/confluence/display/AMBARI/Writing+metainfo.xml" target="_blank" rel="noopener">官方文档</a></p>
+<h5 id="configuration-服务配置项描述"><a href="#configuration-服务配置项描述" class="headerlink" title="configuration - 服务配置项描述"></a>configuration - 服务配置项描述</h5><p>configuration的目录及内容如下图所示(不包括original，这是为了方便开发放入的原始配置文件)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 configuration]# pwd</span><br><span class="line">/var/lib/ambari-server/resources/stacks/HDP/2.6/services/ELASTICSEARCH-6.4.x/configuration</span><br><span class="line">[root@vm01 configuration]# ll</span><br><span class="line">total 24</span><br><span class="line">-rw-r--r-- 1 root root 4934 Oct 10 18:15 elasticsearch-config.xml</span><br><span class="line">-rw-r--r-- 1 root root 5406 Oct 10 18:15 elasticsearch-env.xml</span><br><span class="line">-rw-r--r-- 1 root root 4456 Oct 10 18:15 elasticsearch-log4j.xml</span><br><span class="line">drwxr-xr-x 2 root root  148 Oct 10 18:15 original</span><br></pre></td></tr></table></figure>
+
+<h6 id="配置类型"><a href="#配置类型" class="headerlink" title="配置类型"></a>配置类型</h6><p>这里可以简单的分为两种类型的配置文件，即-env和其他</p>
+<ol>
+<li>-env.xml配置文件<br>要求必须存在，主要描述安装包路径，用户，组，pid文件目录，根目录等。文件内容此处截取部分作为简单举例：【web页面上配置页面处的主要参数在此设置】</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">       &lt;name&gt;elasticsearch.download.url&lt;/name&gt;</span><br><span class="line">       &lt;value&gt;&lt;/value&gt;</span><br><span class="line">       &lt;display-name&gt;Elasticsearch Download Url&lt;/display-name&gt;</span><br><span class="line">       &lt;description&gt;Elasticsearch package download url. The official download url is: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.4.2.tar.gz&lt;/description&gt;</span><br><span class="line">   &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">   &lt;property&gt;</span><br><span class="line">       &lt;name&gt;elasticsearch.user&lt;/name&gt;</span><br><span class="line">       &lt;value&gt;elasticsearch&lt;/value&gt;</span><br><span class="line">       &lt;display-name&gt;Elasticsearch User&lt;/display-name&gt;</span><br><span class="line">       &lt;property-type&gt;USER&lt;/property-type&gt;</span><br><span class="line">       &lt;description&gt;Elasticsearch unix user.&lt;/description&gt;</span><br><span class="line">   &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">   &lt;property&gt;</span><br><span class="line">       &lt;name&gt;elasticsearch.group&lt;/name&gt;</span><br><span class="line">       &lt;value&gt;elasticsearch&lt;/value&gt;</span><br><span class="line">       &lt;display-name&gt;Elasticsearch Group&lt;/display-name&gt;</span><br><span class="line">       &lt;property-type&gt;GROUP&lt;/property-type&gt;</span><br><span class="line">       &lt;description&gt;Elasticsearch unix group.&lt;/description&gt;</span><br><span class="line">   &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">   &lt;property&gt;</span><br><span class="line">       &lt;name&gt;elasticsearch.base.dir&lt;/name&gt;</span><br><span class="line">       &lt;value&gt;/opt/elasticsearch&lt;/value&gt;</span><br><span class="line">       &lt;display-name&gt;Elasticsearch Base Directory&lt;/display-name&gt;</span><br><span class="line">       &lt;description&gt;Elasticsearch base directory.&lt;/description&gt;</span><br><span class="line">   &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">   &lt;property&gt;</span><br><span class="line">       &lt;name&gt;elasticsearch.pid.dir&lt;/name&gt;</span><br><span class="line">       &lt;value&gt;/var/run/elasticsearch&lt;/value&gt;</span><br><span class="line">       &lt;display-name&gt;Elasticsearch Pid Directory&lt;/display-name&gt;</span><br><span class="line">       &lt;description&gt;Elasticsearch pid file directory.&lt;/description&gt;</span><br><span class="line">   &lt;/property&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>其他应用配置文件</li>
+</ol>
+<p>其他应用配置配置文件即值应用本身所需的配置文件，例如elasticsearch的核心配置文件：elasticsearch.yml。但是在实现的时候，不用严格按照原始配置文件的格式。可以将elasticsearch.yml分为多个部分。文件名就是配置参数的上的块名</p>
+<p>此处的配置文件设置，具体的实现就在web页面，如下图：【对比看上面configuration目录设置】</p>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/es%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0web%E9%A1%B5%E9%9D%A2.png" alt="esweb页面"></p>
+<h6 id="配置格式"><a href="#配置格式" class="headerlink" title="配置格式"></a>配置格式</h6><p>默认使用最简单的key-value格式，如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;elasticsearch.base.dir&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;/opt/elasticsearch&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+
+<p>但是此种格式，缺少说明，且web页面显示不太友好。可以添加<display-name>来替换<name>的显示；添加,<description>来显示说明和描述</description></name></display-name></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;elasticsearch.base.dir&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;/opt/elasticsearch&lt;/value&gt;</span><br><span class="line">    &lt;display-name&gt;Elasticsearch Base Directory&lt;/display-name&gt;</span><br><span class="line">    &lt;description&gt;Elasticsearch base directory.&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+
+<p>效果图：<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/esdisplay%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="es-display效果图"></p>
+<p>默认情况下，<value>值不能为空，如果想允许值为空，可在<value-attributes>下添加<empty-value-valid>为true：</empty-value-valid></value-attributes></value></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;server.basePath&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;none&lt;/value&gt;</span><br><span class="line">    &lt;value-attributes&gt;</span><br><span class="line">        &lt;empty-value-valid&gt;true&lt;/empty-value-valid&gt;</span><br><span class="line">    &lt;/value-attributes&gt;</span><br><span class="line">    &lt;display-name&gt;Server Base Path&lt;/display-name&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+
+<p><value-attributes>还支持一些常见的格式，例如boolean：<br>此处要注意，xml文件中填写值的时候需要小写（false，true）。但后续代码在获取参数时，获取的是boolean类型的False和True</value-attributes></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;server.rewriteBasePath&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;false&lt;/value&gt;</span><br><span class="line">    &lt;value-attributes&gt;</span><br><span class="line">        &lt;type&gt;boolean&lt;/type&gt;</span><br><span class="line">        &lt;overridable&gt;false&lt;/overridable&gt;</span><br><span class="line">    &lt;/value-attributes&gt;</span><br><span class="line">    &lt;display-name&gt;Server Rewrite Base Path&lt;/display-name&gt;</span><br><span class="line">    &lt;description&gt;xxxx&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+
+<p><value-attributes>针对密码类型的支持：<br>将值显示为*号</value-attributes></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;zeppelin.ssl.keystore.password&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;change me&lt;/value&gt;</span><br><span class="line">    &lt;value-attributes&gt;</span><br><span class="line">        &lt;type&gt;password&lt;/type&gt;</span><br><span class="line">    &lt;/value-attributes&gt;</span><br><span class="line">    &lt;property-type&gt;PASSWORD&lt;/property-type&gt;</span><br><span class="line">    &lt;description&gt;Keystore password. Can be obfuscated by the Jetty Password tool&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+
+<p><value-attributes>针对数字类型的支持，其中type可以为int,long等，minimum和maximum为可选参数用于给定范围，unit为单位显示等，例如：</value-attributes></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;ops.interval&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;5000&lt;/value&gt;</span><br><span class="line">    &lt;value-attributes&gt;</span><br><span class="line">        &lt;type&gt;int&lt;/type&gt;</span><br><span class="line">        &lt;minimum&gt;100&lt;/minimum&gt;</span><br><span class="line">        &lt;maximum&gt;50000&lt;/maximum&gt;</span><br><span class="line">        &lt;unit&gt;Milliseconds&lt;/unit&gt;</span><br><span class="line">        &lt;increment-step&gt;100&lt;/increment-step&gt;</span><br><span class="line">        &lt;overridable&gt;false&lt;/overridable&gt;</span><br><span class="line">    &lt;/value-attributes&gt;</span><br><span class="line">    &lt;display-name&gt;Ops Interval&lt;/display-name&gt;</span><br><span class="line">    &lt;description&gt;Set the interval in milliseconds to sample system and process performance metrics. Minimum is 100ms. Defaults to 5000.&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+
+<p>具体其他参数可参考Ambari平台的参数和对应的页面<br>路径<code>/var/lib/ambari-server/resources/common-services</code></p>
+<h5 id="package-服务交互代码实现"><a href="#package-服务交互代码实现" class="headerlink" title="package-服务交互代码实现"></a>package-服务交互代码实现</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 package]# pwd</span><br><span class="line">/var/lib/ambari-server/resources/stacks/HDP/2.6/services/ELASTICSEARCH-6.4.x/package</span><br><span class="line">[root@vm01 package]# ll</span><br><span class="line">total 24</span><br><span class="line">-rwxr-xr-x 1 root root 23777 Oct 10 18:15 archive.zip</span><br><span class="line">drwxr-xr-x 2 root root   129 Oct 10 18:15 scripts</span><br><span class="line">drwxr-xr-x 2 root root   111 Oct 10 18:15 templates</span><br><span class="line">[root@vm01 package]# tree</span><br><span class="line">.</span><br><span class="line">├── archive.zip</span><br><span class="line">├── scripts</span><br><span class="line">│   ├── es_master.py</span><br><span class="line">│   ├── es_slave.py</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── params.py</span><br><span class="line">│   ├── service_check.py</span><br><span class="line">│   └── status_params.py</span><br><span class="line">└── templates</span><br><span class="line">    ├── elasticsearch.jvm.options.j2</span><br><span class="line">    ├── elasticsearch.master.yml.j2</span><br><span class="line">    └── elasticsearch.slave.yml.j2</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>scripts - 脚本实现<br> 其中，params、service_check和status_params为必实现的脚本，分别用于参数的获取和加工、服务检查、为服务检查提供参数；es_master和es_slave是根据组件（component）区分的声明周期实现脚本，如下所示：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>脚本</th>
+<th>具体实现</th>
+<th>要求及说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>params.py</td>
+<td>通过Script类的方法读取之前configuration文件夹中.xml文件定义的各个配置变量，有需要的话进行进一步加工,例如单位的添加，列表的解析，布尔值的转换等</td>
+<td>脚本名称不可修改</td>
+</tr>
+<tr>
+<td>service_check.py</td>
+<td>可直接使用内置方法实现，具体请见源码</td>
+<td>脚本名称要与metainfo.xml中定义的保持一致</td>
+</tr>
+<tr>
+<td>status_params.py</td>
+<td>引用pid文件目录及文件参数即可</td>
+<td>内容参数可以与params中的对应项保持一致（之所以独立，是受ambari的检查机制读所限，其在做检查时是不会走params的）</td>
+</tr>
+<tr>
+<td>es_master.py/es_slave.py</td>
+<td>组件的install，start，stop等命令的实现</td>
+<td>脚本名称要与metainfo.xml中定义的保持一致</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>templates - 配置模板【不懂，测试，可将此设置为变量】</li>
+</ol>
+<p>通过.xml对配置的定义，以及params.py对配置项的处理，以jinjia2为基础的templates模板将最终完成配置映射到原始应用配置文件的过程。例如：<br>在elasticsearch.master.yml.j2文件中引用params中定义好的用于master节点的配置，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> ----------------------------------- Paths ------------------------------------</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Path to directory where to store the data (separate multiple locations by comma):</span><br><span class="line"><span class="meta">#</span></span><br><span class="line">path.data: &#123;&#123;master_path_data&#125;&#125;</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> Path to log files:</span><br><span class="line"><span class="meta">#</span></span><br><span class="line">path.logs: &#123;&#123;master_path_logs&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在configure方法的实现中，实现master模板和对应master配置文件的替换：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">configurations = params.config['configurations']['elasticsearch-config']</span><br><span class="line">File(format("&#123;es_master_conf_dir&#125;/elasticsearch.yml"),</span><br><span class="line">    content=Template("elasticsearch.master.yml.j2", configurations=configurations),</span><br><span class="line">    owner=params.es_user,</span><br><span class="line">    group=params.es_group</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h5 id="其他资源文件"><a href="#其他资源文件" class="headerlink" title="其他资源文件"></a>其他资源文件</h5><ol>
+<li>quicklinks<br>基础格式如下，只需改写显示名称，组件名称，对应的端口号即可。property请填写.xml中定义的端口参数名称（此处作者比较偷懒，直接走默认端口）：</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"default"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">"default quick links configuration"</span>,</span><br><span class="line">  <span class="attr">"configuration"</span>: &#123;</span><br><span class="line">    <span class="attr">"protocol"</span>: &#123;</span><br><span class="line">      <span class="attr">"type"</span>:<span class="string">"http"</span>,</span><br><span class="line">      <span class="attr">"checks"</span>:[</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"links"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"name"</span>: <span class="string">"elasticsearch_ui"</span>,</span><br><span class="line">        <span class="attr">"label"</span>: <span class="string">"Elasticsearch UI"</span>,</span><br><span class="line">        <span class="attr">"requires_user_name"</span>: <span class="string">"false"</span>,</span><br><span class="line">        <span class="attr">"component_name"</span>: <span class="string">"ELASTICSEARCH_MASTER"</span>,</span><br><span class="line">        <span class="attr">"url"</span>:<span class="string">"%@://%@:%@"</span>,</span><br><span class="line">        <span class="attr">"port"</span>:&#123;</span><br><span class="line">          <span class="attr">"http_property"</span>: <span class="string">"http_port"</span>,</span><br><span class="line">          <span class="attr">"http_default_port"</span>: <span class="string">"9200"</span>,</span><br><span class="line">          <span class="attr">"https_property"</span>: <span class="string">"http_port"</span>,</span><br><span class="line">          <span class="attr">"https_default_port"</span>: <span class="string">"9200"</span>,</span><br><span class="line">          <span class="attr">"regex"</span>: <span class="string">"\\w*:(\\d+)"</span>,</span><br><span class="line">          <span class="attr">"site"</span>: <span class="string">"elastic-config"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其它更为复杂的alerts.json配置同样请参考Ambari（HDP）下内置Hadoop组件的配置：/var/lib/ambari-server/resources/common-services。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://blog.csdn.net/BalaBalaYi/article/details/84139541" target="_blank" rel="noopener">从Elasticsearch详解Ambari与第三方软件的集成（一）</a><br><a href="https://blog.csdn.net/BalaBalaYi/article/details/84134926" target="_blank" rel="noopener">从Elasticsearch详解Ambari与第三方软件的集成（二）</a><br><a href="https://blog.csdn.net/BalaBalaYi/article/details/84140971" target="_blank" rel="noopener">从Elasticsearch详解Ambari与第三方软件的集成（三）</a><br><a href="https://github.com/BalaBalaYi/Ambari-Elastic-Service" target="_blank" rel="noopener">Elasticsearch与Kibana的集成</a><br><a href="https://github.com/BalaBalaYi/Ambari-Redis-Service" target="_blank" rel="noopener">Redis的集成</a><br><a href="https://my.oschina.net/naqin/blog/389720" target="_blank" rel="noopener">ambari 二次开发之增加ElasticSearch服务</a><br><a href="https://www.cnblogs.com/blueskyli/p/8326229.html" target="_blank" rel="noopener">ElasticSearch和solr的差别</a><br><a href="https://cwiki.apache.org/confluence/display/AMBARI/Defining+a+Custom+Stack+and+Services#space-menu-link-content" target="_blank" rel="noopener">自定义service服务官方文档</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HDP/" rel="tag"><i class="fa fa-tag"></i>HDP</a>
+          
+            <a href="/tags/Ambari/" rel="tag"><i class="fa fa-tag"></i>Ambari</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/10/Learn/scala/scala-2-基本类型及操作，程序控制结构/" rel="next" title="scala[2]-基本类型及操作，程序控制结构">
+                <i class="fa fa-chevron-left"></i> scala[2]-基本类型及操作，程序控制结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">一杯茶，一包烟，一行代码写一天。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zzditto" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:18332779639@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单介绍"><span class="nav-number">1.</span> <span class="nav-text">简单介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现目的"><span class="nav-number">1.1.</span> <span class="nav-text">实现目的</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集成实现过程详解"><span class="nav-number">2.</span> <span class="nav-text">集成实现过程详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ambari安装服务过程"><span class="nav-number">2.1.</span> <span class="nav-text">ambari安装服务过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目录结构解析"><span class="nav-number">2.2.</span> <span class="nav-text">目录结构解析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#metainfo-xml-服务整体描述"><span class="nav-number">2.2.1.</span> <span class="nav-text">metainfo.xml - 服务整体描述</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#主要参数"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">主要参数</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#configuration-服务配置项描述"><span class="nav-number">2.2.2.</span> <span class="nav-text">configuration - 服务配置项描述</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#配置类型"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">配置类型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#配置格式"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">配置格式</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#package-服务交互代码实现"><span class="nav-number">2.2.3.</span> <span class="nav-text">package-服务交互代码实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#其他资源文件"><span class="nav-number">2.2.4.</span> <span class="nav-text">其他资源文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'ATLN8AC6PiHK2RYMk6IQOU6N-MdYXbMMI',
+        appKey: 'SntQjviLuKeSUN0zoVI0B7hf',
+        placeholder: '你在想什么呢？',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
