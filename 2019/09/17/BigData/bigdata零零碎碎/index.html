@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="小柚麯">
 <meta property="og:description" content="个人电脑虚拟机作为测试集群节点桥接模式是将主机当成为一个交换机，桥接模式的虚拟机和主机都可以看成通过这个交换机连接到外部网络，这两个机器不会互相影响，完全独立。但是得设置虚拟机的ip和网关和主机的ip和网关在同一网段 使用测试集群中节点ping主机，能够ping通，所以猜想，如果可以弄一个虚拟机处于和主机相同的网络环境，就可以将此虚拟机增加到集群之中">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-25T08:53:12.446Z">
+<meta property="og:updated_time" content="2019-10-14T03:10:33.167Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bigdata零零碎碎">
 <meta name="twitter:description" content="个人电脑虚拟机作为测试集群节点桥接模式是将主机当成为一个交换机，桥接模式的虚拟机和主机都可以看成通过这个交换机连接到外部网络，这两个机器不会互相影响，完全独立。但是得设置虚拟机的ip和网关和主机的ip和网关在同一网段 使用测试集群中节点ping主机，能够ping通，所以猜想，如果可以弄一个虚拟机处于和主机相同的网络环境，就可以将此虚拟机增加到集群之中">
@@ -340,8 +340,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-25T16:53:12+08:00">
-                2019-09-25
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-14T11:10:33+08:00">
+                2019-10-14
               </time>
             
           </span>
@@ -433,6 +433,20 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./bin/spark-submit \</span><br><span class="line">--class com.imooc.log.TopNStatJobYARN \</span><br><span class="line">--name TopNStatJobYARN \</span><br><span class="line">--master yarn \</span><br><span class="line">--executor-memory 1G \</span><br><span class="line">--num-executors 1 \</span><br><span class="line">--conf spark.sql.shuffle.partitions=100 \</span><br><span class="line">/home/hadoop/lib/sql-1.0-jar-with-dependencies.jar \</span><br><span class="line">hdfs://hadoop001:8020/imooc/clean 20170511</span><br></pre></td></tr></table></figure>
 
 <h3 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h3><p><a href="https://blog.csdn.net/xiaoduan_/article/details/79809262" target="_blank" rel="noopener">SparkSQL并行度参数设置方法</a></p>
+<h2 id="自定义yum，或者修改yum源的设置"><a href="#自定义yum，或者修改yum源的设置" class="headerlink" title="自定义yum，或者修改yum源的设置"></a>自定义yum，或者修改yum源的设置</h2><p>修改yum源：</p>
+<ol>
+<li>修改</li>
+<li>yum clean all    #清除系统所有yum缓存</li>
+<li>yum makecache    #重新生成yum缓存</li>
+<li>yum repolist     #查看所有yum源</li>
+</ol>
+<p>在自定义yum源，修改了yum源之后，推荐上述三个步骤全部弄一遍</p>
+<h3 id="参考-2"><a href="#参考-2" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/renpingsheng/p/7845096.htmlS" target="_blank" rel="noopener">CentOS7系统配置国内yum源和epel源</a></p>
+<h2 id="yum-指定安装某个源下的软件的方法"><a href="#yum-指定安装某个源下的软件的方法" class="headerlink" title="yum 指定安装某个源下的软件的方法"></a>yum 指定安装某个源下的软件的方法</h2><p>一条命令一个参数搞定<br>代码如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aikaiyuan ~]# yum install nginx --enablerepo=epel</span><br></pre></td></tr></table></figure>
+
+<p>稍微解释一下：<br>代码如下:<br>yum install XXX –enablerepo=YYY<br>XXX是要安装的软件，YYY是repo源的名字。</p>
+<h2 id="安装mysql后无法找到临时密码的解决方案"><a href="#安装mysql后无法找到临时密码的解决方案" class="headerlink" title="安装mysql后无法找到临时密码的解决方案"></a>安装mysql后无法找到临时密码的解决方案</h2><p><a href="https://www.cnblogs.com/czlovezmt/p/9860432.html" target="_blank" rel="noopener">安装mysql后无法找到临时密码的解决方案</a></p>
 
       
     </div>
@@ -557,7 +571,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -628,7 +642,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#个人电脑虚拟机作为测试集群节点"><span class="nav-number">1.</span> <span class="nav-text">个人电脑虚拟机作为测试集群节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">1.1.</span> <span class="nav-text">参考文章</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive的explode函数"><span class="nav-number">2.</span> <span class="nav-text">hive的explode函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">2.1.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-sql中使用explode函数"><span class="nav-number">3.</span> <span class="nav-text">spark-sql中使用explode函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sparkSQL并行度参数设置"><span class="nav-number">4.</span> <span class="nav-text">sparkSQL并行度参数设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在代码中设置"><span class="nav-number">4.1.</span> <span class="nav-text">在代码中设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交任务时设置"><span class="nav-number">4.2.</span> <span class="nav-text">提交任务时设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考-1"><span class="nav-number">4.3.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#个人电脑虚拟机作为测试集群节点"><span class="nav-number">1.</span> <span class="nav-text">个人电脑虚拟机作为测试集群节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">1.1.</span> <span class="nav-text">参考文章</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive的explode函数"><span class="nav-number">2.</span> <span class="nav-text">hive的explode函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">2.1.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-sql中使用explode函数"><span class="nav-number">3.</span> <span class="nav-text">spark-sql中使用explode函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sparkSQL并行度参数设置"><span class="nav-number">4.</span> <span class="nav-text">sparkSQL并行度参数设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在代码中设置"><span class="nav-number">4.1.</span> <span class="nav-text">在代码中设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交任务时设置"><span class="nav-number">4.2.</span> <span class="nav-text">提交任务时设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考-1"><span class="nav-number">4.3.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义yum，或者修改yum源的设置"><span class="nav-number">5.</span> <span class="nav-text">自定义yum，或者修改yum源的设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考-2"><span class="nav-number">5.1.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yum-指定安装某个源下的软件的方法"><span class="nav-number">6.</span> <span class="nav-text">yum 指定安装某个源下的软件的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mysql后无法找到临时密码的解决方案"><span class="nav-number">7.</span> <span class="nav-text">安装mysql后无法找到临时密码的解决方案</span></a></li></ol></div>
             
 
           </div>
