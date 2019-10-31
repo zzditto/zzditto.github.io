@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="一杯茶，一包烟，一行代码写一天。">
+<meta name="description" content="竹杖芒鞋轻胜马">
 <meta property="og:type" content="website">
 <meta property="og:title" content="小柚麯">
 <meta property="og:url" content="www.zzditto.cn/index.html">
 <meta property="og:site_name" content="小柚麯">
-<meta property="og:description" content="一杯茶，一包烟，一行代码写一天。">
+<meta property="og:description" content="竹杖芒鞋轻胜马">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小柚麯">
-<meta name="twitter:description" content="一杯茶，一包烟，一行代码写一天。">
+<meta name="twitter:description" content="竹杖芒鞋轻胜马">
 
 
 
@@ -280,6 +280,364 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/10/31/Learn/定时器任务错误记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/31/Learn/定时器任务错误记录/" itemprop="url">定时器任务错误记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-31T10:48:34+08:00">
+                2019-10-31
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-31T10:50:41+08:00">
+                2019-10-31
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Learn/" itemprop="url" rel="index">
+                    <span itemprop="name">Learn</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/31/Learn/定时器任务错误记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/31/Learn/定时器任务错误记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前因"><a href="#前因" class="headerlink" title="前因"></a>前因</h2><p>长时间的观察，发现生产集群的54节点总是会失去心跳，但是其他组件的运行都很正常，这个时候只需要重启ambari-agent即可恢复。所以设置了一个定时器任务，每间隔8小时，定时重启ambari-agent。因为ambari-agent挂掉的时间大概在14个小时左右。但设置定时器任务之后发现，在shell环境下执行脚本可以执行命令，但是在定时器中会报命令无法找到的报错信息。经过查阅资料，发现是定时器中的环境变量和shell环境的环境变量不匹配。</p>
+<h2 id="后果"><a href="#后果" class="headerlink" title="后果"></a>后果</h2><h3 id="环境变量验证"><a href="#环境变量验证" class="headerlink" title="环境变量验证"></a>环境变量验证</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>shell环境变量</span><br><span class="line">[root@vm54 ~]# echo $PATH</span><br><span class="line">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/apps/jdk1.8.0_144/bin:/root/bin</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>定时器环境变量</span><br><span class="line">[root@vm54 ~]# crontab -l</span><br><span class="line">0 * * * * /usr/hdp/share/hst/bin/hst-scheduled-capture.sh sync</span><br><span class="line">0 2 * * 0 /usr/hdp/share/hst/bin/hst-scheduled-capture.sh</span><br><span class="line">* */8 * * * /usr/local/src/liu/utils/restartAMBARI-AGENT.sh</span><br><span class="line">*/1 * * * * echo $PATH</span><br><span class="line"></span><br><span class="line">[root@vm54 ~]# tail -F /var/spool/mail/root</span><br><span class="line">X-Cron-Env: &lt;SHELL=/bin/sh&gt;</span><br><span class="line">X-Cron-Env: &lt;HOME=/root&gt;</span><br><span class="line">X-Cron-Env: &lt;PATH=/usr/bin:/bin&gt;</span><br><span class="line">X-Cron-Env: &lt;LOGNAME=root&gt;</span><br><span class="line">X-Cron-Env: &lt;USER=root&gt;</span><br><span class="line">Message-Id: &lt;20191031022001.31746400DB36@vm54.localdomain&gt;</span><br><span class="line">Date: Thu, 31 Oct 2019 10:20:01 +0800 (CST)</span><br><span class="line"></span><br><span class="line">/usr/bin:/bin</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，在定时器任务的环境变量中，是不全的，这会导致可以执行单纯的脚本，但在脚本中需要引用其他环境变量的东西就无法执行。这就解释了为什么测试脚本能够执行，但是ambari-restart脚本无法执行。</p>
+<p>脚本如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@vm54 utils]# cat test.sh</span><br><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">echo 'hello-world'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>ambari-agent也是需要导入环境变量的</span><br><span class="line">[root@vm54 utils]# cat restartAMBARI-AGENT.sh</span><br><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">ambari-agent restart</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>只需要在定时器任务中加上shell的环境变量即可解决</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@vm54 utils]# cat restartAMBARI-AGENT.sh</span><br><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/apps/jdk1.8.0_144/bin:/root/bin</span><br><span class="line">ambari-agent restart</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@vm54 utils]# crontab -l</span><br><span class="line">0 * * * * /usr/hdp/share/hst/bin/hst-scheduled-capture.sh sync</span><br><span class="line">0 2 * * 0 /usr/hdp/share/hst/bin/hst-scheduled-capture.sh</span><br><span class="line">*/1 * * * * /usr/local/src/liu/utils/restartAMBARI-AGENT.sh</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>定时器任务邮件提示。重启ambari-agent成功</span><br><span class="line">Restarting ambari-agent</span><br><span class="line">Verifying Python version compatibility...</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Found ambari-agent PID: 21644</span><br><span class="line">Stopping ambari-agent</span><br><span class="line">Removing PID file at /run/ambari-agent/ambari-agent.pid</span><br><span class="line">tput: No value for $TERM and no -T specified</span><br><span class="line">ambari-agent successfully stopped</span><br><span class="line">tput: No value for $TERM and no -T specified</span><br><span class="line">Verifying Python version compatibility...</span><br><span class="line">Using python  /usr/bin/python</span><br><span class="line">Checking for previously running Ambari Agent...</span><br><span class="line">Checking ambari-common dir...</span><br><span class="line">Starting ambari-agent</span><br><span class="line">Verifying ambari-agent process status...</span><br><span class="line">tput: No value for $TERM and no -T specified</span><br><span class="line">Ambari Agent successfully started</span><br><span class="line">tput: No value for $TERM and no -T specified</span><br><span class="line">Agent PID at: /run/ambari-agent/ambari-agent.pid</span><br><span class="line">Agent out at: /var/log/ambari-agent/ambari-agent.out</span><br><span class="line">Agent log at: /var/log/ambari-agent/ambari-agent.log</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>由上可知：定时器任务中的环境变量为<code>/usr/bin:/bin</code><br>查看此路径：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@vm110 bin]# cd /usr/bin/</span><br><span class="line">[root@vm110 bin]# ll</span><br><span class="line"></span><br><span class="line">---x--x--x.   1 root root      65720 Nov  6  2016 sudoreplay</span><br><span class="line">-rwxr-xr-x.   1 root root      37432 Nov  6  2016 sum</span><br><span class="line">-rwxr-xr-x.   3 root root      80872 Jun 10  2014 sx</span><br><span class="line">-rwxr-xr-x.   1 root root      28976 Nov  6  2016 sync</span><br><span class="line">-rwxr-xr-x.   1 root root     637680 Nov  7  2016 systemctl</span><br><span class="line">-rwxr-xr-x.   1 root root    1399376 Nov  7  2016 systemd-analyze</span><br><span class="line">-rwxr-xr-x.   1 root root      49512 Nov  7  2016 systemd-ask-password</span><br><span class="line">-rwxr-xr-x.   1 root root      32904 Nov  7  2016 systemd-cat</span><br><span class="line"><span class="meta">#</span>发现其中有systemctl命令,所以平常组件的启动命令是可以在定时器中执行的</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.mamicode.com/info-detail-1743275.html" target="_blank" rel="noopener">定时任务内环境变量和shell环境变量的区别</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/10/31/Learn/定时器简单解释/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/31/Learn/定时器简单解释/" itemprop="url">定时器简单解释</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-31T10:48:16+08:00">
+                2019-10-31
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-31T10:49:46+08:00">
+                2019-10-31
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Learn/" itemprop="url" rel="index">
+                    <span itemprop="name">Learn</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/31/Learn/定时器简单解释/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/31/Learn/定时器简单解释/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="crontab格式"><a href="#crontab格式" class="headerlink" title="crontab格式"></a>crontab格式</h2><p>{minute} {hour} {day-of-month} {month} {day-of-week} {full-path-to-shell-script}<br>分钟 小时 天 月 周 全路径脚本</p>
+<ul>
+<li>minute：区间-》0~59</li>
+<li>hour：区间-》0~24</li>
+<li>day-of-month：区间-》0~31</li>
+<li>month：区间-》1~12</li>
+<li>day-of-week：区间-》0~7，周日可以是0或7</li>
+</ul>
+<h2 id="crontab简单示例"><a href="#crontab简单示例" class="headerlink" title="crontab简单示例"></a>crontab简单示例</h2><ol>
+<li>在凌晨00:01运行<br><code>1 0 * * * xxx.sh</code></li>
+<li>每3分钟执行一次<br><code>*/3 * * * * /usr/local/src/liu/utils/test.sh</code></li>
+</ol>
+<h2 id="crontab命令选项"><a href="#crontab命令选项" class="headerlink" title="crontab命令选项"></a>crontab命令选项</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">crontab –e : 修改 crontab 文件. 如果文件不存在会自动创建。 </span><br><span class="line">crontab –l : 显示 crontab 文件。 </span><br><span class="line">crontab -r : 删除 crontab 文件。</span><br><span class="line">crontab -ir : 删除 crontab 文件前提醒用户。</span><br><span class="line"></span><br><span class="line">在以上各个字段中，还可以使用以下特殊字符：</span><br><span class="line">星号（*）：代表所有可能的值，例如month字段如果是星号，则表示在满足其它字段的制约条件后每月都执行该命令操作。</span><br><span class="line">逗号（,）：可以用逗号隔开的值指定一个列表范围，例如，“1,2,5,7,8,9”</span><br><span class="line">中杠（-）：可以用整数之间的中杠表示一个整数范围，例如“2-6”表示“2,3,4,5,6”</span><br><span class="line">正斜线（/）：可以用正斜线指定时间的间隔频率，例如“0-23/2”表示每两小时执行一次。</span><br><span class="line">同时正斜线可以和星号一起使用，例如*/10，如果用在minute字段，表示每十分钟执行一次。</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/songhuasheng/p/10187333.html" target="_blank" rel="noopener">Linux定时器详解</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1670,342 +2028,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/27/BigData/数据导入Hbase的四种方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小柚麯">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/顶着面包的girl.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小柚麯">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/27/BigData/数据导入Hbase的四种方法/" itemprop="url">数据导入Hbase的四种方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T13:29:12+08:00">
-                2019-09-27
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2019-10-07T22:04:04+08:00">
-                2019-10-07
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/27/BigData/数据导入Hbase的四种方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/27/BigData/数据导入Hbase的四种方法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="put方法写入"><a href="#put方法写入" class="headerlink" title="put方法写入"></a>put方法写入</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  *classname:PutToHbase</span></span><br><span class="line"><span class="comment">  *auther:LWZ</span></span><br><span class="line"><span class="comment">  *date:2019/9/26 9:59</span></span><br><span class="line"><span class="comment">  *  put方法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">PutToHbase</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="comment">/*sparkcontext*/</span></span><br><span class="line">    <span class="comment">/*sparkcontext可以makerdd*/</span></span><br><span class="line">    <span class="keyword">val</span> conf : <span class="type">SparkConf</span> = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="keyword">this</span>.getClass.getSimpleName).setMaster(<span class="string">"local[*]"</span>)</span><br><span class="line">    <span class="keyword">val</span> context : <span class="type">SparkContext</span> = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*make RDD*/</span></span><br><span class="line">    <span class="keyword">val</span> rdd : <span class="type">RDD</span>[<span class="type">Int</span>] = context.makeRDD(<span class="number">1</span> to <span class="number">100000</span>,<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"count is:"</span>+rdd.count())</span><br><span class="line">    rdd.take(<span class="number">20</span>).foreach(println)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*family*/</span></span><br><span class="line">    <span class="keyword">val</span> family : <span class="type">Array</span>[<span class="type">Byte</span>] = <span class="type">Bytes</span>.toBytes(<span class="string">"info"</span>)</span><br><span class="line">    <span class="comment">/*column*/</span></span><br><span class="line">    <span class="keyword">val</span> column : <span class="type">Array</span>[<span class="type">Byte</span>] = <span class="type">Bytes</span>.toBytes(<span class="string">"column_name"</span>)</span><br><span class="line"></span><br><span class="line">    rdd.foreachPartition(fore =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> getTable : <span class="type">Table</span> = gettable()</span><br><span class="line">      fore.foreach( value =&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> put : <span class="type">Put</span> = <span class="keyword">new</span> <span class="type">Put</span>(<span class="type">Bytes</span>.toBytes(value))</span><br><span class="line">        put.addImmutable(family,column,<span class="type">Bytes</span>.toBytes(value))</span><br><span class="line">        getTable.put(put)</span><br><span class="line">      &#125;)</span><br><span class="line">      getTable.close()</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br><span class="line">    context.stop()</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">gettable</span></span>():<span class="type">Table</span>=&#123;</span><br><span class="line">    <span class="comment">/*获取hbase连接*/</span></span><br><span class="line">    <span class="keyword">val</span> configuration : <span class="type">Configuration</span> = <span class="type">HBaseConfiguration</span>.create()</span><br><span class="line">    configuration.set(<span class="string">"hbase.zookeeper.quorum"</span>, <span class="string">"vm110,vm111,vm112"</span>)</span><br><span class="line">    configuration.set(<span class="string">"hbase.zookeeper.property.clientPort"</span>, <span class="string">"2181"</span>)</span><br><span class="line">    configuration.set(<span class="string">"hbase.defaults.for.version.skip"</span>, <span class="string">"true"</span>)</span><br><span class="line">    configuration.set(<span class="string">"zookeeper.znode.parent"</span>, <span class="string">"/hbase-unsecure"</span>)</span><br><span class="line">    <span class="keyword">val</span> conn : <span class="type">Connection</span> = <span class="type">ConnectionFactory</span>.createConnection(configuration)</span><br><span class="line">    <span class="comment">/*表名*/</span></span><br><span class="line">    <span class="keyword">val</span> table=<span class="string">"test01"</span></span><br><span class="line">    <span class="comment">/*gettable*/</span></span><br><span class="line">    <span class="keyword">val</span> getTable : <span class="type">Table</span> = conn.getTable(<span class="type">TableName</span>.valueOf(table))</span><br><span class="line">    getTable</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/27/BigData/数据导入Hbase的四种方法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/09/17/BigData/测试集群增加节点以及删除节点/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小柚麯">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/顶着面包的girl.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小柚麯">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/17/BigData/测试集群增加节点以及删除节点/" itemprop="url">测试集群增加节点以及删除节点</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-17T17:20:17+08:00">
-                2019-09-17
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-23T16:31:10+08:00">
-                2019-09-23
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/17/BigData/测试集群增加节点以及删除节点/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/17/BigData/测试集群增加节点以及删除节点/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>使用测试集群增加个人电脑的节点到集群中</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/17/BigData/测试集群增加节点以及删除节点/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2048,7 +2070,7 @@
               <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
             
               <p class="site-author-name" itemprop="name">小柚麯</p>
-              <p class="site-description motion-element" itemprop="description">一杯茶，一包烟，一行代码写一天。</p>
+              <p class="site-description motion-element" itemprop="description">竹杖芒鞋轻胜马</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -2058,7 +2080,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2080,7 +2102,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2130,7 +2152,7 @@
     <h3 class="widget-title">Tag Cloud</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ambari/">Ambari</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azkaban/">Azkaban</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flume/">Flume</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HDP/">HDP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kerberos/">Kerberos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kibana/">Kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstach/">Logstach</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ntp/">Ntp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ranger/">Ranger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Solo/">Solo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yum/">Yum</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zeppelin/">Zeppelin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sparkStreaming/">sparkStreaming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/旅行/">旅行</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ambari/">Ambari</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azkaban/">Azkaban</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Crontab/">Crontab</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flume/">Flume</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HDP/">HDP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kerberos/">Kerberos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kibana/">Kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstach/">Logstach</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ntp/">Ntp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ranger/">Ranger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Solo/">Solo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yum/">Yum</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zeppelin/">Zeppelin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sparkStreaming/">sparkStreaming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/旅行/">旅行</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>
