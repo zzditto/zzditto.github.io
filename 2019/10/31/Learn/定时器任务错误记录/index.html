@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="小柚麯">
 <meta property="og:description" content="前因长时间的观察，发现生产集群的54节点总是会失去心跳，但是其他组件的运行都很正常，这个时候只需要重启ambari-agent即可恢复。所以设置了一个定时器任务，每间隔8小时，定时重启ambari-agent。因为ambari-agent挂掉的时间大概在14个小时左右。但设置定时器任务之后发现，在shell环境下执行脚本可以执行命令，但是在定时器中会报命令无法找到的报错信息。经过查阅资料，发现是定">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-31T02:50:41.279Z">
+<meta property="og:updated_time" content="2019-10-31T03:25:20.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="定时器任务错误记录">
 <meta name="twitter:description" content="前因长时间的观察，发现生产集群的54节点总是会失去心跳，但是其他组件的运行都很正常，这个时候只需要重启ambari-agent即可恢复。所以设置了一个定时器任务，每间隔8小时，定时重启ambari-agent。因为ambari-agent挂掉的时间大概在14个小时左右。但设置定时器任务之后发现，在shell环境下执行脚本可以执行命令，但是在定时器中会报命令无法找到的报错信息。经过查阅资料，发现是定">
@@ -340,7 +340,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-10-31T10:50:41+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-31T11:25:20+08:00">
                 2019-10-31
               </time>
             
@@ -407,6 +407,7 @@
 
       
         <h2 id="前因"><a href="#前因" class="headerlink" title="前因"></a>前因</h2><p>长时间的观察，发现生产集群的54节点总是会失去心跳，但是其他组件的运行都很正常，这个时候只需要重启ambari-agent即可恢复。所以设置了一个定时器任务，每间隔8小时，定时重启ambari-agent。因为ambari-agent挂掉的时间大概在14个小时左右。但设置定时器任务之后发现，在shell环境下执行脚本可以执行命令，但是在定时器中会报命令无法找到的报错信息。经过查阅资料，发现是定时器中的环境变量和shell环境的环境变量不匹配。</p>
+<a id="more"></a>
 <h2 id="后果"><a href="#后果" class="headerlink" title="后果"></a>后果</h2><h3 id="环境变量验证"><a href="#环境变量验证" class="headerlink" title="环境变量验证"></a>环境变量验证</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>shell环境变量</span><br><span class="line">[root@vm54 ~]# echo $PATH</span><br><span class="line">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/apps/jdk1.8.0_144/bin:/root/bin</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>定时器环境变量</span><br><span class="line">[root@vm54 ~]# crontab -l</span><br><span class="line">0 * * * * /usr/hdp/share/hst/bin/hst-scheduled-capture.sh sync</span><br><span class="line">0 2 * * 0 /usr/hdp/share/hst/bin/hst-scheduled-capture.sh</span><br><span class="line">* */8 * * * /usr/local/src/liu/utils/restartAMBARI-AGENT.sh</span><br><span class="line">*/1 * * * * echo $PATH</span><br><span class="line"></span><br><span class="line">[root@vm54 ~]# tail -F /var/spool/mail/root</span><br><span class="line">X-Cron-Env: &lt;SHELL=/bin/sh&gt;</span><br><span class="line">X-Cron-Env: &lt;HOME=/root&gt;</span><br><span class="line">X-Cron-Env: &lt;PATH=/usr/bin:/bin&gt;</span><br><span class="line">X-Cron-Env: &lt;LOGNAME=root&gt;</span><br><span class="line">X-Cron-Env: &lt;USER=root&gt;</span><br><span class="line">Message-Id: &lt;20191031022001.31746400DB36@vm54.localdomain&gt;</span><br><span class="line">Date: Thu, 31 Oct 2019 10:20:01 +0800 (CST)</span><br><span class="line"></span><br><span class="line">/usr/bin:/bin</span><br></pre></td></tr></table></figure>
 
 <p>可以发现，在定时器任务的环境变量中，是不全的，这会导致可以执行单纯的脚本，但在脚本中需要引用其他环境变量的东西就无法执行。这就解释了为什么测试脚本能够执行，但是ambari-restart脚本无法执行。</p>
@@ -462,6 +463,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/01/Essays/巧用按键宏处理excel表中的科学计数法表示的长数字编号/" rel="prev" title="巧用按键宏处理excel表中的科学计数法表示的长数字编号">
+                巧用按键宏处理excel表中的科学计数法表示的长数字编号 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -543,7 +548,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +570,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -631,7 +636,7 @@
     <h3 class="widget-title">Tag Cloud</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ambari/">Ambari</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azkaban/">Azkaban</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Crontab/">Crontab</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flume/">Flume</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HDP/">HDP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kerberos/">Kerberos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kibana/">Kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstach/">Logstach</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ntp/">Ntp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ranger/">Ranger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Solo/">Solo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yum/">Yum</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zeppelin/">Zeppelin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sparkStreaming/">sparkStreaming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/旅行/">旅行</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ambari/">Ambari</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azkaban/">Azkaban</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Crontab/">Crontab</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/">Excel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flume/">Flume</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HDP/">HDP</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kerberos/">Kerberos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kibana/">Kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstach/">Logstach</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ntp/">Ntp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ranger/">Ranger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Solo/">Solo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yum/">Yum</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zeppelin/">Zeppelin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sparkStreaming/">sparkStreaming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/旅行/">旅行</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>
