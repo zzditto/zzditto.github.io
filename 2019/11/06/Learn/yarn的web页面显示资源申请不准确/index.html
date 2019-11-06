@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Ranger,">
+  <meta name="keywords" content="Yarn,">
 
 
 
@@ -79,23 +79,21 @@
 
 
 
-<meta name="description" content="Ranger是什么Ranger是大数据领域的一个集中式安全管理框架，他可以对诸如hdfs，hive，hbase，kafka进行细粒度的权限控制。一般来说，大数据产品提供给多人使用，是需要进行权限控制的，对于数据安全，产品可靠性都是很重要的">
-<meta name="keywords" content="Ranger">
+<meta name="description" content="前因工作期间，提交saprk任务到yarn上，却发现指定的申请资源数，计算得到的结果和yarn的web页面实际显示的资源申请数不相符合。">
+<meta name="keywords" content="Yarn">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ranger学习">
-<meta property="og:url" content="www.zzditto.cn/2019/08/11/BigData/Ranger学习/index.html">
+<meta property="og:title" content="yarn的web页面显示资源申请不准确">
+<meta property="og:url" content="www.zzditto.cn/2019/11/06/Learn/yarn的web页面显示资源申请不准确/index.html">
 <meta property="og:site_name" content="小柚麯">
-<meta property="og:description" content="Ranger是什么Ranger是大数据领域的一个集中式安全管理框架，他可以对诸如hdfs，hive，hbase，kafka进行细粒度的权限控制。一般来说，大数据产品提供给多人使用，是需要进行权限控制的，对于数据安全，产品可靠性都是很重要的">
+<meta property="og:description" content="前因工作期间，提交saprk任务到yarn上，却发现指定的申请资源数，计算得到的结果和yarn的web页面实际显示的资源申请数不相符合。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ranger%E6%94%AF%E6%8C%81%E7%BB%84%E4%BB%B6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ranger%E6%9D%83%E9%99%90%E7%AD%96%E7%95%A5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/Ranger%E6%A0%A1%E9%AA%8C%E6%B5%81%E7%A8%8B.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ranger%E6%9E%B6%E6%9E%84.png">
-<meta property="og:updated_time" content="2019-09-23T08:25:55.088Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/yarn-%E8%B5%84%E6%BA%90.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/yarn-%E8%B5%84%E6%BA%902.png">
+<meta property="og:updated_time" content="2019-11-06T07:06:50.907Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ranger学习">
-<meta name="twitter:description" content="Ranger是什么Ranger是大数据领域的一个集中式安全管理框架，他可以对诸如hdfs，hive，hbase，kafka进行细粒度的权限控制。一般来说，大数据产品提供给多人使用，是需要进行权限控制的，对于数据安全，产品可靠性都是很重要的">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ranger%E6%94%AF%E6%8C%81%E7%BB%84%E4%BB%B6.png">
+<meta name="twitter:title" content="yarn的web页面显示资源申请不准确">
+<meta name="twitter:description" content="前因工作期间，提交saprk任务到yarn上，却发现指定的申请资源数，计算得到的结果和yarn的web页面实际显示的资源申请数不相符合。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/yarn-%E8%B5%84%E6%BA%90.png">
 
 
 
@@ -125,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="www.zzditto.cn/2019/08/11/BigData/Ranger学习/">
+  <link rel="canonical" href="www.zzditto.cn/2019/11/06/Learn/yarn的web页面显示资源申请不准确/">
 
 
 
 
 
-  <title>Ranger学习 | 小柚麯</title>
+  <title>yarn的web页面显示资源申请不准确 | 小柚麯</title>
   
 
 
@@ -300,7 +298,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/08/11/BigData/Ranger学习/">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/11/06/Learn/yarn的web页面显示资源申请不准确/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="小柚麯">
@@ -317,7 +315,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Ranger学习</h1>
+          <h1 class="post-title" itemprop="name headline">yarn的web页面显示资源申请不准确</h1>
         
 
         <div class="post-meta">
@@ -329,8 +327,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T15:23:55+08:00">
-                2019-08-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-06T15:04:44+08:00">
+                2019-11-06
               </time>
             
 
@@ -345,8 +343,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-09-23T16:25:55+08:00">
-                2019-09-23
+              <time title="更新于" itemprop="dateModified" datetime="2019-11-06T15:06:50+08:00">
+                2019-11-06
               </time>
             
           </span>
@@ -364,8 +362,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index">
-                    <span itemprop="name">BigData</span>
+                  <a href="/categories/Learn/" itemprop="url" rel="index">
+                    <span itemprop="name">Learn</span>
                   </a>
                 </span>
 
@@ -382,8 +380,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/08/11/BigData/Ranger学习/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/11/BigData/Ranger学习/" itemprop="commentCount"></span>
+                <a href="/2019/11/06/Learn/yarn的web页面显示资源申请不准确/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/06/Learn/yarn的web页面显示资源申请不准确/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -411,34 +409,70 @@
       
 
       
-        <h2 id="Ranger是什么"><a href="#Ranger是什么" class="headerlink" title="Ranger是什么"></a>Ranger是什么</h2><p>Ranger是大数据领域的一个集中式安全管理框架，他可以对诸如hdfs，hive，hbase，kafka进行细粒度的权限控制。<br>一般来说，大数据产品提供给多人使用，是需要进行权限控制的，对于数据安全，产品可靠性都是很重要的</p>
+        <h2 id="前因"><a href="#前因" class="headerlink" title="前因"></a>前因</h2><p>工作期间，提交saprk任务到yarn上，却发现指定的申请资源数，计算得到的结果和yarn的web页面实际显示的资源申请数不相符合。</p>
 <a id="more"></a>
-<p>例如：<br>控制某个用户或者一组用户对hdfs访问的权限，读写，或者控制访问的路径<br>控制某个用户或者一组用户对hive的表的访问权限，读写，控制到哪个数据库，哪个表，哪一列<br>…</p>
-<h3 id="Ranger支持的组件"><a href="#Ranger支持的组件" class="headerlink" title="Ranger支持的组件"></a>Ranger支持的组件</h3><p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ranger%E6%94%AF%E6%8C%81%E7%BB%84%E4%BB%B6.png" alt="pic"></p>
-<h2 id="Ranger权限模型"><a href="#Ranger权限模型" class="headerlink" title="Ranger权限模型"></a>Ranger权限模型</h2><p>Ranger的权限模型主要是由权限策略组成。权限策略分为三个方面：用户，资源，权限</p>
-<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ranger%E6%9D%83%E9%99%90%E7%AD%96%E7%95%A5.png" alt="pic"></p>
-<p><strong>用户</strong>：Ranger可以对用户进行分组，一个用户可以属于多个组。Ranger可以对用户或者组进行资源的权限控制</p>
-<p><strong>资源</strong>：对于不同的组件，资源有着不同的表现形式。对于HDFS来说，文件路径就是资源，对于hive来说，database，table，column都是资源</p>
-<p><strong>权限</strong>：Ranger可以对各个资源的读，写，访问进行控制。具体可以配置白名单，白名单排除，黑名单，黑名单排斥</p>
-<p>在大数据集群中安装好Ranger，并进行相应的权限策略配置之后，用户访问资源就会进行Ranger的权限校验，校验流程如下：</p>
-<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/Ranger%E6%A0%A1%E9%AA%8C%E6%B5%81%E7%A8%8B.png" alt="pic"></p>
-<p>用户请求资源，会先获取所有相关的策略，并且遍历这些策略，然后根据黑白名单去判断用户访问资源的权限。由上面流程图可以看出，黑白名单的优先级。</p>
-<ol>
-<li>黑名单的优先级高于白名单</li>
-<li>黑名单排除的优先级高于黑名单</li>
-<li>白名单排除的优先级高于白名单</li>
-</ol>
-<h3 id="决策下发"><a href="#决策下发" class="headerlink" title="决策下发"></a>决策下发</h3><p>如果没有匹配到任何策略，一般情况是没有权限拒绝访问。Ranger也可以设置决策下发交给系统自身的权限控制。</p>
-<h2 id="Ranger架构"><a href="#Ranger架构" class="headerlink" title="Ranger架构"></a>Ranger架构</h2><p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ranger%E6%9E%B6%E6%9E%84.png" alt="pic"></p>
-<h3 id="Ranger-admin"><a href="#Ranger-admin" class="headerlink" title="Ranger-admin"></a>Ranger-admin</h3><p>ranger-admin是基于Jersey+Spring+EclipseLink框框开发的Web服务，对外提供了Restful风格的http服务。Ranger-Admin模块同样内嵌了jsp界面，用于管理员管理用户、资源、权限等信息。同样，我们可以基于它的Restful Api来编写自己的权限管理sdk。</p>
-<blockquote>
-<blockquote>
-<p>虽然Jersey和SpringMVC同样实现了JAX-RS(javaee6提供Java API for RESTful Web Services)规范，但是jersey更加适合构建restful风格的服务，因为它天生就是为restful而生的。<br>EclipseLink 是 JPA(Java Persistence Api)的一种实现，是java的一个ORM框架。</p>
-</blockquote>
-</blockquote>
-<h3 id="Plugin"><a href="#Plugin" class="headerlink" title="Plugin"></a>Plugin</h3><p>那么ranger是如何实现对大数据组件的权限控制访问呢？这就和ranger实现的一个个plugin有关系了。</p>
-<p>因为几乎所有的大数据组件都有提供一个抽象的验证接口，ranger就是根据这些接口为各个大数据组件实现了对应的plugin，plugin的工作主要是从Ranger-Admin处拉取该组件配置的所有策略，然后缓存到本地，然后当有用户来请求时提供鉴权服务。</p>
-<h2 id="Ranger的安装使用"><a href="#Ranger的安装使用" class="headerlink" title="Ranger的安装使用"></a>Ranger的安装使用</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://blog.csdn.net/u013332124/article/details/86360756" target="_blank" rel="noopener">https://blog.csdn.net/u013332124/article/details/86360756</a></p>
+<h2 id="后果"><a href="#后果" class="headerlink" title="后果"></a>后果</h2><h3 id="spark-submit默认参数"><a href="#spark-submit默认参数" class="headerlink" title="spark-submit默认参数"></a>spark-submit默认参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>spark.yarn.am.cores</td>
+<td>1</td>
+<td>ApplicationMaster默认core数量</td>
+</tr>
+<tr>
+<td>spark.yarn.am.memory</td>
+<td>512m</td>
+<td>ApplicationMaster默认内存</td>
+</tr>
+<tr>
+<td>spark.executor.instances</td>
+<td>2</td>
+<td>executor默认数量</td>
+</tr>
+<tr>
+<td>spark.executor.cores</td>
+<td>1</td>
+<td>executor默认core</td>
+</tr>
+<tr>
+<td>spark.executor.memory</td>
+<td>1g</td>
+<td>executor默认内存</td>
+</tr>
+</tbody></table>
+<p>安装参数默认值，yarn会生成3个containers。第一个是containers0，用来执行applicationmaster功能。另外两个containers分配给spark程序。</p>
+<p>使用默认值运行程序</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[hdfs@vm52 tycdata]$ saprk-submit \</span><br><span class="line">--master yarn \</span><br><span class="line">--queue Liu \</span><br><span class="line">--class cn.sic_credit.bigdata.tycdata.com_bus_risks_illegal.parseJsonETL ztgx3-1.0-SNAPSHOT.jar 2019-11-04</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/yarn-%E8%B5%84%E6%BA%90.png" alt="yarn资源"></p>
+<p>计算结果应该为：<br>master-内存：512m<br>master-vcore：1<br>executor-内存：1g<br>executor-vcore：1<br>num-executor：2<br>总的vcore：1+1<em>2=3<br>总的内存：512m+1g</em>2=2.5g</p>
+<p>但是实际显示结果却并不是这样</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>yarn对于应用程序所要申请的内存资源，有两个参数来影响实际申请到的内存容量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">第一个是yarn.scheduler.minimum-allocation-mb：最小可申请内存量，默认值为1024m  </span><br><span class="line"></span><br><span class="line">第二个是规整化因子。</span><br><span class="line">(FIFO和Capacity Scheduler时，规整化因子等于最小可申请资源量，不可单独配置；Fair Scheduler时，规整化因子通过参数yarn.scheduler.increment-allocation-mb设置，默认是1024)，其作用是应用程序申请的资源如果不是该因子的整数倍，则将被修改为最小的整数倍对应的值</span><br></pre></td></tr></table></figure>
+
+<p>每个containers申请内存时，都会多申请额外的堆外内存用于额外开销。</p>
+<ul>
+<li>ApplicationMaster：默认程序申请512m内存，申请分配的堆外内存的量为<code>max(${spark.yarn.am.memory}*0.1,384)=max(51.2m,384m)=384m</code>,所以应该分配给applicationmaster的内存为：<code>512m(程序申请)+384(堆外内存)= 896m</code>。但是在实际分配中，由于规整化因子的作用，这个值会被修改为1024m的最小整数倍的值，即1G。所以Application master申请的实际内存为1G</li>
+<li>executor：默认申请1G内存，多余的用于额外开销的堆外内存为 <code>max(${spark.yarn.am.memory}*0.1,384)=max(102.4m,384m)=384m</code>,所以应该分配 <code>1024m(程序申请)+384m(堆外内存)=1408m</code>，在规整化因子的作用下，规整为2G</li>
+</ul>
+<p>对应上图：实际内存数：<code>1g(master)+2g*2(executor)=5g</code></p>
+<h3 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[hdfs@vm52 tycdata]$ spark-submit \</span><br><span class="line">--master yarn \</span><br><span class="line">--queue Liu \</span><br><span class="line">--num-executors 5 \</span><br><span class="line">--executor-memory 2g \</span><br><span class="line">--executor-cores 1 \</span><br><span class="line">--class cn.sic_credit.bigdata.tycdata.com_bus_risks_illegal.parseJsonETL ztgx3-1.0-SNAPSHOT.jar 2019-11-04</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Am-内存：512m–》1g</li>
+<li>Am-vcore：1</li>
+<li>executor-num：5</li>
+<li>executor-memory：2g–》3g</li>
+<li>executor-core：1<br>资源申请计算：<br>core：1+5<em>1=6<br>内存：1+5</em>3=16g<br>实际资源如下：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/yarn-%E8%B5%84%E6%BA%902.png" alt="yarn-资源2"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/702068910f5b" target="_blank" rel="noopener">YARN上显示应用程序使用的vcores、memory不准确？</a><br><a href="https://www.jianshu.com/p/31d89cc4d279" target="_blank" rel="noopener">Spark on Yarn资源配置</a></p>
 
       
     </div>
@@ -456,7 +490,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Ranger/" rel="tag"><i class="fa fa-tag"></i>Ranger</a>
+            <a href="/tags/Yarn/" rel="tag"><i class="fa fa-tag"></i>Yarn</a>
           
         </div>
       
@@ -469,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/04/ToWork/flume情况简介/" rel="next" title="flume情况简介">
-                <i class="fa fa-chevron-left"></i> flume情况简介
+              <a href="/2019/11/01/Essays/巧用按键宏处理excel表中的科学计数法表示的长数字编号/" rel="next" title="巧用按键宏处理excel表中的科学计数法表示的长数字编号">
+                <i class="fa fa-chevron-left"></i> 巧用按键宏处理excel表中的科学计数法表示的长数字编号
               </a>
             
           </div>
@@ -478,10 +512,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/11/BigData/Apache-zeppelin学习/" rel="prev" title="Apache zeppelin学习">
-                Apache zeppelin学习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -634,7 +664,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ranger是什么"><span class="nav-number">1.</span> <span class="nav-text">Ranger是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ranger支持的组件"><span class="nav-number">1.1.</span> <span class="nav-text">Ranger支持的组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ranger权限模型"><span class="nav-number">2.</span> <span class="nav-text">Ranger权限模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#决策下发"><span class="nav-number">2.1.</span> <span class="nav-text">决策下发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ranger架构"><span class="nav-number">3.</span> <span class="nav-text">Ranger架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ranger-admin"><span class="nav-number">3.1.</span> <span class="nav-text">Ranger-admin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Plugin"><span class="nav-number">3.2.</span> <span class="nav-text">Plugin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ranger的安装使用"><span class="nav-number">4.</span> <span class="nav-text">Ranger的安装使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前因"><span class="nav-number">1.</span> <span class="nav-text">前因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后果"><span class="nav-number">2.</span> <span class="nav-text">后果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-submit默认参数"><span class="nav-number">2.1.</span> <span class="nav-text">spark-submit默认参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">2.2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际案例"><span class="nav-number">2.3.</span> <span class="nav-text">实际案例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
