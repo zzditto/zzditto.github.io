@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="前言Ambari支持自定义服务扩展，大致步骤分为以下四步：  创建服务文件夹 创建描述信息服务的metainfo.xml 创建关于安装，启动，停止，配置等命令的py脚本 给自定义服务添加配置  注：Ambari自带服务也含有类似的脚本和模板，可将其视为参考，路径如下： 12345678910111213141516171819202122232425262728293031323334353637">
+<meta name="description" content="前言Ambari支持自定义服务扩展，大致步骤分为以下四步：  创建服务文件夹 创建描述信息服务的metainfo.xml 创建关于安装，启动，停止，配置等命令的py脚本 给自定义服务添加配置  注：Ambari自带服务也含有类似的脚本和模板，可将其视为参考，路径如下：">
 <meta name="keywords" content="HDP,Ambari">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ambari2.6.2和Flume1.7集成">
 <meta property="og:url" content="www.zzditto.cn/2019/12/16/Learn/Ambari2-6-2和Flume1-7集成/index.html">
 <meta property="og:site_name" content="小柚麯">
-<meta property="og:description" content="前言Ambari支持自定义服务扩展，大致步骤分为以下四步：  创建服务文件夹 创建描述信息服务的metainfo.xml 创建关于安装，启动，停止，配置等命令的py脚本 给自定义服务添加配置  注：Ambari自带服务也含有类似的脚本和模板，可将其视为参考，路径如下： 12345678910111213141516171819202122232425262728293031323334353637">
+<meta property="og:description" content="前言Ambari支持自定义服务扩展，大致步骤分为以下四步：  创建服务文件夹 创建描述信息服务的metainfo.xml 创建关于安装，启动，停止，配置等命令的py脚本 给自定义服务添加配置  注：Ambari自带服务也含有类似的脚本和模板，可将其视为参考，路径如下：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/flume-conf.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/flume-conf2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/flume-conf3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/flume-conf4.png">
-<meta property="og:updated_time" content="2019-12-21T14:04:10.651Z">
+<meta property="og:updated_time" content="2019-12-21T14:07:20.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ambari2.6.2和Flume1.7集成">
-<meta name="twitter:description" content="前言Ambari支持自定义服务扩展，大致步骤分为以下四步：  创建服务文件夹 创建描述信息服务的metainfo.xml 创建关于安装，启动，停止，配置等命令的py脚本 给自定义服务添加配置  注：Ambari自带服务也含有类似的脚本和模板，可将其视为参考，路径如下： 12345678910111213141516171819202122232425262728293031323334353637">
+<meta name="twitter:description" content="前言Ambari支持自定义服务扩展，大致步骤分为以下四步：  创建服务文件夹 创建描述信息服务的metainfo.xml 创建关于安装，启动，停止，配置等命令的py脚本 给自定义服务添加配置  注：Ambari自带服务也含有类似的脚本和模板，可将其视为参考，路径如下：">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/flume-conf.png">
 
 
@@ -345,7 +345,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-12-21T22:04:10+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-21T22:07:20+08:00">
                 2019-12-21
               </time>
             
@@ -419,6 +419,7 @@
 <li>给自定义服务添加配置</li>
 </ol>
 <p>注：Ambari自带服务也含有类似的脚本和模板，可将其视为参考，路径如下：</p>
+<a id="more"></a>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">(base) [root@vm50 1.4.0.2.0]# pwd</span><br><span class="line">/var/lib/ambari-server/resources/common-services/FLUME/1.4.0.2.0</span><br><span class="line">(base) [root@vm50 1.4.0.2.0]# ll</span><br><span class="line">total 24</span><br><span class="line">-rwxr-xr-x 1 root root   797 May 30  2018 alerts.json</span><br><span class="line">drwxr-xr-x 2 root root    81 May 23  2019 configuration</span><br><span class="line">-rwxr-xr-x 1 root root  2367 May 30  2018 metainfo.xml</span><br><span class="line">-rwxr-xr-x 1 root root 14302 May 30  2018 metrics.json</span><br><span class="line">drwxr-xr-x 5 root root    84 May 23  2019 package</span><br><span class="line">(base) [root@vm50 1.4.0.2.0]# tree</span><br><span class="line">.</span><br><span class="line">├── alerts.json</span><br><span class="line">├── configuration</span><br><span class="line">│   ├── flume-conf.xml</span><br><span class="line">│   ├── flume-env.xml</span><br><span class="line">│   └── flume-logsearch-conf.xml</span><br><span class="line">├── metainfo.xml</span><br><span class="line">├── metrics.json</span><br><span class="line">└── package</span><br><span class="line">    ├── alerts</span><br><span class="line">    │   ├── alert_flume_agent_status.py</span><br><span class="line">    │   ├── alert_flume_agent_status.pyc</span><br><span class="line">    │   └── alert_flume_agent_status.pyo</span><br><span class="line">    ├── archive.zip</span><br><span class="line">    ├── scripts</span><br><span class="line">    │   ├── flume_check.py</span><br><span class="line">    │   ├── flume_check.pyc</span><br><span class="line">    │   ├── flume_check.pyo</span><br><span class="line">    │   ├── flume_handler.py</span><br><span class="line">    │   ├── flume_handler.pyc</span><br><span class="line">    │   ├── flume_handler.pyo</span><br><span class="line">    │   ├── flume.py</span><br><span class="line">    │   ├── flume.pyc</span><br><span class="line">    │   ├── flume.pyo</span><br><span class="line">    │   ├── params_linux.py</span><br><span class="line">    │   ├── params_linux.pyc</span><br><span class="line">    │   ├── params_linux.pyo</span><br><span class="line">    │   ├── params.py</span><br><span class="line">    │   ├── params.pyc</span><br><span class="line">    │   ├── params.pyo</span><br><span class="line">    │   ├── params_windows.py</span><br><span class="line">    │   ├── params_windows.pyc</span><br><span class="line">    │   ├── params_windows.pyo</span><br><span class="line">    │   ├── service_mapping.py</span><br><span class="line">    │   ├── service_mapping.pyc</span><br><span class="line">    │   └── service_mapping.pyo</span><br><span class="line">    └── templates</span><br><span class="line">        ├── flume.conf.j2</span><br><span class="line">        ├── flume-metrics2.properties.j2</span><br><span class="line">        └── log4j.properties.j2</span><br></pre></td></tr></table></figure>
 
 <h2 id="ambari集成flume1-7"><a href="#ambari集成flume1-7" class="headerlink" title="ambari集成flume1.7"></a>ambari集成flume1.7</h2><p>ambari 2.6.2以及之前版本，自带flume组件。但是自带的flume组件版本太低，1.5。无法满足实际生产中数据采集的需求，所以决定将flume1.7集成到ambari之上。以能够通过ambari web页面对flume进行配置参数，启动，停止，且可以通过实时追踪日志观察fluem运行情况为集成目标。与自带的flume监控有所差别，但是不重要，满足需要即可。</p>
