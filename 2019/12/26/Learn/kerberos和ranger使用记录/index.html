@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Ranger,kerberos,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="创建testc用户测试 linux创建testc用户，密码：123456testc。使用adduser，用于创建home文件夹和同名的组 kerberos创建testc/testc主体，密码123456testc注：由于ranger对密码有要求，故设置密码应该保持有数字和字母统一管理用户，组可以使用freeIPA，但由于DNS映射的原因，不可以和ambari的节点安装在一起，所以暂时使用人工管理">
+<meta name="keywords" content="Ranger,kerberos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kerberos和ranger使用记录">
+<meta property="og:url" content="www.zzditto.cn/2019/12/26/Learn/kerberos和ranger使用记录/index.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="创建testc用户测试 linux创建testc用户，密码：123456testc。使用adduser，用于创建home文件夹和同名的组 kerberos创建testc/testc主体，密码123456testc注：由于ranger对密码有要求，故设置密码应该保持有数字和字母统一管理用户，组可以使用freeIPA，但由于DNS映射的原因，不可以和ambari的节点安装在一起，所以暂时使用人工管理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-26T08:52:28.608Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kerberos和ranger使用记录">
+<meta name="twitter:description" content="创建testc用户测试 linux创建testc用户，密码：123456testc。使用adduser，用于创建home文件夹和同名的组 kerberos创建testc/testc主体，密码123456testc注：由于ranger对密码有要求，故设置密码应该保持有数字和字母统一管理用户，组可以使用freeIPA，但由于DNS映射的原因，不可以和ambari的节点安装在一起，所以暂时使用人工管理">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/2019/12/26/Learn/kerberos和ranger使用记录/">
+
+
+
+
+
+  <title>kerberos和ranger使用记录 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/12/26/Learn/kerberos和ranger使用记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kerberos和ranger使用记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-26T16:50:00+08:00">
+                2019-12-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-26T16:52:28+08:00">
+                2019-12-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Learn/" itemprop="url" rel="index">
+                    <span itemprop="name">Learn</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/26/Learn/kerberos和ranger使用记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/26/Learn/kerberos和ranger使用记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="创建testc用户测试"><a href="#创建testc用户测试" class="headerlink" title="创建testc用户测试"></a>创建testc用户测试</h2><ol>
+<li>linux创建testc用户，密码：123456testc。使用adduser，用于创建home文件夹和同名的组</li>
+<li>kerberos创建testc/testc主体，密码123456testc<br>注：<br>由于ranger对密码有要求，故设置密码应该保持有数字和字母<br>统一管理用户，组可以使用freeIPA，但由于DNS映射的原因，不可以和ambari的节点安装在一起，所以暂时使用人工管理<a id="more"></a>
+<a href="https://www.cnblogs.com/yinzhengjie/p/10100098.html" target="_blank" rel="noopener">Hadoop生态圈-使用FreeIPA安装Kerberos和LDAP</a></li>
+</ol>
+<h3 id="testc用户登录基本操作权限"><a href="#testc用户登录基本操作权限" class="headerlink" title="testc用户登录基本操作权限"></a>testc用户登录基本操作权限</h3><h4 id="认证为hdfs用户"><a href="#认证为hdfs用户" class="headerlink" title="认证为hdfs用户"></a>认证为hdfs用户</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>跳转到此路径下，或者后面在命令中加上路径</span><br><span class="line">[root@vm01 keytabs]# pwd</span><br><span class="line">/etc/security/keytabs</span><br><span class="line">[root@vm01 keytabs]# ll</span><br><span class="line">total 48</span><br><span class="line">-r-------- 1 root      root   368 Dec 25 14:29 activity-analyzer.headless.keytab</span><br><span class="line">-r-------- 1 root      root   368 Dec 25 14:29 activity-explorer.headless.keytab</span><br><span class="line">-r--r----- 1 root      root   348 Dec 25 14:29 ambari.server.keytab</span><br><span class="line">-r-------- 1 hdfs      hadoop 293 Dec 25 14:29 dn.service.keytab</span><br><span class="line">-r-------- 1 hdfs      hadoop 303 Dec 25 14:29 hdfs.headless.keytab</span><br><span class="line">-r-------- 1 hive      hadoop 303 Dec 25 14:29 hive.service.keytab</span><br><span class="line">-r-------- 1 yarn      hadoop 293 Dec 25 14:29 nm.service.keytab</span><br><span class="line">-r-------- 1 hdfs      hadoop 293 Dec 25 14:29 nn.service.keytab</span><br><span class="line">-r--r----- 1 ambari-qa hadoop 328 Dec 25 14:29 smokeuser.headless.keytab</span><br><span class="line">-r-------- 1 spark     hadoop 308 Dec 25 14:29 spark.headless.keytab</span><br><span class="line">-r--r----- 1 root      hadoop 303 Dec 25 14:29 spnego.service.keytab</span><br><span class="line">-r-------- 1 zookeeper hadoop 328 Dec 25 14:29 zk.service.keytab</span><br><span class="line"><span class="meta">#</span>查看kerberos主体,记住常用的即可。但这种ambari生成的用户，通常不知道密码，推荐使用keyta方式</span><br><span class="line"><span class="meta">#</span># hdfs-&gt;hdfs-hhhhh</span><br><span class="line"><span class="meta">#</span># hive-&gt;hive/vm01; hive/vm02; hive/vm03 在哪一台节点则需要将名称改为哪一台的主机名</span><br><span class="line">[root@vm01 keytabs]# kadmin.local</span><br><span class="line">Authenticating as principal hdfs-hhhhh/admin@TEST.COM with password.</span><br><span class="line">kadmin.local:  listprincs</span><br><span class="line">HTTP/vm01@TEST.COM</span><br><span class="line">HTTP/vm02@TEST.COM</span><br><span class="line">HTTP/vm03@TEST.COM</span><br><span class="line">K/M@TEST.COM</span><br><span class="line">activity_analyzer/vm01@TEST.COM</span><br><span class="line">activity_explorer/vm01@TEST.COM</span><br><span class="line">ambari-qa-hhhhh@TEST.COM</span><br><span class="line">ambari-server-hhhhh@TEST.COM</span><br><span class="line">amshbase/vm03@TEST.COM</span><br><span class="line">amszk/vm03@TEST.COM</span><br><span class="line">dn/vm01@TEST.COM</span><br><span class="line">dn/vm02@TEST.COM</span><br><span class="line">dn/vm03@TEST.COM</span><br><span class="line">hdfs-hhhhh@TEST.COM</span><br><span class="line">hive/vm01@TEST.COM</span><br><span class="line">hive/vm02@TEST.COM</span><br><span class="line">hive/vm03@TEST.COM</span><br><span class="line">jhs/vm02@TEST.COM</span><br><span class="line">kadmin/admin@TEST.COM</span><br><span class="line">kadmin/changepw@TEST.COM</span><br><span class="line">kadmin/vm01@TEST.COM</span><br><span class="line">kiprop/vm01@TEST.COM</span><br><span class="line">krbtgt/TEST.COM@TEST.COM</span><br><span class="line">nm/vm01@TEST.COM</span><br><span class="line">nm/vm02@TEST.COM</span><br><span class="line">nm/vm03@TEST.COM</span><br><span class="line">nn/vm01@TEST.COM</span><br><span class="line">nn/vm02@TEST.COM</span><br><span class="line">rangeradmin/vm03@TEST.COM</span><br><span class="line">rangerlookup/vm03@TEST.COM</span><br><span class="line">rangertagsync/vm03@TEST.COM</span><br><span class="line">rangerusersync/vm03@TEST.COM</span><br><span class="line">rm/vm02@TEST.COM</span><br><span class="line">spark-hhhhh@TEST.COM</span><br><span class="line">testc/testc@TEST.COM</span><br><span class="line">yarn/vm02@TEST.COM</span><br><span class="line">zookeeper/vm01@TEST.COM</span><br><span class="line">zookeeper/vm02@TEST.COM</span><br><span class="line">zookeeper/vm03@TEST.COM</span><br><span class="line"><span class="meta">#</span>kerberos认证</span><br><span class="line"><span class="meta">#</span>kerberos认证有时间限制，默认为1d</span><br><span class="line"><span class="meta">#</span># kinit -kt 【keytab文件路径，上边若没有跳转，则添加全路径】 kerberos的主体【@TEST.CO可省略】</span><br><span class="line">[root@vm01 keytabs]# kinit -kt ./hdfs.headless.keytab hdfs-hhhhh</span><br><span class="line">[root@vm01 keytabs]# kinit -kt /etc/security/keytabs/hdfs.headless.keytabhdfs-hhhhh</span><br><span class="line"><span class="meta">#</span>查看是否生效</span><br><span class="line">[root@vm01 keytabs]# klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_0</span><br><span class="line">Default principal: hdfs-hhhhh@TEST.COM</span><br><span class="line">Valid starting       Expires              Service principal</span><br><span class="line">12/25/2019 16:51:51  12/26/2019 16:51:51  krbtgt/TEST.COM@TEST.COM</span><br><span class="line"><span class="meta">#</span>此时，当前用户(root)已经被认证为hdfs用户，即已经成为hdfs用户，不需要su切换，直接可以进hdfs操作</span><br><span class="line"><span class="meta">#</span>#演示</span><br><span class="line">[root@vm01 keytabs]# hadoop fs -ls /</span><br><span class="line">Found 9 items</span><br><span class="line">drwxrwxrwx   - yarn   hadoop          0 2019-12-19 17:44 /app-logs</span><br><span class="line">drwxr-xr-x   - hdfs   hdfs            0 2019-12-19 17:07 /apps</span><br><span class="line">drwxr-xr-x   - yarn   hadoop          0 2019-12-19 16:58 /ats</span><br><span class="line">drwxr-xr-x   - hdfs   hdfs            0 2019-12-19 16:58 /hdp</span><br><span class="line">drwxr-xr-x   - mapred hdfs            0 2019-12-19 16:58 /mapred</span><br><span class="line">drwxrwxrwx   - mapred hadoop          0 2019-12-19 16:59 /mr-history</span><br><span class="line">drwxrwxrwx   - spark  hadoop          0 2019-12-25 16:57 /spark2-history</span><br><span class="line">drwxrwxrwx   - hdfs   hdfs            0 2019-12-25 14:45 /tmp</span><br><span class="line">drwxr-xr-x   - hdfs   hdfs            0 2019-12-24 17:23 /user</span><br><span class="line"><span class="meta">#</span>#进入hive，创建几张空表</span><br><span class="line">[root@vm01 keytabs]# hive</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用testc用户，ranger给予部分权限"><a href="#使用testc用户，ranger给予部分权限" class="headerlink" title="使用testc用户，ranger给予部分权限"></a>使用testc用户，ranger给予部分权限</h4><p>给予testc用户访问test数据库，只能访问test2表，可进行所有操作的权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>kerberos认证</span><br><span class="line"><span class="meta">#</span>#认证方式有两种，1.上边提到的[keytab文件] 2.当前这种输入密码的形式</span><br><span class="line"><span class="meta">#</span>#区别：keytab文件避免了输入密码，可使用在执行任务，需要切换用户的时候。ambari和kerbero集成时自动生成了上边路径下的keytab文件。我们对新建的用户也可以生成keytab文件。</span><br><span class="line">[root@vm01 keytabs]# kinit testc/testc</span><br><span class="line">Password for testc/testc@TEST.COM:</span><br><span class="line">[root@vm01 keytabs]# klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_0</span><br><span class="line">Default principal: testc/testc@TEST.COM</span><br><span class="line">Valid starting       Expires              Service principal</span><br><span class="line">12/25/2019 17:04:38  12/26/2019 17:04:38  krbtgt/TEST.COM@TEST.COM</span><br><span class="line"><span class="meta">#</span>在生产集群中，使用ranger给chedejian设置权限，只能使用hiveserver2对其进行权限控制，只切换用户到chendejian是可以访问整个数据库的。`https://blog.csdn.net/wangpei1949/articledetails/87908785`</span><br><span class="line"><span class="meta">#</span>`https:/www.cnblogs.com/love-yh/p/10099962.html`。推荐beeline方式</span><br><span class="line"><span class="meta">#</span>使用hive cli方式即直接输入hive，进入hive。控制权限即为控制hdfs中hive表的路径,使用ranger</span><br><span class="line">`https://blog.csdn.net/u013850277/article/details/78953759`</span><br><span class="line"><span class="meta">#</span>由此文看出，需要提前设置hdfs中的文件权限为其他用户不可查看</span><br><span class="line"><span class="meta">#</span>这里设置其他用户不可read进行测试`[root@vm01 ~]# hadoop fs -chmod -R o-r /apps/hive`</span><br><span class="line"><span class="meta">#</span>ambari页面也不可能查看，创建hdfs用户进行登录即可</span><br><span class="line"><span class="meta">#</span>kerberos无论开启多少个窗口，使用kinit，就是统一变成认证的用户。解决方法可能是需要为每登陆的人创建一个用户</span><br><span class="line"><span class="meta">#</span>ranger使用不可直接在ranger中创建用户，而是在ranger的Ranger Usersync所在的主机中创建用户可自动同步到ranger中，且需要在ranger参数设置中设置开启hdfs plugin功能。</span><br><span class="line"><span class="meta">#</span>Ranger开启hdfs plugin组件，会自动在ranger生成选项。在新的选项中设置用户权限即可。</span><br><span class="line"><span class="meta">#</span>创建用户，ranger同步用户。此时删除linux和ranger上的用户，再在linux上创建同名同组的户，ranger不会更新，所以一般不要删除ranger上的用户。如果删除。可使用ranger自行创建同名组用户。</span><br><span class="line"><span class="meta">#</span>#使用kerberos ranger控制用户权限步骤如下：</span><br><span class="line">1. Ranger Usersync所在节点创建用户和用户组</span><br><span class="line">2. kerberos将新建的用户加入认证用户列表</span><br><span class="line">3. 使用ranger设置权限</span><br><span class="line">4. 切换为新创建的用户</span><br><span class="line">5. 使用kinit认证新创建的用户</span><br><span class="line">6. 新用户认证+授权完成</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用testc用户进行kerberos用户认证，ranger设置权限操作"><a href="#使用testc用户进行kerberos用户认证，ranger设置权限操作" class="headerlink" title="使用testc用户进行kerberos用户认证，ranger设置权限操作"></a>使用testc用户进行kerberos用户认证，ranger设置权限操作</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>kerberos认证</span><br><span class="line"><span class="meta">#</span>#认证方式有两种，1.上边提到的[keytab文件] 2.当前这种输入密码的形式</span><br><span class="line"><span class="meta">#</span>#ambari自动生成的用户使用keytab形式认证。自己创建的用户使用输入密码形式</span><br><span class="line"></span><br><span class="line">1.Ranger Usersync所在节点创建用户和用户组</span><br><span class="line">[root@vm03 home]# adduser testc</span><br><span class="line">[root@vm03 home]# ll</span><br><span class="line">total 0</span><br><span class="line">drwx------ 3 ambari-qa     hadoop  87 Dec 19 16:29 ambari-qa</span><br><span class="line">drwx------ 3 ams           hadoop  87 Oct 16 16:58 ams</span><br><span class="line">drwx------ 2 druid         hadoop  62 Dec 12 13:51 druid</span><br><span class="line">drwx------ 2 elasticsearch hadoop  62 Dec 24 10:03 elasticsearch</span><br><span class="line">drwx------ 3 flume         hadoop  87 Dec  9 14:26 flume</span><br><span class="line">drwx------ 2 flume1        hadoop  62 Dec 24 10:03 flume1</span><br><span class="line">drwx------ 2 hcat          hadoop  62 Dec 19 16:14 hcat</span><br><span class="line">drwx------ 3 hdfs          hadoop 108 Dec 24 16:55 hdfs</span><br><span class="line">drwx------ 2 hive          hadoop  83 Dec 24 17:02 hive</span><br><span class="line">drwx------ 2 kibana        hadoop  62 Dec 24 10:03 kibana</span><br><span class="line">drwx------ 2 livy          hadoop  62 Dec 19 16:14 livy</span><br><span class="line">drwx------ 2 ranger        hadoop  62 Dec 24 18:38 ranger</span><br><span class="line">drwx------ 2 spark         hadoop  62 Dec 19 16:14 spark</span><br><span class="line">drwx------ 2 testc         testc   62 Dec 26 14:50 testc</span><br><span class="line">drwx------ 2 tez           hadoop  83 Dec 24 17:07 tez</span><br><span class="line">drwx------ 3 zookeeper     hadoop  87 Oct 16 16:57 zookeeper</span><br><span class="line"></span><br><span class="line">2.kerberos将testc加入认证库</span><br><span class="line">[root@vm01 ~]# kadmin.local</span><br><span class="line">Authenticating as principal root/admin@TEST.COM with password.</span><br><span class="line">kadmin.local:  add_principal testc/testc</span><br><span class="line">WARNING: no policy specified for testc/testc@TEST.COM; defaulting to no policy</span><br><span class="line">Enter password for principal "testc/testc@TEST.COM":</span><br><span class="line">Re-enter password for principal "testc/testc@TEST.COM":</span><br><span class="line">Principal "testc/testc@TEST.COM" created.</span><br><span class="line"></span><br><span class="line">3.ranger设置权限</span><br><span class="line">4.kinit认证【若能够切换用户，尽量切换用户操作】</span><br><span class="line">[root@vm03 home]# su testc</span><br><span class="line">[testc@vm03 home]$ kinit testc/testc</span><br><span class="line">Password for testc/testc@TEST.COM:</span><br><span class="line">[testc@vm03 home]$ klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_1016</span><br><span class="line">Default principal: testc/testc@TEST.COM</span><br><span class="line"></span><br><span class="line">Valid starting       Expires              Service principal</span><br><span class="line">12/26/2019 15:00:45  12/27/2019 15:00:45  krbtgt/TEST.COM@TEST.COM</span><br><span class="line">【若切换不了用户，就不切换用户也可操作】</span><br><span class="line">[root@vm01 ~]# klist</span><br><span class="line">klist: No credentials cache found (filename: /tmp/krb5cc_0)</span><br><span class="line">[root@vm01 ~]# kinit testc/testc</span><br><span class="line">Password for testc/testc@TEST.COM:</span><br><span class="line">[root@vm01 ~]# klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_0</span><br><span class="line">Default principal: testc/testc@TEST.COM</span><br><span class="line"></span><br><span class="line">Valid starting       Expires              Service principal</span><br><span class="line">12/26/2019 15:02:05  12/27/2019 15:02:05  krbtgt/TEST.COM@TEST.COM</span><br><span class="line"></span><br><span class="line">6.验证认证和授权</span><br><span class="line"><span class="meta">#</span>使用hdfs用户，查看test.txt文件。该文件设置其他用户无法进行读，写，执行</span><br><span class="line">[root@vm01 ~]# kinit -kt /etc/security/keytabs/hdfs.headless.keytab hdfs-hhhhh</span><br><span class="line">[root@vm01 ~]# klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_0</span><br><span class="line">Default principal: hdfs-hhhhh@TEST.COM</span><br><span class="line"></span><br><span class="line">Valid starting       Expires              Service principal</span><br><span class="line">12/26/2019 15:04:55  12/27/2019 15:04:55  krbtgt/TEST.COM@TEST.COM</span><br><span class="line">[root@vm01 ~]# hadoop fs -ls /apps/hive/warehouse/test/</span><br><span class="line">Found 1 items</span><br><span class="line">-rwxrwx---   3 hdfs hadoop         23 2019-12-26 11:12 /apps/hive/warehouse/test/test.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>使用testc用户进行读取</span><br><span class="line">[testc@vm03 home]$ klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_1016</span><br><span class="line">Default principal: testc/testc@TEST.COM</span><br><span class="line"></span><br><span class="line">Valid starting       Expires              Service principal</span><br><span class="line">12/26/2019 15:00:45  12/27/2019 15:00:45  krbtgt/TEST.COM@TEST.COM</span><br><span class="line">[testc@vm03 home]$ hadoop fs -cat /apps/hive/warehouse/test/test.txt</span><br><span class="line">hello</span><br><span class="line">hi</span><br><span class="line">apple</span><br><span class="line">pvmware</span><br><span class="line"><span class="meta">#</span>#读取成功</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>使用ranger设置hive表的路径的权限，以此控制testc对hive的访问</span><br><span class="line"><span class="meta">#</span>#无权限设置</span><br><span class="line">[testc@vm03 home]$ hive</span><br><span class="line">log4j:WARN No such property [maxFileSize] in org.apache.log4j.DailyRollingFileAppender.</span><br><span class="line"></span><br><span class="line">Logging initialized using configuration in file:/etc/hive/2.6.5.0-292/0/hive-log4j.properties</span><br><span class="line"><span class="meta">hive&gt;</span> show databases;</span><br><span class="line">OK</span><br><span class="line">default</span><br><span class="line">test</span><br><span class="line">test1</span><br><span class="line">test2</span><br><span class="line">Time taken: 1.534 seconds, Fetched: 4 row(s)</span><br><span class="line"><span class="meta">#</span>#设置hdfs的权限，控制hive表的路径</span><br><span class="line"><span class="meta">#</span>#设置hdfs中hive路径，其他用户不能访问</span><br><span class="line">[hdfs@vm01 root]$ klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_1003</span><br><span class="line">Default principal: hdfs-hhhhh@TEST.COM</span><br><span class="line"></span><br><span class="line">Valid starting       Expires              Service principal</span><br><span class="line">12/26/2019 14:25:24  12/27/2019 14:25:24  krbtgt/TEST.COM@TEST.COM</span><br><span class="line">12/26/2019 14:25:24  12/27/2019 14:25:24  HTTP/vm01@</span><br><span class="line">12/26/2019 14:25:24  12/27/2019 14:25:24  HTTP/vm01@TEST.COM</span><br><span class="line">[hdfs@vm01 root]$</span><br><span class="line">[hdfs@vm01 root]$</span><br><span class="line">[hdfs@vm01 root]$ hadoop fs -chmod -R o-r /apps/hive/</span><br><span class="line"><span class="meta">#</span>#ranger设置testc用户可以访问test.db</span><br><span class="line"><span class="meta">#</span>#但是会显示其他不能操作的数据库名，使用hiveserver2即可解决</span><br><span class="line">[testc@vm03 home]$ hive</span><br><span class="line">log4j:WARN No such property [maxFileSize] in org.apache.log4j.DailyRollingFileAppender.</span><br><span class="line"></span><br><span class="line">Logging initialized using configuration in file:/etc/hive/2.6.5.0-292/0/hive-log4j.properties</span><br><span class="line"><span class="meta">hive&gt;</span> show databases;</span><br><span class="line">OK</span><br><span class="line">default</span><br><span class="line">test</span><br><span class="line">test1</span><br><span class="line">test2</span><br><span class="line">Time taken: 1.236 seconds, Fetched: 4 row(s)</span><br><span class="line"><span class="meta">hive&gt;</span> use test;</span><br><span class="line">OK</span><br><span class="line">Time taken: 0.73 seconds</span><br><span class="line"><span class="meta">hive&gt;</span> show tables;</span><br><span class="line">OK</span><br><span class="line">test</span><br><span class="line">test1</span><br><span class="line">test2</span><br><span class="line">Time taken: 0.269 seconds, Fetched: 3 row(s)</span><br><span class="line"><span class="meta">hive&gt;</span> use test1;</span><br><span class="line">FAILED: SemanticException MetaException(message:java.security.AccessControlException: Permission denied: user=testc, access=READ, inode="/apps/hive/warehouse/test1.db":hdfs:hadoop:drwxr-x--x</span><br><span class="line">        at org.apache.hadoop.hdfs.server.namenode.FSPermissionChecker.check(FSPermissionChecker.java:353)</span><br><span class="line">        at org.apache.hadoop.hdfs.server.namenode.FSPermissionChecker.checkPermission(FSPermissionChecker.java:252)</span><br><span class="line">        at org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer$RangerAccessControlEnforcer.checkDefaultEnforcer(RangerHdfsAuthorizer.java:427)</span><br><span class="line">        at org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer$RangerAccessControlEnforcer.checkPermission(RangerHdfsAuthorizer.java:303)</span><br><span class="line">        at org.apache.hadoop.hdfs.server.namenode.FSPermissionChecker.checkPermission(FSPermissionChecker.java:190)</span><br><span class="line">        at org.apache.hadoop.hdfs.server.namenode.FSDirectory.checkPermission(FSDirectory.java:1950)</span><br><span class="line">        at org.apache.hadoop.hdfs.server.namenode.FSDirectory.checkPermission(FSDirectory.java:1934)</span><br><span class="line">        at org.apache.hadoop.hdfs.server.namenode.FSDirectory.checkPathAccess(FSDirectory.java:1908)</span><br><span class="line">        at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkAccess(FSNamesystem.java:8800)</span><br><span class="line">        at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.checkAccess(NameNodeRpcServer.java:2089)</span><br><span class="line">        at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.checkAccess(ClientNamenodeProtocolServerSideTranslatorPB.java:1466)</span><br><span class="line">        at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java)</span><br><span class="line">        at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:640)</span><br><span class="line">        at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:982)</span><br><span class="line">        at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2351)</span><br><span class="line">        at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:2347)</span><br><span class="line">        at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">        at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">        at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1869)</span><br><span class="line">        at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2347)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="hiveserver2"><a href="#hiveserver2" class="headerlink" title="hiveserver2"></a>hiveserver2</h4><h4 id="Hbase-shell"><a href="#Hbase-shell" class="headerlink" title="Hbase shell"></a>Hbase shell</h4><h4 id="spark代码本地运行和集群运行"><a href="#spark代码本地运行和集群运行" class="headerlink" title="spark代码本地运行和集群运行"></a>spark代码本地运行和集群运行</h4><h4 id="flume写入hdfs"><a href="#flume写入hdfs" class="headerlink" title="flume写入hdfs"></a>flume写入hdfs</h4><h4 id="presto"><a href="#presto" class="headerlink" title="presto"></a>presto</h4><h4 id="azkaban"><a href="#azkaban" class="headerlink" title="azkaban"></a>azkaban</h4>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Ranger/" rel="tag"><i class="fa fa-tag"></i>Ranger</a>
+          
+            <a href="/tags/kerberos/" rel="tag"><i class="fa fa-tag"></i>kerberos</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/26/Learn/ambari使用kerberos做身份认证/" rel="next" title="ambari使用kerberos做身份认证">
+                <i class="fa fa-chevron-left"></i> ambari使用kerberos做身份认证
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">竹杖芒鞋轻胜马</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zzditto" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:18332779639@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建testc用户测试"><span class="nav-number">1.</span> <span class="nav-text">创建testc用户测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#testc用户登录基本操作权限"><span class="nav-number">1.1.</span> <span class="nav-text">testc用户登录基本操作权限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#认证为hdfs用户"><span class="nav-number">1.1.1.</span> <span class="nav-text">认证为hdfs用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用testc用户，ranger给予部分权限"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用testc用户，ranger给予部分权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用testc用户进行kerberos用户认证，ranger设置权限操作"><span class="nav-number">1.1.3.</span> <span class="nav-text">使用testc用户进行kerberos用户认证，ranger设置权限操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hiveserver2"><span class="nav-number">1.1.4.</span> <span class="nav-text">hiveserver2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hbase-shell"><span class="nav-number">1.1.5.</span> <span class="nav-text">Hbase shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#spark代码本地运行和集群运行"><span class="nav-number">1.1.6.</span> <span class="nav-text">spark代码本地运行和集群运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flume写入hdfs"><span class="nav-number">1.1.7.</span> <span class="nav-text">flume写入hdfs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#presto"><span class="nav-number">1.1.8.</span> <span class="nav-text">presto</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#azkaban"><span class="nav-number">1.1.9.</span> <span class="nav-text">azkaban</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ambari/">Ambari</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azkaban/">Azkaban</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Crontab/">Crontab</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/">Excel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flume/">Flume</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HDP/">HDP</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kerberos/">Kerberos</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kibana/">Kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstach/">Logstach</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ntp/">Ntp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ranger/">Ranger</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Solo/">Solo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yarn/">Yarn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yum/">Yum</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zeppelin/">Zeppelin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kerberos/">kerberos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sparkStreaming/">sparkStreaming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yanagishima/">yanagishima</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/旅行/">旅行</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+<div>
+<span id="sitetime"></span>
+<script language="javascript">
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+		/* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+		year - 作为date对象的年份，为4位年份值
+		month - 0-11之间的整数，做为date对象的月份
+		day - 1-31之间的整数，做为date对象的天数
+		hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+		minutes - 0-59之间的整数，做为date对象的分钟数
+		seconds - 0-59之间的整数，做为date对象的秒数
+		microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+		var t1 = Date.UTC(2019,07,23,20,00,00); //北京时间2018-2-13 00:00:00
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		document.getElementById("sitetime").innerHTML=" 运行："+/*diffYears+" 年 "+*/diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+	}/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+	siteTime();
+</script>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'ATLN8AC6PiHK2RYMk6IQOU6N-MdYXbMMI',
+        appKey: 'SntQjviLuKeSUN0zoVI0B7hf',
+        placeholder: '你在想什么呢？',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

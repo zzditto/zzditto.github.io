@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Kerberos,Ambari,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、安装jce在群集中启用Kerberos之前，必须在Ambari服务器和群集中的所有主机上部署Java密码学扩展（JCE）安全策略文件。  下载jce策略文件 Oracle JDK 1.8 将jce解压到$JAVA_HOME/jre/lib/security/.路径下 举例：unzip -o -j -q jce_policy-8.zip -d /opt/apps/jdk1.8.0_231/jre">
+<meta name="keywords" content="Kerberos,Ambari">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ambari使用kerberos做身份认证">
+<meta property="og:url" content="www.zzditto.cn/2019/12/26/Learn/ambari使用kerberos做身份认证/index.html">
+<meta property="og:site_name" content="小柚麯">
+<meta property="og:description" content="一、安装jce在群集中启用Kerberos之前，必须在Ambari服务器和群集中的所有主机上部署Java密码学扩展（JCE）安全策略文件。  下载jce策略文件 Oracle JDK 1.8 将jce解压到$JAVA_HOME/jre/lib/security/.路径下 举例：unzip -o -j -q jce_policy-8.zip -d /opt/apps/jdk1.8.0_231/jre">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-kerberos1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-kerberos2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/kerberos%E5%8D%B8%E8%BD%BD.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/kerberos%E5%8D%B8%E8%BD%BD2.png">
+<meta property="og:updated_time" content="2019-12-26T08:51:36.048Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ambari使用kerberos做身份认证">
+<meta name="twitter:description" content="一、安装jce在群集中启用Kerberos之前，必须在Ambari服务器和群集中的所有主机上部署Java密码学扩展（JCE）安全策略文件。  下载jce策略文件 Oracle JDK 1.8 将jce解压到$JAVA_HOME/jre/lib/security/.路径下 举例：unzip -o -j -q jce_policy-8.zip -d /opt/apps/jdk1.8.0_231/jre">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-kerberos1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="www.zzditto.cn/2019/12/26/Learn/ambari使用kerberos做身份认证/">
+
+
+
+
+
+  <title>ambari使用kerberos做身份认证 | 小柚麯</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小柚麯</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.zzditto.cn/2019/12/26/Learn/ambari使用kerberos做身份认证/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小柚麯">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/顶着面包的girl.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小柚麯">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ambari使用kerberos做身份认证</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-26T16:49:40+08:00">
+                2019-12-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-26T16:51:36+08:00">
+                2019-12-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Learn/" itemprop="url" rel="index">
+                    <span itemprop="name">Learn</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/26/Learn/ambari使用kerberos做身份认证/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/26/Learn/ambari使用kerberos做身份认证/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、安装jce"><a href="#一、安装jce" class="headerlink" title="一、安装jce"></a>一、安装jce</h2><p>在群集中启用Kerberos之前，必须在Ambari服务器和群集中的所有主机上部署Java密码学扩展（JCE）安全策略文件。</p>
+<ol>
+<li>下载jce策略文件<br> <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html" target="_blank" rel="noopener">Oracle JDK 1.8</a></li>
+<li>将jce解压到<code>$JAVA_HOME/jre/lib/security/.</code>路径下<br> 举例：<code>unzip -o -j -q jce_policy-8.zip -d /opt/apps/jdk1.8.0_231/jre/lib/security/</code></li>
+<li>重启ambari-server服务</li>
+</ol>
+<a id="more"></a>
+<h2 id="二、安装KDC"><a href="#二、安装KDC" class="headerlink" title="二、安装KDC"></a>二、安装KDC</h2><p>KDC(Key Distribution Center)密匙分配中心，其在kerberos中通常提供两种服务：</p>
+<ul>
+<li>Authentication Service (AS)：认证服务 　</li>
+<li>Ticket-Granting Service (TGS)：授予票据服务</li>
+</ul>
+<p>即安装krb5【主节点】：<br><code>[root@vm01 opt]# yum install krb5-server krb5-libs krb5-workstation</code><br>【从节点，只安装客户端】：<br><code>[root@vm01 opt]# yum install krb5-libs krb5-workstation</code></p>
+<h2 id="三、编辑krb配置文件"><a href="#三、编辑krb配置文件" class="headerlink" title="三、编辑krb配置文件"></a>三、编辑krb配置文件</h2><ul>
+<li>krb5.conf</li>
+<li>kdc.conf</li>
+<li>kadm5.acl</li>
+</ul>
+<h3 id="krb5-conf"><a href="#krb5-conf" class="headerlink" title="krb5.conf"></a>krb5.conf</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 opt]# cat /etc/krb5.conf</span><br><span class="line"><span class="meta">#</span> Configuration snippets may be placed in this directory as well</span><br><span class="line">includedir /etc/krb5.conf.d/</span><br><span class="line"></span><br><span class="line">[logging]</span><br><span class="line"> default = FILE:/var/log/krb5libs.log</span><br><span class="line"> kdc = FILE:/var/log/krb5kdc.log</span><br><span class="line"> admin_server = FILE:/var/log/kadmind.log</span><br><span class="line"></span><br><span class="line">[libdefaults]</span><br><span class="line"> dns_lookup_realm = false</span><br><span class="line"> ticket_lifetime = 24h</span><br><span class="line"> renew_lifetime = 7d</span><br><span class="line"> forwardable = true</span><br><span class="line"> rdns = false</span><br><span class="line"> pkinit_anchors = /etc/pki/tls/certs/ca-bundle.crt</span><br><span class="line"> default_realm = EXAMPLE.COM</span><br><span class="line"> default_ccache_name = KEYRING:persistent:%&#123;uid&#125;</span><br><span class="line"></span><br><span class="line">[realms]</span><br><span class="line"><span class="meta">#</span>为`default_realm = EXAMPLE.COM`的值</span><br><span class="line"> EXAMPLE.COM = &#123;</span><br><span class="line"><span class="meta">#</span>主节点ip</span><br><span class="line">  kdc = 192.168.133.3</span><br><span class="line">  admin_server = 192.168.133.3</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">[domain_realm]</span><br><span class="line"><span class="meta">#</span> .example.com = EXAMPLE.COM</span><br><span class="line"><span class="meta">#</span> example.com = EXAMPLE.COM</span><br></pre></td></tr></table></figure>
+
+<h4 id="krb5-conf的参数说明"><a href="#krb5-conf的参数说明" class="headerlink" title="krb5.conf的参数说明"></a>krb5.conf的参数说明</h4><p>[libdefaults]：每种连接的默认配置，需要注意以下几个关键的小配置<br>default_realm = EXAMPLE.COM 默认的realm，必须跟要配置的realm的名称一致。<br>ticket_lifetime 表明凭证生效的时限，一般为24小时。<br>renew_lifetime 表明凭证最长可以被延期的时限，一般为7天。当凭证过期之后， 对安全认证的服务的后续访问则会失败。</p>
+<p>[logging]：表示server端的日志的打印位置</p>
+<p>[realms]：列举使用的realm<br>kdc：代表安装 kdc server的机器。格式是机器ip或者主机名<br>admin_server：代表安装 admin server的机器。格式是机器ip或者主机名<br>EXAMPLE.COM：是设定的realm。名字随意。Kerberos可以支持多个realms，会增加复杂度。本文不探讨。大小写敏感，一般为了识别使用全部大写。这个realm跟机器的hostname没有关系。</p>
+<h3 id="kdc-conf"><a href="#kdc-conf" class="headerlink" title="kdc.conf"></a>kdc.conf</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 opt]# cat /var/kerberos/krb5kdc/kdc.conf</span><br><span class="line">[kdcdefaults]</span><br><span class="line"> kdc_ports = 88</span><br><span class="line"> kdc_tcp_ports = 88</span><br><span class="line"></span><br><span class="line">[realms]</span><br><span class="line"><span class="meta">#</span>此处realms要与上文设置的一致，都采用默认值</span><br><span class="line"> EXAMPLE.COM = &#123;</span><br><span class="line"><span class="meta">  #</span>master_key_type = aes256-cts</span><br><span class="line">  acl_file = /var/kerberos/krb5kdc/kadm5.acl</span><br><span class="line">  dict_file = /usr/share/dict/words</span><br><span class="line">  admin_keytab = /var/kerberos/krb5kdc/kadm5.keytab</span><br><span class="line">  supported_enctypes = aes256-cts:normal aes128-cts:normal des3-hmac-sha1:normal arcfour-hmac:normal camellia256-cts:normal camellia128-cts:normal des-hmac-sha1:normal des-cbc-md5:normal des-cbc-crc:normal</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="kdc-conf的参数说明"><a href="#kdc-conf的参数说明" class="headerlink" title="kdc.conf的参数说明"></a>kdc.conf的参数说明</h4><p>EXAMPLE.COM：是设定的realm，名称随意。Kerberos可以支持多个realms，会增加复杂度。本文不探讨。书写大小写敏感，一般为了识别使用全部大写。这个realm跟机器的hostname没有关系。</p>
+<p>master_key_type：和 supported_enctypes默认使用 aes256-cts。JAVA 使用 aes256-cts 验证方式需要安装 JCE 包。</p>
+<p>acl_file：标注文件路径，用于设置 principal的权限，需要用户自己创建。文件格式： Kerberos_principalpermissions[target_principal][restrictions]</p>
+<p>admin_keytab：KDC 进行校验的 keytab。</p>
+<p>supported_enctypes：支持的校验方式。</p>
+<h3 id="kadm5-acl"><a href="#kadm5-acl" class="headerlink" title="kadm5.acl"></a>kadm5.acl</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 opt]# cat /var/kerberos/krb5kdc/kadm5.acl</span><br><span class="line">*/admin@EXAMPLE.COM     *</span><br></pre></td></tr></table></figure>
+
+<p>principal permissions[target_principal][restrictions]</p>
+<p>principal： */admin@EXAMPLE.COM</p>
+<p>permissions：* # *代表所有权限</p>
+<p>target_principal：选填</p>
+<p>restrictions：选填</p>
+<p>该文件可扩展，扩展链接：<code>https://web.mit.edu/kerberos/krb5-1.12/doc/admin/conf_files/kadm5_acl.html</code></p>
+<p>注：修改完配置参数之后。将三个配置文件从主节点手动复制到从节点【需要创建krd5kdc文件夹】</p>
+<h2 id="kerberos配置"><a href="#kerberos配置" class="headerlink" title="kerberos配置"></a>kerberos配置</h2><h3 id="创建kerberos数据库"><a href="#创建kerberos数据库" class="headerlink" title="创建kerberos数据库"></a>创建kerberos数据库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 opt]# /usr/sbin/kdb5_util create -s -r EXAMPLE.COM</span><br><span class="line">Loading random data</span><br><span class="line">Initializing database '/var/kerberos/krb5kdc/principal' for realm 'EXAMPLE.COM',</span><br><span class="line">master key name 'K/M@EXAMPLE.COM'</span><br><span class="line">You will be prompted for the database Master Password.</span><br><span class="line">It is important that you NOT FORGET this password.</span><br><span class="line">Enter KDC database master key: admin</span><br><span class="line">Re-enter KDC database master key to verify: admin</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：<br>其中，[-s]表示生成stash file，并在其中存储master server key（krb5kdc）；<br>还可以用[-r]来指定一个krb5.conf 文件中存在的realm name<br>保存路径为/var/kerberos/krb5kdc 如果需要重建数据库，将该目录下的principal所有相关的文件删除即可<br>在此过程中，我们会输入database的管理密码。这里设置的密码一定要记住，如果忘记了，就无法管理Kerberos server。</p>
+<h3 id="创建管理员"><a href="#创建管理员" class="headerlink" title="创建管理员"></a>创建管理员</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>进入kerberos数据库</span><br><span class="line">[root@vm01 krb5kdc]# kadmin.local</span><br><span class="line">Authenticating as principal root/admin@EXAMPLE.COM with password.</span><br><span class="line"><span class="meta">#</span>创建admin/admin管理员</span><br><span class="line">kadmin.local:  addprinc admin/admin</span><br><span class="line">WARNING: no policy specified for admin/admin@EXAMPLE.COM; defaulting to no policy</span><br><span class="line">Enter password for principal "admin/admin@EXAMPLE.COM": 123456</span><br><span class="line">Re-enter password for principal "admin/admin@EXAMPLE.COM": 123456</span><br><span class="line">Principal "admin/admin@EXAMPLE.COM" created.</span><br><span class="line"><span class="meta">#</span>退出</span><br><span class="line">kadmin.local:  exit</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动并设置开机自启动"><a href="#启动并设置开机自启动" class="headerlink" title="启动并设置开机自启动"></a>启动并设置开机自启动</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@vm01 krb5kdc]# systemctl start krb5kdc</span><br><span class="line">[root@vm01 krb5kdc]# systemctl start kadmin</span><br><span class="line">[root@vm01 krb5kdc]# systemctl enable krb5kdc</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/krb5kdc.service to /usr/lib/systemd/system/krb5kdc.service.</span><br><span class="line">[root@vm01 krb5kdc]# systemctl enable kadmin</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/kadmin.service to /usr/lib/systemd/system/kadmin.service.</span><br></pre></td></tr></table></figure>
+
+<h2 id="ambari页面配置"><a href="#ambari页面配置" class="headerlink" title="ambari页面配置"></a>ambari页面配置</h2><ol>
+<li>开始使用<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-kerberos1.png" alt="ambari-kerberos"></li>
+</ol>
+<p>2.配置kerberos<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/ambari-kerberos2.png" alt="ambari-kerberos2"></p>
+<ol start="3">
+<li>后面的配置一路下一步即可</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://cloud.tencent.com/developer/article/1380567" target="_blank" rel="noopener">基于ambari的Kerberos安装配置</a><br><a href="https://docs.cloudera.com/HDPDocuments/Ambari-2.6.2.2/bk_ambari-security/content/optional_install_a_new_mit_kdc.html" target="_blank" rel="noopener">官方文档</a></p>
+<h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><ol>
+<li>更换jdk之后，需要重新对ambari进行设置，<a href="https://docs.cloudera.com/HDPDocuments/Ambari-2.6.2.2/bk_ambari-administration/content/ch_changing_the_jdk_version_on_an_existing_cluster.html" target="_blank" rel="noopener">Change the JDK Version</a></li>
+</ol>
+<h2 id="kerberos常用命令"><a href="#kerberos常用命令" class="headerlink" title="kerberos常用命令"></a>kerberos常用命令</h2><p><a href="https://www.jianshu.com/p/69e6a2e7c648" target="_blank" rel="noopener">参考文档</a></p>
+<p>用户命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>当前用户下 认证为其他用户（例如hdfs用户），就可以直接执行hadoop命令，即不用su切换用户，当前用户已经是hdfs用户</span><br><span class="line"><span class="meta">#</span>kinit（认证）kerder的admin用户【输密码方式】</span><br><span class="line">[root@vm01 logs]# kinit admin/admin@EXAMPLE.COM</span><br><span class="line">Password for admin/admin@EXAMPLE.COM: 123456</span><br><span class="line"><span class="meta">#</span>kinit  keytab 【keytab方式】【输密码和keytab不能共存】</span><br><span class="line">kinit -kt /xx/xx/kerberos.keytab hdfs/hadoop1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>查询认证状态</span><br><span class="line">[root@vm01 logs]# klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_0</span><br><span class="line">Default principal: admin/admin@EXAMPLE.COM</span><br><span class="line"></span><br><span class="line">Valid starting       Expires              Service principal</span><br><span class="line">12/24/2019 15:07:58  12/25/2019 15:07:58  krbtgt/EXAMPLE.COM@EXAMPLE.COM</span><br><span class="line"><span class="meta">#</span>退出认证</span><br><span class="line">[root@vm01 logs]# kdestroy</span><br><span class="line">[root@vm01 logs]# klist</span><br><span class="line">klist: No credentials cache found (filename: /tmp/krb5cc_0)</span><br></pre></td></tr></table></figure>
+
+<p>管理员命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>登录后台</span><br><span class="line">[root@vm01 logs]# kadmin.local</span><br><span class="line">Authenticating as principal root/admin@EXAMPLE.COM with password.</span><br><span class="line"><span class="meta">#</span>查看用户列表</span><br><span class="line">kadmin.local:  listprincs</span><br><span class="line">HTTP/vm01@EXAMPLE.COM</span><br><span class="line">HTTP/vm02@EXAMPLE.COM</span><br><span class="line">HTTP/vm03@EXAMPLE.COM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>修改账号密码（可修改忘记密码）</span><br><span class="line">kadmin.local:  change_password admin/admin@EXAMPLE.COM</span><br><span class="line">Enter password for principal "admin/admin@EXAMPLE.COM": 123456</span><br><span class="line">Re-enter password for principal "admin/admin@EXAMPLE.COM": 123456</span><br><span class="line">Password for "admin/admin@EXAMPLE.COM" changed.</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>增加主体</span><br><span class="line">kadmin.local:  add_principal test</span><br><span class="line">WARNING: no policy specified for test@EXAMPLE.COM; defaulting to no policy</span><br><span class="line">Enter password for principal "test@EXAMPLE.COM": 123456</span><br><span class="line">Re-enter password for principal "test@EXAMPLE.COM": 123456</span><br><span class="line">Principal "test@EXAMPLE.COM" created.</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>删除主体</span><br><span class="line">kadmin.local:  delete_principal test</span><br><span class="line">Are you sure you want to delete the principal "test@EXAMPLE.COM"? (yes/no): yes</span><br><span class="line">Principal "test@EXAMPLE.COM" deleted.</span><br><span class="line">Make sure that you have removed this principal from all ACLs before reusing.</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>导出keytab文件</span><br><span class="line"><span class="meta">#</span>#keytab是包含principals和加密principal key的文件。</span><br><span class="line"><span class="meta">#</span>#keytab文件对于每个host是唯一的，因为key中包含hostname。keytab文件用于不需要人工交互和保存纯文本密码，实现到kerberos上验证一个主机上的principal。</span><br><span class="line"><span class="meta">#</span>#因为服务器上可以访问keytab文件即可以以principal的身份通过kerberos的认证，所以，keytab文件应该被妥善保存，应该只有少数的用户可以访问。</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>##登录后台</span><br><span class="line">[root@vm01 keytabs]# kadmin.local</span><br><span class="line">Authenticating as principal test/admin@EXAMPLE.COM with password.</span><br><span class="line"><span class="meta">#</span>##为新增的test用生成keytab，名称自定义为test.keytab</span><br><span class="line"><span class="meta">#</span>##ambari自生成的hdfs，hive等用户，不要更改密码。更改密码之后需要重新生成keytab，再分发到各主机上</span><br><span class="line">kadmin.local:  xst -k test.keytab -norandkey test@EXAMPLE.COM</span><br><span class="line">Entry for principal test@EXAMPLE.COM with kvno 1, encryption type aes256-cts-hmac-sha1-96 added to keytab WRFILE:test.keytab.</span><br><span class="line">Entry for principal test@EXAMPLE.COM with kvno 1, encryption type aes128-cts-hmac-sha1-96 added to keytab WRFILE:test.keytab.</span><br><span class="line">Entry for principal test@EXAMPLE.COM with kvno 1, encryption type des3-cbc-sha1 added to keytab WRFILE:test.keytab.</span><br><span class="line">Entry for principal test@EXAMPLE.COM with kvno 1, encryption type arcfour-hmac added to keytab WRFILE:test.keytab.</span><br><span class="line">Entry for principal test@EXAMPLE.COM with kvno 1, encryption type camellia256-cts-cmac added to keytab WRFILE:test.keytab.</span><br><span class="line">Entry for principal test@EXAMPLE.COM with kvno 1, encryption type camellia128-cts-cmac added to keytab WRFILE:test.keytab.</span><br><span class="line">Entry for principal test@EXAMPLE.COM with kvno 1, encryption type des-hmac-sha1 added to keytab WRFILE:test.keytab.</span><br><span class="line">Entry for principal test@EXAMPLE.COM with kvno 1, encryption type des-cbc-md5 added to keytab WRFILE:test.keytab.</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>##keytab文件</span><br><span class="line">[root@vm01 keytabs]# pwd</span><br><span class="line">/etc/security/keytabs</span><br><span class="line">[root@vm01 keytabs]# ll</span><br><span class="line">total 56</span><br><span class="line">-r-------- 1 root      root    383 Dec 24 14:35 activity-analyzer.headless.keytab</span><br><span class="line">-r-------- 1 root      root    383 Dec 24 14:35 activity-explorer.headless.keytab</span><br><span class="line">-rw------- 1 root      root   1594 Dec 24 16:02 admin.keytab</span><br><span class="line">-r--r----- 1 root      root    363 Dec 24 14:35 ambari.server.keytab</span><br><span class="line">-r-------- 1 hdfs      hadoop  308 Dec 24 14:35 dn.service.keytab</span><br><span class="line">-r-------- 1 hdfs      hadoop  854 Dec 24 16:39 hdfs.headless.keytab</span><br><span class="line">-r--r----- 1 hive      hadoop  318 Dec 24 14:35 hive.service.keytab</span><br><span class="line">-r-------- 1 yarn      hadoop  308 Dec 24 14:35 nm.service.keytab</span><br><span class="line">-r-------- 1 hdfs      hadoop  308 Dec 24 14:35 nn.service.keytab</span><br><span class="line">-r--r----- 1 ambari-qa hadoop  343 Dec 24 14:35 smokeuser.headless.keytab</span><br><span class="line">-r-------- 1 spark     hadoop  323 Dec 24 14:35 spark.headless.keytab</span><br><span class="line">-r--r----- 1 root      hadoop  318 Dec 24 14:35 spnego.service.keytab</span><br><span class="line">-rw------- 1 root      root    978 Dec 24 16:45 test.keytab</span><br><span class="line">-r-------- 1 zookeeper hadoop  343 Dec 24 14:35 zk.service.keytab</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>查看命令</span><br><span class="line">kadmin.local:  ?</span><br><span class="line">Available kadmin.local requests:</span><br><span class="line"></span><br><span class="line">add_principal, addprinc, ank</span><br><span class="line">                         Add principal</span><br><span class="line">delete_principal, delprinc</span><br><span class="line">                         Delete principal</span><br><span class="line">modify_principal, modprinc</span><br><span class="line">                         Modify principal</span><br><span class="line">rename_principal, renprinc</span><br><span class="line">                         Rename principal</span><br><span class="line">change_password, cpw     Change password</span><br><span class="line">get_principal, getprinc  Get principal</span><br><span class="line">list_principals, listprincs, get_principals, getprincs</span><br><span class="line">                         List principals</span><br><span class="line">add_policy, addpol       Add policy</span><br><span class="line">modify_policy, modpol    Modify policy</span><br><span class="line">delete_policy, delpol    Delete policy</span><br><span class="line">get_policy, getpol       Get policy</span><br><span class="line">list_policies, listpols, get_policies, getpols</span><br><span class="line">                         List policies</span><br><span class="line">get_privs, getprivs      Get privileges</span><br><span class="line">ktadd, xst               Add entry(s) to a keytab</span><br><span class="line">ktremove, ktrem          Remove entry(s) from a keytab</span><br><span class="line">lock                     Lock database exclusively (use with extreme caution!)</span><br><span class="line">unlock                   Release exclusive database lock</span><br><span class="line">purgekeys                Purge previously retained old keys from a principal</span><br><span class="line">get_strings, getstrs     Show string attributes on a principal</span><br><span class="line">set_string, setstr       Set a string attribute on a principal</span><br><span class="line">del_string, delstr       Delete a string attribute on a principal</span><br><span class="line">list_requests, lr, ?     List available requests.</span><br><span class="line">quit, exit, q            Exit program.</span><br></pre></td></tr></table></figure>
+
+<h2 id="ambari中kerberos的卸载"><a href="#ambari中kerberos的卸载" class="headerlink" title="ambari中kerberos的卸载"></a>ambari中kerberos的卸载</h2><p>参考:<br><a href="https://cloud.tencent.com/developer/article/1386678" target="_blank" rel="noopener">如何基于Ambari禁用Kerberos</a><br><a href="https://blog.csdn.net/zz_aiytag/article/details/93623983" target="_blank" rel="noopener">Ambari+HDP集群关闭kerberos认证后遇到的问题</a></p>
+<p>需注意(freeIPA 服务器的身份认证管理组件)：<br><a href="https://www.cnblogs.com/yinzhengjie/p/10114507.html" target="_blank" rel="noopener">Hadoop生态圈-开启Ambari的Kerberos安全选项</a></p>
+<ol>
+<li><p>点击ambari卸载<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/kerberos%E5%8D%B8%E8%BD%BD.png" alt="kerberos卸载"></p>
+</li>
+<li><p>检查<br> 主要服务都能够顺利启动，并没有出现和参考文档中一样的问题</p>
+</li>
+<li><p>检查kerberos相关参数</p>
+<ol>
+<li>hdfs：无kerberos相关参数</li>
+<li>hive：含有四个kerberos相关参数<br><img src="https://raw.githubusercontent.com/zzditto/makedown-pic/master/kerberos%E5%8D%B8%E8%BD%BD2.png" alt="kerberos2"><br>前两个参数是有关于hive使用keytab做认证的keytab路径和principal名称，不会造成启动的影响<br>后两个参数是hiveserver2的认证的keytab路径和principal名称，也不会造成启动的影响<br>这里无法进行删除</li>
+</ol>
+</li>
+<li><p>停止并卸载各节点的kerberos服务器和客户端</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">    #主节点</span><br><span class="line">    [root@vm01 keytabs]# systemctl stop krb5kdc</span><br><span class="line">    [root@vm01 keytabs]# systemctl stop kadmin</span><br><span class="line">    [root@vm01 keytabs]# yum remove krb5-server</span><br><span class="line">    [root@vm01 keytabs]# yum remove krb5-libs</span><br><span class="line">    #出现报错信息，可不管</span><br><span class="line">    ##Error: Trying to remove "systemd", which is protected</span><br><span class="line">    ##Error: Trying to remove "yum", which is protected</span><br><span class="line">    [root@vm01 keytabs]# yum remove krb5-workstation</span><br><span class="line"></span><br><span class="line">    #查看keytabs文件夹，可删除。这里将其删除</span><br><span class="line">    [root@vm01 keytabs]# ll</span><br><span class="line">    total 20</span><br><span class="line">    -rw------- 1 root   root 1594 Dec 24 16:02 admin.keytab</span><br><span class="line">    -r--r----- 1 root   root  363 Dec 24 14:35 ambari.server.keytab</span><br><span class="line">    -r-------- 1 ranger root  353 Dec 24 18:47 rangeradmin.service.keytab</span><br><span class="line">    -r-------- 1 ranger root  358 Dec 24 18:47 rangerlookup.service.keytab</span><br><span class="line">    -r-------- 1 ranger root  368 Dec 24 18:47 rangerusersync.service.keytab</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span># 安装ranger</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">[Ambari安装Ranger详细教程](https://blog.csdn.net/MH_Tan/article/details/99677395)</span><br><span class="line"></span><br><span class="line">1. 密码设置为Lenovo@123?</span><br><span class="line">2. 在mysql中进行刷新</span><br><span class="line">3. 测试连接mysql报错</span><br><span class="line"></span><br><span class="line">    ```shell</span><br><span class="line">    java.sql.SQLException: null,  message from server: "Host '192.168.133.5' is blocked because of many connection errors; unblock with 'mysqladmin flush-hosts'"</span><br><span class="line"></span><br><span class="line">    #解决：</span><br><span class="line">    [root@vm01 apps]# mysqladmin -uroot -p123456  flush-hosts</span><br><span class="line">    mysqladmin: [Warning] Using a password on the command line interface can be insecure.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>报错</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2019-12-25 12:07:49,967  [I] Java patch PatchPasswordEncryption_J10001 is being applied by some other process</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>解决：</span><br><span class="line">[设置mysql的ssl认证为false](https://www.cnblogs.com/felixzh/p/10792051.html)</span><br><span class="line">[删除ranger中的J1000*数据（或许不删除也可以，需要多等待）](https://community.cloudera.com/t5/Support-Questions/quot-Java-patch-PatchPasswordEncryption-J10001-is-being/td-p/188553)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kerberos/" rel="tag"><i class="fa fa-tag"></i>Kerberos</a>
+          
+            <a href="/tags/Ambari/" rel="tag"><i class="fa fa-tag"></i>Ambari</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/23/ToWork/OLAP引擎调研测试/" rel="next" title="OLAP引擎调研测试">
+                <i class="fa fa-chevron-left"></i> OLAP引擎调研测试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/26/Learn/kerberos和ranger使用记录/" rel="prev" title="kerberos和ranger使用记录">
+                kerberos和ranger使用记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/顶着面包的girl.png" alt="小柚麯">
+            
+              <p class="site-author-name" itemprop="name">小柚麯</p>
+              <p class="site-description motion-element" itemprop="description">竹杖芒鞋轻胜马</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zzditto" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:18332779639@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、安装jce"><span class="nav-number">1.</span> <span class="nav-text">一、安装jce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、安装KDC"><span class="nav-number">2.</span> <span class="nav-text">二、安装KDC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、编辑krb配置文件"><span class="nav-number">3.</span> <span class="nav-text">三、编辑krb配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#krb5-conf"><span class="nav-number">3.1.</span> <span class="nav-text">krb5.conf</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#krb5-conf的参数说明"><span class="nav-number">3.1.1.</span> <span class="nav-text">krb5.conf的参数说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kdc-conf"><span class="nav-number">3.2.</span> <span class="nav-text">kdc.conf</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kdc-conf的参数说明"><span class="nav-number">3.2.1.</span> <span class="nav-text">kdc.conf的参数说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kadm5-acl"><span class="nav-number">3.3.</span> <span class="nav-text">kadm5.acl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kerberos配置"><span class="nav-number">4.</span> <span class="nav-text">kerberos配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建kerberos数据库"><span class="nav-number">4.1.</span> <span class="nav-text">创建kerberos数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建管理员"><span class="nav-number">4.2.</span> <span class="nav-text">创建管理员</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动并设置开机自启动"><span class="nav-number">4.3.</span> <span class="nav-text">启动并设置开机自启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ambari页面配置"><span class="nav-number">5.</span> <span class="nav-text">ambari页面配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注"><span class="nav-number">7.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kerberos常用命令"><span class="nav-number">8.</span> <span class="nav-text">kerberos常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ambari中kerberos的卸载"><span class="nav-number">9.</span> <span class="nav-text">ambari中kerberos的卸载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ambari/">Ambari</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azkaban/">Azkaban</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Crontab/">Crontab</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/">Excel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flume/">Flume</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HDP/">HDP</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/">Hbase</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/">Kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kerberos/">Kerberos</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kibana/">Kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstach/">Logstach</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ntp/">Ntp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Other/">Other</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ranger/">Ranger</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Solo/">Solo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/">Spark</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yarn/">Yarn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yum/">Yum</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zeppelin/">Zeppelin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kerberos/">kerberos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/presto/">presto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sparkStreaming/">sparkStreaming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yanagishima/">yanagishima</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/旅行/">旅行</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小柚麯</span>
+
+  
+</div>
+
+<div>
+<span id="sitetime"></span>
+<script language="javascript">
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000;
+		var minutes = seconds * 60;
+		var hours = minutes * 60;
+		var days = hours * 24;
+		var years = days * 365;
+		var today = new Date();
+		var todayYear = today.getFullYear();
+		var todayMonth = today.getMonth()+1;
+		var todayDate = today.getDate();
+		var todayHour = today.getHours();
+		var todayMinute = today.getMinutes();
+		var todaySecond = today.getSeconds();
+		/* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+		year - 作为date对象的年份，为4位年份值
+		month - 0-11之间的整数，做为date对象的月份
+		day - 1-31之间的整数，做为date对象的天数
+		hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+		minutes - 0-59之间的整数，做为date对象的分钟数
+		seconds - 0-59之间的整数，做为date对象的秒数
+		microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+		var t1 = Date.UTC(2019,07,23,20,00,00); //北京时间2018-2-13 00:00:00
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond);
+		var diff = t2-t1;
+		var diffYears = Math.floor(diff/years);
+		var diffDays = Math.floor((diff/days)-diffYears*365);
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours);
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes);
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds);
+		document.getElementById("sitetime").innerHTML=" 运行："+/*diffYears+" 年 "+*/diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒";
+	}/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+	siteTime();
+</script>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'ATLN8AC6PiHK2RYMk6IQOU6N-MdYXbMMI',
+        appKey: 'SntQjviLuKeSUN0zoVI0B7hf',
+        placeholder: '你在想什么呢？',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
